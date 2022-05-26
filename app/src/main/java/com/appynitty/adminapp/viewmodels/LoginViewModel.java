@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel;
 import com.appynitty.adminapp.models.LoginUser;
 
 public class LoginViewModel extends ViewModel {
-    public MutableLiveData<String> EmailAddress = new MutableLiveData<>();
-    public MutableLiveData<String> Password = new MutableLiveData<>();
+    public MutableLiveData<String> UserLoginId = new MutableLiveData<>();
+    public MutableLiveData<String> UserPassword = new MutableLiveData<>();
 
     public MutableLiveData<LoginUser> userMutableLiveData;
 
@@ -21,7 +21,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void onClick(View view) {
-        LoginUser loginUser = new LoginUser(EmailAddress.getValue(), Password.getValue());
+        LoginUser loginUser = new LoginUser(UserLoginId.getValue(), UserPassword.getValue());
         userMutableLiveData.setValue(loginUser);
     }
 }
