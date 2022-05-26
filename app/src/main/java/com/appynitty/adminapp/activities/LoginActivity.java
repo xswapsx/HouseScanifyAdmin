@@ -1,8 +1,10 @@
 package com.appynitty.adminapp.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -11,16 +13,20 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.ActivityLoginBinding;
+import com.appynitty.adminapp.models.LoginResult;
 import com.appynitty.adminapp.models.LoginUser;
 import com.appynitty.adminapp.viewmodels.LoginViewModel;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     String TAG = "LoginActivity";
+    String reqStatus = "";
     private LoginViewModel loginViewModel;
-
+    private ProgressBar progressBar;
     private ActivityLoginBinding binding;
+    Context ctx;
 
     @Override
 
@@ -32,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(LoginActivity.this, R.layout.activity_login);
         binding.setLifecycleOwner(this);
 
+        progressBar = findViewById(R.id.progressBar);
+        ctx = LoginActivity.this;
         binding.setLoginViewModel(loginViewModel);
         loginViewModel.getUserMutableLiveData().observe(this, new Observer<LoginUser>() {
             @Override
@@ -40,10 +48,10 @@ public class LoginActivity extends AppCompatActivity {
                     binding.etUserName.setError("Enter a username!");
                     binding.etUserName.requestFocus();
                 } else if (!loginUser.isUserIdValid()) {
-                    binding.etUserName.setError("password must contain atleast 4 digits");
+                    binding.etUserName.setError("Username must contain atleast 4 digits");
                     binding.etUserName.requestFocus();
-                } else if (TextUtils.isEmpty(Objects.requireNonNull(loginUser.getUserPassword()))) {
-                    binding.etPassword.setError("Enter a username!");
+                } else if (TextUtils.isEmpty(Objects.requireNonNull(loginUser).getUserPassword())) {
+                    binding.etPassword.setError("Enter a password!");
                     binding.etPassword.requestFocus();
                 } else if (!loginUser.isPasswordLengthGreaterThan5()) {
                     binding.etPassword.setError("password must contain atleast 4 digits");
@@ -53,5 +61,27 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        loginViewModel.getProgress().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer visibility) {
+                progressBar.setVisibility(visibility);
+            }
+        });
+
+        loginViewModel.getLoginResponse().observe(this, new Observer<LoginResult>() {
+            @Override
+            public void onChanged(LoginResult loginResult) {
+                Log.e(TAG, "onChanged: status: " + loginResult.getStatus());
+                reqStatus = loginResult.getStatus();
+                if (reqStatus.equals("success"))
+                    DynamicToast.makeSuccess(ctx, loginResult.getMessage()).show();
+                else if (reqStatus.equals("error"))
+                    DynamicToast.makeError(ctx, loginResult.getMessage()).show();
+            }
+
+        });
     }
+
+
 }

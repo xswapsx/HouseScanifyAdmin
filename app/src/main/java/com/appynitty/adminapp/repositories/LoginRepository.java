@@ -29,7 +29,7 @@ public class LoginRepository {
         return instance;
     }
 
-    public void loginRemote(MutableLiveData<LoginUser> loginBody) {
+    public void loginRemote(MutableLiveData<LoginUser> loginBody, ILoginResponse iLoginResponse) {
         LoginWebService loginService = RetrofitClient.createService(LoginWebService.class, MainUtils.BASE_URL);
         loginUser.setUserLoginId(Objects.requireNonNull(loginBody.getValue()).getUserLoginId());
         loginUser.setUserPassword(loginBody.getValue().getUserPassword());
@@ -40,12 +40,14 @@ public class LoginRepository {
             @Override
             public void onResponse(@NonNull Call<LoginResult> call, @NonNull Response<LoginResult> response) {
                 assert response.body() != null;
+                iLoginResponse.onResponse(response.body());
                 Log.e(TAG, "onResponse: " + response.body().getMessage());
             }
 
             @Override
             public void onFailure(@NonNull Call<LoginResult> call, @NonNull Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
+                iLoginResponse.onFailure(t);
             }
 
 
@@ -53,4 +55,9 @@ public class LoginRepository {
 
     }
 
+    public interface ILoginResponse {
+        void onResponse(LoginResult loginResponse);
+
+        void onFailure(Throwable t);
+    }
 }
