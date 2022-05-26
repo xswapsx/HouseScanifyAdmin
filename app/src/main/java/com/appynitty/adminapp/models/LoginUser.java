@@ -1,7 +1,5 @@
 package com.appynitty.adminapp.models;
 
-import android.util.Patterns;
-
 public class LoginUser {
     private String UserLoginId;
     private String UserPassword;
@@ -9,6 +7,18 @@ public class LoginUser {
     public LoginUser(String EmailAddress, String Password) {
         UserLoginId = EmailAddress;
         UserPassword = Password;
+    }
+
+    public LoginUser() {
+
+    }
+
+    public void setUserLoginId(String userLoginId) {
+        UserLoginId = userLoginId;
+    }
+
+    public void setUserPassword(String userPassword) {
+        UserPassword = userPassword;
     }
 
     public String getUserLoginId() {
@@ -19,12 +29,12 @@ public class LoginUser {
         return UserPassword;
     }
 
-    public boolean isEmailValid() {
-        return Patterns.EMAIL_ADDRESS.matcher(getUserLoginId()).matches();
+    public boolean isUserIdValid() {
+        return getUserLoginId().length() > 3;
     }
 
 
     public boolean isPasswordLengthGreaterThan5() {
-        return getUserPassword().length() > 5;
+        return getUserPassword().length() > 3;
     }
 }

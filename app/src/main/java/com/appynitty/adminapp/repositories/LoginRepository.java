@@ -1,15 +1,26 @@
 package com.appynitty.adminapp.repositories;
 
-import com.appynitty.adminapp.models.LoginResult;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import android.util.Log;
 
-import java.lang.reflect.Type;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+
+import com.appynitty.adminapp.models.LoginResult;
+import com.appynitty.adminapp.models.LoginUser;
+import com.appynitty.adminapp.networking.RetrofitClient;
+import com.appynitty.adminapp.utils.MainUtils;
+import com.appynitty.adminapp.webservices.LoginWebService;
+
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginRepository {
+    private static final String TAG = "LoginRepository";
     private static LoginRepository instance;
-
-
+    LoginUser loginUser = new LoginUser();
 
     public static LoginRepository getInstance() {
         if (instance == null) {
@@ -18,5 +29,28 @@ public class LoginRepository {
         return instance;
     }
 
+    public void loginRemote(MutableLiveData<LoginUser> loginBody) {
+        LoginWebService loginService = RetrofitClient.createService(LoginWebService.class, MainUtils.BASE_URL);
+        loginUser.setUserLoginId(Objects.requireNonNull(loginBody.getValue()).getUserLoginId());
+        loginUser.setUserPassword(loginBody.getValue().getUserPassword());
+        Call<LoginResult> initiateLogin = loginService.saveLoginDetails(MainUtils.CONTENT_TYPE, MainUtils.EMP_TYPE_ADMIN, loginUser);
+
+
+        initiateLogin.enqueue(new Callback<LoginResult>() {
+            @Override
+            public void onResponse(@NonNull Call<LoginResult> call, @NonNull Response<LoginResult> response) {
+                assert response.body() != null;
+                Log.e(TAG, "onResponse: " + response.body().getMessage());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<LoginResult> call, @NonNull Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+
+
+        });
+
+    }
 
 }

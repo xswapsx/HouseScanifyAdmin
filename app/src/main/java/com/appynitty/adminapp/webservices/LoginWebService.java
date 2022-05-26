@@ -9,9 +9,8 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface LoginWebService {
-    @POST("api/Account/Login")
-    Call<LoginResult> saveLoginDetails(@Header("appId") String appId,
-                                       @Header("Content-Type") String content_type,
+    @POST("api/Supervisor/Login")
+    Call<LoginResult> saveLoginDetails(@Header("Content-Type") String content_type,
                                        @Header("EmpType") String emp_type,
                                        @Body LoginUser loginUser);
 }

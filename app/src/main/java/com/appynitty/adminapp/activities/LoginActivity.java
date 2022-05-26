@@ -39,14 +39,14 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(Objects.requireNonNull(loginUser).getUserLoginId())) {
                     binding.etUserName.setError("Enter a username!");
                     binding.etUserName.requestFocus();
-                } else if (!loginUser.isEmailValid()) {
-                    binding.etUserName.setError("Enter a valid email-id!");
+                } else if (!loginUser.isUserIdValid()) {
+                    binding.etUserName.setError("password must contain atleast 4 digits");
                     binding.etUserName.requestFocus();
                 } else if (TextUtils.isEmpty(Objects.requireNonNull(loginUser.getUserPassword()))) {
                     binding.etPassword.setError("Enter a username!");
                     binding.etPassword.requestFocus();
                 } else if (!loginUser.isPasswordLengthGreaterThan5()) {
-                    binding.etPassword.setError("password must contain atleast 6 digits");
+                    binding.etPassword.setError("password must contain atleast 4 digits");
                     binding.etPassword.requestFocus();
                 } else {
                     Log.e(TAG, "onChanged: userName: " + loginUser.getUserLoginId() + " password: " + loginUser.getUserPassword());
