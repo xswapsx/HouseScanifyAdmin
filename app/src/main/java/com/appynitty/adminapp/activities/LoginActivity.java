@@ -1,6 +1,7 @@
 package com.appynitty.adminapp.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,7 +16,9 @@ import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.ActivityLoginBinding;
 import com.appynitty.adminapp.models.LoginResult;
 import com.appynitty.adminapp.models.LoginUser;
+import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.LoginViewModel;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.Objects;
@@ -33,13 +36,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_login);
-
+        if (Prefs.getBoolean(MainUtils.IS_LOGIN)) {
+            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+            finish();
+        }
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         binding = DataBindingUtil.setContentView(LoginActivity.this, R.layout.activity_login);
         binding.setLifecycleOwner(this);
 
         progressBar = findViewById(R.id.progressBar);
         ctx = LoginActivity.this;
+
         binding.setLoginViewModel(loginViewModel);
         loginViewModel.getUserMutableLiveData().observe(this, new Observer<LoginUser>() {
             @Override
@@ -72,14 +79,22 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getLoginResponse().observe(this, new Observer<LoginResult>() {
             @Override
             public void onChanged(LoginResult loginResult) {
-                Log.e(TAG, "onChanged: status: " + loginResult.getStatus());
-                reqStatus = loginResult.getStatus();
-                if (reqStatus.equals("success"))
-                    DynamicToast.makeSuccess(ctx, loginResult.getMessage()).show();
-                else if (reqStatus.equals("error"))
-                    DynamicToast.makeError(ctx, loginResult.getMessage()).show();
+                if (loginResult != null && loginResult.getStatus() != null) {
+                    Log.e(TAG, "onChanged: status: " + loginResult.getStatus());
+                    reqStatus = loginResult.getStatus();
+                    if (reqStatus.equals("success")) {
+                        DynamicToast.makeSuccess(ctx, loginResult.getMessage()).show();
+                        startActivity(new Intent(ctx, DashboardActivity.class));
+                        Prefs.putString(MainUtils.EMP_TYPE, loginResult.getEmpType());
+                        Prefs.putString(MainUtils.USER_ID, loginResult.getUserId().toString());
+                        Prefs.putBoolean(MainUtils.IS_LOGIN, true);
+                        finish();
+                    } else if (reqStatus.equals("error"))
+                        DynamicToast.makeError(ctx, loginResult.getMessage()).show();
+                } else {
+                    DynamicToast.makeError(ctx, "an error has occurred").show();
+                }
             }
-
         });
     }
 

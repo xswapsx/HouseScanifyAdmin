@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".utils.MyApplication"
         android:allowBackup="true"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,6 +33,9 @@
             android:exported="false" />
         <activity
             android:name="com.appynitty.adminapp.activities.Dashboard"
+            android:exported="false" />
+        <activity
+            android:name="com.appynitty.adminapp.activities.DashboardActivity"
             android:exported="false" />
 
 

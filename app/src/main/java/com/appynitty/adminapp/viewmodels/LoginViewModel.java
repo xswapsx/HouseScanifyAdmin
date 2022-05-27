@@ -40,9 +40,10 @@ public class LoginViewModel extends ViewModel {
                 @Override
                 public void onResponse(LoginResult loginResponse) {
                     mProgressMutableData.postValue(View.INVISIBLE);
-
-                    loginResultMutableData.setValue(loginResponse);
-                    Log.e(TAG, "onResponse: " + loginResponse.getMessage());
+                    if (loginResponse != null) {
+                        loginResultMutableData.setValue(loginResponse);
+                        Log.e(TAG, "onResponse: " + loginResponse.getMessage());
+                    }
                 }
 
                 @Override

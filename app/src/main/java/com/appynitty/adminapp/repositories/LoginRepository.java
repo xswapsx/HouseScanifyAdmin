@@ -31,17 +31,23 @@ public class LoginRepository {
 
     public void loginRemote(MutableLiveData<LoginUser> loginBody, ILoginResponse iLoginResponse) {
         LoginWebService loginService = RetrofitClient.createService(LoginWebService.class, MainUtils.BASE_URL);
-        loginUser.setUserLoginId(Objects.requireNonNull(loginBody.getValue()).getUserLoginId());
-        loginUser.setUserPassword(loginBody.getValue().getUserPassword());
+        loginUser.setUserLoginId(Objects.requireNonNull(loginBody.getValue()).getUserLoginId().trim());
+        loginUser.setUserPassword(loginBody.getValue().getUserPassword().trim());
         Call<LoginResult> initiateLogin = loginService.saveLoginDetails(MainUtils.CONTENT_TYPE, MainUtils.EMP_TYPE_ADMIN, loginUser);
 
 
         initiateLogin.enqueue(new Callback<LoginResult>() {
             @Override
             public void onResponse(@NonNull Call<LoginResult> call, @NonNull Response<LoginResult> response) {
-                assert response.body() != null;
-                iLoginResponse.onResponse(response.body());
-                Log.e(TAG, "onResponse: " + response.body().getMessage());
+//                assert response.body() != null;
+                if (response.code() == 200) {
+                    iLoginResponse.onResponse(response.body());
+                    Log.e(TAG, "onResponse: " + response.body().getMessage());
+                } else if (response.code() == 500) {
+                    iLoginResponse.onResponse(response.body());
+                    Log.e(TAG, "onResponse: " + response.body());
+                }
+
             }
 
             @Override
