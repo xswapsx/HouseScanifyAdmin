@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.repositories.DashboardRepository;
-import com.appynitty.adminapp.utils.MainUtils;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
@@ -42,21 +40,10 @@ public class DashboardViewModel extends ViewModel {
         });
     }
 
-   /* public MutableLiveData<List<DashboardResult>> getDashboardResponseLiveData() {
-        if (dashboardResponseLiveData == null) {
-            dashboardResponseLiveData = new MutableLiveData<>();
-        }
-        return dashboardResponseLiveData;
-    }*/
-
     public void onClick(View view) {
 
         logoutLiveData.setValue("Logout successfully!");
     }
-
-    DashboardDTO dashboardDTO = new DashboardDTO(Prefs.getString(MainUtils.EMP_TYPE, null),
-            Prefs.getString(MainUtils.USER_ID, null));
-
 
     public MutableLiveData<String> getLogoutLiveData() {
         return logoutLiveData;
