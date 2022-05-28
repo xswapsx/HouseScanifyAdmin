@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.appynitty.adminapp.models.DashboardDTO;
-import com.appynitty.adminapp.models.DashboardResult;
 import com.appynitty.adminapp.repositories.DashboardRepository;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.pixplicity.easyprefs.library.Prefs;
