@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.appynitty.adminapp.models.DashboardDTO;
-import com.appynitty.adminapp.models.DashboardResult;
 import com.appynitty.adminapp.networking.RetrofitClient;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.webservices.DashboardWebService;
