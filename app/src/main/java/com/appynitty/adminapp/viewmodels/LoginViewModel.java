@@ -8,20 +8,20 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.appynitty.adminapp.models.LoginResult;
-import com.appynitty.adminapp.models.LoginUser;
+import com.appynitty.adminapp.models.LoginUserDTO;
 import com.appynitty.adminapp.repositories.LoginRepository;
 
 public class LoginViewModel extends ViewModel {
     private static final String TAG = "LoginViewModel";
 
-    public MutableLiveData<String> UserLoginId = new MutableLiveData<>();
-    public MutableLiveData<String> UserPassword = new MutableLiveData<>();
+    public MutableLiveData<String> UserLoginId = new MutableLiveData<>(); //liveData with dataBinding
+    public MutableLiveData<String> UserPassword = new MutableLiveData<>(); //liveData with dataBinding
     public MutableLiveData<Integer> mProgressMutableData = new MutableLiveData<>();
-    public MutableLiveData<LoginUser> userMutableLiveData;
+    public MutableLiveData<LoginUserDTO> userMutableLiveData;
     public MutableLiveData<LoginResult> loginResultMutableData = new MutableLiveData<>();
     public LoginRepository loginRepository = new LoginRepository();
 
-    public MutableLiveData<LoginUser> getUserMutableLiveData() {
+    public MutableLiveData<LoginUserDTO> getUserMutableLiveData() {
         if (userMutableLiveData == null) {
             userMutableLiveData = new MutableLiveData<>();
         }
@@ -31,7 +31,7 @@ public class LoginViewModel extends ViewModel {
     public void onClick(View view) {
 
 
-        LoginUser loginUser = new LoginUser(UserLoginId.getValue(), UserPassword.getValue());
+        LoginUserDTO loginUser = new LoginUserDTO(UserLoginId.getValue(), UserPassword.getValue());
         userMutableLiveData.setValue(loginUser);
 
         if (UserLoginId.getValue() != null && UserPassword.getValue() != null) {

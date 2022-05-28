@@ -1,5 +1,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+    <data>
+
+        <variable
+            name="DashboardViewModel"
+            type="com.appynitty.adminapp.viewmodels.DashboardViewModel" />
+    </data>
+
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -45,10 +53,12 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/ivLogout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center_vertical"
+                    android:onClick="@{(v) -> DashboardViewModel.onClick(v)}"
                     android:padding="@dimen/dim_10dp"
                     android:src="@drawable/ic_log_out" />
 
@@ -246,5 +256,12 @@
 
         </RelativeLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
     </RelativeLayout>
 </layout>

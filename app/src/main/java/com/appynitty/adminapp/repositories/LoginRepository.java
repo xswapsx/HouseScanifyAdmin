@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.appynitty.adminapp.models.LoginResult;
-import com.appynitty.adminapp.models.LoginUser;
+import com.appynitty.adminapp.models.LoginUserDTO;
 import com.appynitty.adminapp.networking.RetrofitClient;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.webservices.LoginWebService;
@@ -19,17 +19,9 @@ import retrofit2.Response;
 
 public class LoginRepository {
     private static final String TAG = "LoginRepository";
-    private static LoginRepository instance;
-    LoginUser loginUser = new LoginUser();
+    LoginUserDTO loginUser = new LoginUserDTO();
 
-    public static LoginRepository getInstance() {
-        if (instance == null) {
-            instance = new LoginRepository();
-        }
-        return instance;
-    }
-
-    public void loginRemote(MutableLiveData<LoginUser> loginBody, ILoginResponse iLoginResponse) {
+    public void loginRemote(MutableLiveData<LoginUserDTO> loginBody, ILoginResponse iLoginResponse) {
         LoginWebService loginService = RetrofitClient.createService(LoginWebService.class, MainUtils.BASE_URL);
         loginUser.setUserLoginId(Objects.requireNonNull(loginBody.getValue()).getUserLoginId().trim());
         loginUser.setUserPassword(loginBody.getValue().getUserPassword().trim());

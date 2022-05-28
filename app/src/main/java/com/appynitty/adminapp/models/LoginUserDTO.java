@@ -1,15 +1,15 @@
 package com.appynitty.adminapp.models;
 
-public class LoginUser {
+public class LoginUserDTO {
     private String UserLoginId;
     private String UserPassword;
 
-    public LoginUser(String EmailAddress, String Password) {
+    public LoginUserDTO(String EmailAddress, String Password) {
         UserLoginId = EmailAddress;
         UserPassword = Password;
     }
 
-    public LoginUser() {
+    public LoginUserDTO() {
 
     }
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -15,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.ActivityLoginBinding;
 import com.appynitty.adminapp.models.LoginResult;
-import com.appynitty.adminapp.models.LoginUser;
+import com.appynitty.adminapp.models.LoginUserDTO;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.LoginViewModel;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -27,12 +26,10 @@ public class LoginActivity extends AppCompatActivity {
     String TAG = "LoginActivity";
     String reqStatus = "";
     private LoginViewModel loginViewModel;
-    private ProgressBar progressBar;
     private ActivityLoginBinding binding;
     Context ctx;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_login);
@@ -44,13 +41,12 @@ public class LoginActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(LoginActivity.this, R.layout.activity_login);
         binding.setLifecycleOwner(this);
 
-        progressBar = findViewById(R.id.progressBar);
         ctx = LoginActivity.this;
 
         binding.setLoginViewModel(loginViewModel);
-        loginViewModel.getUserMutableLiveData().observe(this, new Observer<LoginUser>() {
+        loginViewModel.getUserMutableLiveData().observe(this, new Observer<LoginUserDTO>() {
             @Override
-            public void onChanged(LoginUser loginUser) {
+            public void onChanged(LoginUserDTO loginUser) {
                 if (TextUtils.isEmpty(Objects.requireNonNull(loginUser).getUserLoginId())) {
                     binding.etUserName.setError("Enter a username!");
                     binding.etUserName.requestFocus();
@@ -72,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.getProgress().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer visibility) {
-                progressBar.setVisibility(visibility);
+                binding.progressBar.setVisibility(visibility);
             }
         });
 
