@@ -15,6 +15,7 @@ import java.util.List;
 public class DashboardViewModel extends ViewModel {
     private static final String TAG = "DashboardViewModel";
     public MutableLiveData<String> logoutLiveData = new MutableLiveData<>();
+    public MutableLiveData<Integer> ulbCountLiveData = new MutableLiveData<>();
     public MutableLiveData<DashboardDTO> dashboardRequestLiveData;
     public MutableLiveData<List<DashboardDTO>> dashboardResponseLiveData;
     public MutableLiveData<Integer> mProgressMutableData = new MutableLiveData<>();
@@ -28,6 +29,7 @@ public class DashboardViewModel extends ViewModel {
             @Override
             public void onResponse(MutableLiveData<List<DashboardDTO>> dashboardResponse) {
                 mProgressMutableData.setValue(View.INVISIBLE);
+                ulbCountLiveData.setValue(dashboardResponse.getValue().size());
                 dashboardResponseLiveData.setValue(dashboardResponse.getValue());
                 Log.e(TAG, "onResponse: " + dashboardResponse.getValue().get(0).getUlb());
             }
@@ -58,5 +60,9 @@ public class DashboardViewModel extends ViewModel {
 
     public LiveData<Integer> getProgress() {
         return mProgressMutableData;
+    }
+
+    public MutableLiveData<Integer> getUlbCount() {
+        return ulbCountLiveData;
     }
 }

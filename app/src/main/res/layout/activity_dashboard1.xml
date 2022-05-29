@@ -1,4 +1,6 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <data>
@@ -8,8 +10,7 @@
             type="com.appynitty.adminapp.viewmodels.DashboardViewModel" />
     </data>
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.DashboardActivity">
@@ -41,6 +42,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/empType"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -226,16 +228,35 @@
 
                 </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginEnd="@dimen/dim_20dp"
                     android:layout_marginBottom="@dimen/dim_5dp"
-                    android:paddingHorizontal="@dimen/dim_5dp"
-                    android:text="25 Entries"
-                    android:textColor="@color/colorFentText"
-                    android:textSize="@dimen/txt_size_12sp" />
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/dim_5dp">
+
+                    <TextView
+                        android:id="@+id/ulbCountTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dim_5dp"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:text="@string/ulbcounttext"
+                        android:textColor="@color/colorGray"
+                        android:textSize="@dimen/txt_size_12sp" />
+
+                    <TextView
+                        android:id="@+id/ulbCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(DashboardViewModel.ulbCountLiveData)}"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp" />
+
+
+                </LinearLayout>
 
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/refresh_layout"

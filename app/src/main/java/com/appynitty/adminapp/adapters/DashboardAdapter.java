@@ -3,6 +3,7 @@ package com.appynitty.adminapp.adapters;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.databinding.DashboardItemListBinding;
 import com.appynitty.adminapp.models.UlbDTO;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.List;
 
@@ -50,7 +52,13 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
         public MyViewHolder(@NonNull DashboardItemListBinding itemListBinding) {
             super(itemListBinding.getRoot());
             this.itemListBinding = itemListBinding;
-            itemListBinding.cardDashItem.setOnClickListener(view -> Log.e(TAG, "onClick: " + ulbList.get(getAdapterPosition()).getUlbName()));
+            itemListBinding.cardDashItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e(TAG, "onClick: " + ulbList.get(getAdapterPosition()).getUlbName());
+                    DynamicToast.makeSuccess(context, ulbList.get(getAdapterPosition()).getUlbName()).show();
+                }
+            });
         }
     }
 }

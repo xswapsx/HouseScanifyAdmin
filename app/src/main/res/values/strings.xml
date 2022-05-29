@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AdminAppDemo</string>
+    <string name="ulbcounttext">"ULB Count: "</string>
 </resources>

@@ -13,7 +13,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.appynitty.adminapp.R;
@@ -32,9 +31,9 @@ import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
+    private String empType = "";
     private Context context;
     private SwipeRefreshLayout refreshLayout;
-    private RecyclerView recyclerDash;
     private LinearLayoutManager layoutManager;
     private DashboardAdapter adapter;
     private DashboardViewModel dashboardViewModel;
@@ -58,10 +57,12 @@ public class DashboardActivity extends AppCompatActivity {
         binding.setDashboardViewModel(dashboardViewModel);
 
         builder = new AlertDialog.Builder(this);
-
+        empType = Prefs.getString(MainUtils.EMP_TYPE);
+        if (!empType.isEmpty() && empType.matches("SA")) {
+            binding.empType.setText("SUB-ADMIN");
+        }
 
         refreshLayout = findViewById(R.id.refresh_layout);
-//        recyclerDash = findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(context);
         btnLogout = findViewById(R.id.ivLogout);
         ulbList = new ArrayList<>();
@@ -92,10 +93,7 @@ public class DashboardActivity extends AppCompatActivity {
                 setOnRecycler(ulbList);
             }
         });
-
         setOnClick();
-
-
     }
 
     private void setOnClick() {
