@@ -1,7 +1,6 @@
 package com.appynitty.adminapp.webservices;
 
 import com.appynitty.adminapp.models.DashboardDTO;
-import com.appynitty.adminapp.models.DashboardResult;
 
 import java.util.List;
 
