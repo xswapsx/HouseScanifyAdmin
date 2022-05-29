@@ -20,11 +20,13 @@ import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.adapters.DashboardAdapter;
 import com.appynitty.adminapp.databinding.ActivityDashboard1Binding;
 import com.appynitty.adminapp.models.DashboardDTO;
+import com.appynitty.adminapp.models.UlbDTO;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.DashboardViewModel;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,6 +40,7 @@ public class DashboardActivity extends AppCompatActivity {
     private DashboardViewModel dashboardViewModel;
     private ActivityDashboard1Binding binding;
     private ImageView btnLogout;
+    private List<UlbDTO> ulbList;
     AlertDialog.Builder builder;
     AlertDialog alert;
 
@@ -58,10 +61,10 @@ public class DashboardActivity extends AppCompatActivity {
 
 
         refreshLayout = findViewById(R.id.refresh_layout);
-        recyclerDash = findViewById(R.id.recycler_view);
+//        recyclerDash = findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(context);
         btnLogout = findViewById(R.id.ivLogout);
-
+        ulbList = new ArrayList<>();
 
         dashboardViewModel.getProgress().observe(this, new Observer<Integer>() {
             @Override
@@ -81,12 +84,17 @@ public class DashboardActivity extends AppCompatActivity {
         dashboardViewModel.getDashboardResponse().observe(this, new Observer<List<DashboardDTO>>() {
             @Override
             public void onChanged(List<DashboardDTO> dashboardResults) {
-                Log.e(TAG, "onChanged: List of Ulbs:" + dashboardResults.get(0).getUlb());
+                Log.e(TAG, "onChanged: 1st ULB: " + dashboardResults.get(0).getUlb());
+                for (int i = 0; i < dashboardResults.size(); i++) {
+                    ulbList.add(new UlbDTO(dashboardResults.get(i).getUlb(),
+                            dashboardResults.get(i).getAppid()));
+                }
+                setOnRecycler(ulbList);
             }
         });
 
         setOnClick();
-        setOnRecycler();
+
 
     }
 
@@ -99,11 +107,11 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void setOnRecycler() {
-        adapter = new DashboardAdapter(context);
+    private void setOnRecycler(List<UlbDTO> ulbList) {
+        adapter = new DashboardAdapter(context, ulbList);
         refreshLayout.setRefreshing(false);
-        recyclerDash.setLayoutManager(layoutManager);
-        recyclerDash.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(layoutManager);
+        binding.recyclerView.setAdapter(adapter);
     }
 
     public void logoutUser(String s) {
