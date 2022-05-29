@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -66,7 +68,22 @@ public class DashboardActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(context);
         btnLogout = findViewById(R.id.ivLogout);
         ulbList = new ArrayList<>();
+        binding.searchUlb.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
         dashboardViewModel.getProgress().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer visibility) {
@@ -110,6 +127,18 @@ public class DashboardActivity extends AppCompatActivity {
         refreshLayout.setRefreshing(false);
         binding.recyclerView.setLayoutManager(layoutManager);
         binding.recyclerView.setAdapter(adapter);
+    }
+
+    private void filter(String text) {
+        List<UlbDTO> filteredList = new ArrayList<>();
+
+        for (UlbDTO item : ulbList) {
+            if (item.getUlbName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        adapter.filterList(filteredList);
     }
 
     public void logoutUser(String s) {

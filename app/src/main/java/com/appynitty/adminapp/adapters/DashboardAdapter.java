@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.databinding.DashboardItemListBinding;
+import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.models.UlbDTO;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
@@ -44,6 +45,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
     @Override
     public int getItemCount() {
         return ulbList.size();
+    }
+
+    public void filterList(List<UlbDTO> filteredList) {
+        ulbList = filteredList;
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
