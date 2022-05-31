@@ -21,9 +21,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.appynitty.housescanify.R;
-import com.appynitty.housescanify.activity.AddEmpActivity;
-import com.appynitty.housescanify.adpter.EmpDetailsAdapter;
+import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.activities.AddEmpActivity;
+import com.appynitty.adminapp.adapters.EmpDetailsAdapter;
+
 
 public class EmpDetailsFragment extends Fragment {
     private Context context;

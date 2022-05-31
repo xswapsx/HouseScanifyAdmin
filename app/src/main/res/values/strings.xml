@@ -20,7 +20,7 @@
     <string name="str_emp_mobile">Mobile</string>
     <string name="str_user_role">User Role</string>
     <string name="str_emp_status">Status</string>
-
+    <string name="str_emp_address">Address</string>
     <string-array name="array_user_role">
         <item>Select User Role</item>
         <item>Admin</item>

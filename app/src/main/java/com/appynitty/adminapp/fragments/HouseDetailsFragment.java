@@ -8,7 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.appynitty.housescanify.R;
+import com.appynitty.adminapp.R;
+
 
 public class HouseDetailsFragment extends Fragment {
 
