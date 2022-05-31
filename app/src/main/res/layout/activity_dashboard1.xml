@@ -97,10 +97,12 @@
                 app:cardElevation="@dimen/dim_10dp">
 
                 <TextView
+                    android:id="@+id/btnUserRights"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_below="@id/li_dash"
                     android:gravity="center"
+                    android:onClick="@{(v) -> DashboardViewModel.onClick(v)}"
                     android:padding="@dimen/dim_10dp"
                     android:text="User Rights"
                     android:textColor="@color/colorBlack"

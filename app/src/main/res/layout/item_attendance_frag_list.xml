@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/dim_12dp"
+    app:cardElevation="@dimen/dim_5dp"
+    android:padding="@dimen/dim_10dp"
+    android:layout_marginVertical="@dimen/dim_10dp"
+    android:layout_marginHorizontal="5dp"
+    android:divider="@color/colorPrimaryDark"
+    android:dividerHeight="1.0px"
+    android:outlineSpotShadowColor="@color/colorPrimaryDark"
+    android:outlineProvider="background"
+    android:clipToPadding="false"
+    android:clipChildren="false">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dim_10dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_card_tool"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/card_box">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="@dimen/dim_5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rahul Rokade"
+                    android:layout_alignParentStart="true"
+                    android:textSize="@dimen/txt_size_14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"
+                    android:gravity="start"
+                    android:padding="@dimen/dim_5dp"/>
+                <TextView
+                    android:id="@+id/txt_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="21 May 2022"
+                    android:textSize="@dimen/txt_size_14sp"
+                    android:textColor="@color/colorWhite"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/dim_5dp"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/li_crd_box_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_card_tool"
+            android:layout_marginTop="@dimen/dim_5dp"
+            android:padding="@dimen/dim_5dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dim_8dp"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/dim_1dp"
+                        android:text="Start Date/Time"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/dim_1dp"
+                        android:text="23/05/2022"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/txt_size_12sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/dim_1dp"
+                        android:text="12:23 PM"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/txt_size_12sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="@dimen/dim_8dp"
+                    android:gravity="end"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start Date/Time"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:paddingVertical="@dimen/dim_1dp"
+                        android:textColor="@color/colorFentText"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23/05/2022"
+                        android:paddingVertical="@dimen/dim_1dp"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:textColor="@color/colorBlack"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12:23 PM"
+                        android:paddingVertical="@dimen/dim_1dp"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:textColor="@color/colorBlack"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/li_crd_box_one"
+            android:layout_marginVertical="@dimen/dim_3dp"
+            android:layout_marginHorizontal="@dimen/dim_8dp">
+            <TableRow
+                android:background="@color/colorWhite"
+                android:padding="@dimen/dim_5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:gravity="start"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/txt_size_12sp"
+                    android:text="House" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/txt_size_12sp"
+                    android:text="Liquid" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/txt_size_12sp"
+                    android:text="Street" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:gravity="end"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/txt_size_12sp"
+                    android:text="Dump" />
+
+            </TableRow>
+
+            <TableRow
+                android:background="@color/colorWhite"
+                android:padding="@dimen/dim_5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:textColor="@color/colorFentText"
+                    android:textSize="@dimen/txt_size_12sp"
+                    android:text="100" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/colorFentText"
+                    android:textSize="@dimen/txt_size_12sp"
+                    android:text="0" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/colorFentText"
+                    android:textSize="@dimen/txt_size_12sp"
+                    android:text="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textColor="@color/colorFentText"
+                    android:textSize="@dimen/txt_size_12sp"
+                    android:text="0" />
+
+            </TableRow>
+
+        </TableLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

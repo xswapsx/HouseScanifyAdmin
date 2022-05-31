@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_live_date"
+        android:icon="@drawable/ic_search"
+        android:title="Live Data"/>
+    <item
+        android:id="@+id/nav_house_details"
+        android:icon="@drawable/ic_search"
+        android:title="House Details"/>
+    <item
+        android:id="@+id/nav_attendance"
+        android:icon="@drawable/ic_search"
+        android:title="Attendance"/>
+    <item
+        android:id="@+id/nav_emp_details"
+        android:icon="@drawable/ic_search"
+        android:title="Employee \nDetails"/>
+</menu>

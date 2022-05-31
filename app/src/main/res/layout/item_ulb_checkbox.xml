@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dim_5dp">
+
+    <CheckBox
+        android:id="@+id/chk_box_ulb_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="kalmeshwar brahmani nagar parishad"
+        android:buttonTint="@color/colorPrimaryDark"
+        android:checked="false"
+        android:layout_gravity="center"
+        android:padding="@dimen/dim_10dp"
+        android:textSize="@dimen/txt_size_14sp"
+        android:layout_marginTop="@dimen/dim_2dp"
+        style="@style/CheckBox"
+        android:gravity="center_vertical"
+        android:elevation="@dimen/dim_8dp"
+        android:layout_marginHorizontal="@dimen/dim_10dp" />
+
+</RelativeLayout>

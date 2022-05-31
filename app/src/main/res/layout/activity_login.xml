@@ -108,7 +108,7 @@
                     android:layout_weight="1" />
 
                 <Button
-                    style="@style/MyButtonStyle"
+                    style="@style/MyButtonStyle1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"

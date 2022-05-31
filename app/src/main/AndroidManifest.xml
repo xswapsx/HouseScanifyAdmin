@@ -4,10 +4,12 @@
     package="com.appynitty.adminapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
         android:fullBackupOnly="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_config"
@@ -16,11 +18,7 @@
         android:theme="@style/Theme.AdminAppDemo"
         tools:targetApi="n">
         <activity
-            android:name="com.appynitty.adminapp.activities.MainActivity"
-            android:exported="false" />
-
-        <activity
-            android:name="com.appynitty.adminapp.activities.LoginActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,16 +27,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.appynitty.adminapp.activities.About"
+            android:name=".activities.WebviewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.HomeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name="com.appynitty.adminapp.activities.Dashboard"
+            android:name=".activities.LoginActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".activities.About"
             android:exported="false" />
         <activity
-            android:name="com.appynitty.adminapp.activities.DashboardActivity"
+            android:name=".activities.Dashboard"
             android:exported="false" />
-
-
+        <activity
+            android:name=".activities.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AddUserDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.UserRightsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

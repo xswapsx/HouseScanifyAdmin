@@ -1,6 +1,7 @@
 package com.appynitty.adminapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.databinding.DashboardItemListBinding;
-import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.models.UlbDTO;
-import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.List;
 
@@ -62,7 +62,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
                 @Override
                 public void onClick(View view) {
                     Log.e(TAG, "onClick: " + ulbList.get(getAdapterPosition()).getUlbName());
-                    DynamicToast.makeSuccess(context, ulbList.get(getAdapterPosition()).getUlbName()).show();
+//                    DynamicToast.makeSuccess(context, ulbList.get(getAdapterPosition()).getUlbName()).show();
+                    Intent intent = new Intent(context, HomeActivity.class);
+                    intent.putExtra("appId", String.valueOf(ulbList.get(getAdapterPosition()).getAppId()));
+                    context.startActivity(intent);
                 }
             });
         }

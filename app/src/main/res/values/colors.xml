@@ -32,6 +32,7 @@
     <color name="colorBoxBg">#158CC9</color>
     <color name="colorBoldText">#4F4F4F</color>
     <color name="colorFentText">#979797</color>
+    <color name="colorGrayLight">#E8D3D1D1</color>
     <color name="colorHintText">#B6B6B6</color>
 
     <!--box color live data fragment-->

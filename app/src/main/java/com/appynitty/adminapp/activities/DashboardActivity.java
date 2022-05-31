@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +47,7 @@ public class DashboardActivity extends AppCompatActivity {
     private List<UlbDTO> ulbList;
     AlertDialog.Builder builder;
     AlertDialog alert;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +103,12 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+        dashboardViewModel.getUserRightStatus().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                startActivity(new Intent(context, UserRightsActivity.class));
+            }
+        });
         dashboardViewModel.getDashboardResponse().observe(this, new Observer<List<DashboardDTO>>() {
             @Override
             public void onChanged(List<DashboardDTO> dashboardResults) {
@@ -170,5 +180,24 @@ public class DashboardActivity extends AppCompatActivity {
         //Setting the title manually
         alert.setTitle("Logout!");
         alert.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 }
