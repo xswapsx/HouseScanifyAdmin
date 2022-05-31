@@ -23,8 +23,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HomeActivity extends AppCompatActivity {
     private Context context;
     private BottomNavigationView navigationView;
-    private PagerAdapter pagerAdapter;
-    private ViewPager viewPager;
+    /*private PagerAdapter pagerAdapter;
+    private ViewPager viewPager;*/
     private FrameLayout frameLayout;
     private LiveDataFragment liveDataFragment;
     private HouseDetailsFragment houseDetailsFragment;
@@ -44,10 +44,10 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.bottom_navigation);
         /*navigationView.isItemHorizontalTranslationEnabled();
         navigationView.layout(0,1,2,3);*/
-        viewPager = findViewById(R.id.view_pager);
+        /*viewPager = findViewById(R.id.view_pager);*/
         frameLayout = findViewById(R.id.container_frame_layout);
 //        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        pagerAdapter = new PagerAdapter() {
+        /*pagerAdapter = new PagerAdapter() {
             @Override
             public int getCount() {
                 return 0;
@@ -58,13 +58,15 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         };
-        viewPager.setAdapter(pagerAdapter);
+        viewPager.setAdapter(pagerAdapter);*/
         liveDataFragment = new LiveDataFragment();
         houseDetailsFragment = new HouseDetailsFragment();
         attendanceFragment = new AttendanceFragment();
         empDetailsFragment = new EmpDetailsFragment();
 
         setOnClick();
+
+        loadFragment(new LiveDataFragment());
 
     }
 
@@ -75,27 +77,27 @@ public class HomeActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (item.getItemId()) {
                     case R.id.nav_live_date:
-                        /* fragment = new LiveDataFragment();*/
-                        viewPager.setCurrentItem(0);
+                         fragment = new LiveDataFragment();
+                       /* viewPager.setCurrentItem(0);*/
                         break;
                     case R.id.nav_house_details:
-                        /*fragment = new HouseDetailsFragment();*/
-                        viewPager.setCurrentItem(1);
+                        fragment = new HouseDetailsFragment();
+                        /*viewPager.setCurrentItem(1);*/
                         break;
                     case R.id.nav_attendance:
-                        /* fragment = new AttendanceFragment();*/
-                        viewPager.setCurrentItem(2);
+                         fragment = new AttendanceFragment();
+                        /*viewPager.setCurrentItem(2);*/
                         break;
                     case R.id.nav_emp_details:
-                        /* fragment = new EmpDetailsFragment();*/
-                        viewPager.setCurrentItem(3);
+                         fragment = new EmpDetailsFragment();
+                        /*viewPager.setCurrentItem(3);*/
                         break;
                 }
-                return loadFragment(null);
+                return loadFragment(fragment);
             }
         });
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        /*viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -123,7 +125,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
     }
 
     private boolean loadFragment(Fragment fragment) {

@@ -18,6 +18,10 @@
         <entry key="..\:/Users/COMP/AndroidStudioProjects/AdminAppDemo/app/src/main/res/layout/activity_main.xml" value="0.2609375" />
         <entry key="..\:/Users/COMP/AndroidStudioProjects/AdminAppDemo/app/src/main/res/layout/test_login.xml" value="0.134375" />
         <entry key="..\:/Users/COMP/AndroidStudioProjects/AdminAppDemo/app/src/main/res/menu/menu_navigation.xml" value="0.2609375" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/drawable/solid_rounded_orrange_btn.xml" value="0.133" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/activity_zoom_view.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_house_details.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_card_photos_list.xml" value="0.26875" />
       </map>
     </option>
   </component>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/dim_12dp"
+    app:cardElevation="@dimen/dim_5dp"
+    android:padding="@dimen/dim_10dp"
+    android:layout_marginBottom="@dimen/dim_15dp"
+    android:layout_marginVertical="@dimen/dim_8dp"
+    android:layout_marginHorizontal="@dimen/dim_10dp"
+    android:divider="@color/colorPrimaryDark"
+    android:dividerHeight="1.0px"
+    android:outlineSpotShadowColor="@color/colorPrimaryDark"
+    android:outlineProvider="background"
+    android:clipToPadding="false"
+    android:clipChildren="false">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rl_card_tool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_box">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="@dimen/dim_5dp">
+
+                <LinearLayout
+                    android:id="@+id/li_layer_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dim_5dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="Date"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:layout_marginStart="@dimen/dim_4dp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="start"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                    <TextView
+                        android:id="@+id/txt_date_time"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="30/05/2211:30 AM"
+                        android:layout_marginEnd="@dimen/dim_5dp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="end"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/li_layer_two"
+                    android:layout_below="@id/li_layer_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="House Id"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="start"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                    <TextView
+                        android:id="@+id/txt_houseId"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="HPSBA13500"
+                        android:layout_marginEnd="@dimen/dim_5dp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="end"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/li_layer_there"
+                    android:layout_below="@+id/li_layer_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="Emp Name"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="start"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                    <TextView
+                        android:id="@+id/txt_empName"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="Rahul Rokade"
+                        android:layout_marginEnd="@dimen/dim_5dp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="end"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/li_layer_four"
+                    android:layout_below="@+id/li_layer_there"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="Latiture"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="start"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                    <TextView
+                        android:id="@+id/txt_latitude"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="21.070675444"
+                        android:layout_marginEnd="@dimen/dim_5dp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="end"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/li_layer_five"
+                    android:layout_below="@+id/li_layer_four"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="Longitude"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="start"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                    <TextView
+                        android:id="@+id/txt_longitude"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="wrap_content"
+                        android:text="78.9632189877"
+                        android:layout_marginEnd="@dimen/dim_5dp"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="end"
+                        android:paddingHorizontal="@dimen/dim_5dp"
+                        android:paddingVertical="@dimen/dim_2dp"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/img_photos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_card_tool"
+            android:scaleType="fitXY"
+            android:src="@drawable/dummy" />
+
+        <ImageView
+            android:id="@+id/img_share"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/share_bg"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:elevation="@dimen/dim_20dp"
+            android:layout_margin="@dimen/dim_10dp"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -7,84 +7,75 @@
     android:background="@color/colorScreenBg"
     tools:context=".fragment.HouseDetailsFragment">
 
-    <TextView
-        android:id="@+id/txt_entries_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginVertical="@dimen/dim_5dp"
-        android:gravity="center|center_vertical"
-        android:text="Showing 261 entries"
-        android:textColor="@color/colorGray"
-        android:textSize="@dimen/txt_size_16sp" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/txt_entries_bottom"
+        android:paddingHorizontal="@dimen/dim_5dp"
         android:scrollbars="none"
         android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dim_5dp"
-            android:layout_marginBottom="@dimen/dim_15dp"
-            android:layout_marginTop="@dimen/dim_5dp">
+            android:layout_height="wrap_content">
 
             <RadioGroup
                 android:id="@+id/rd_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dim_15dp"
-                android:layout_marginTop="@dimen/dim_5dp"
+                android:layout_marginHorizontal="@dimen/dim_5dp"
                 android:orientation="horizontal"
-                android:padding="@dimen/dim_5dp">
+                android:paddingHorizontal="@dimen/dim_5dp"
+                android:paddingVertical="@dimen/dim_2dp">
 
                 <RadioButton
+                    android:id="@+id/rdHouse"
                     style="@style/RadioButton"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:buttonTint="@color/colorPrimaryDark"
                     android:text="House"
-                    android:textSize="@dimen/txt_size_14sp" />
+                    android:textSize="@dimen/txt_size_10sp" />
 
                 <RadioButton
+                    android:id="@+id/rdDumpyard"
                     style="@style/RadioButton"
                     android:layout_width="0dp"
-                    android:layout_weight="3"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2.5"
                     android:buttonTint="@color/colorPrimaryDark"
                     android:text="Dumpyard"
-                    android:textSize="@dimen/txt_size_14sp" />
+                    android:textSize="@dimen/txt_size_10sp" />
+
                 <RadioButton
+                    android:id="@+id/rdLiquid"
                     style="@style/RadioButton"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:buttonTint="@color/colorPrimaryDark"
                     android:text="Liquid"
-                    android:textSize="@dimen/txt_size_14sp" />
+                    android:textSize="@dimen/txt_size_10sp" />
+
                 <RadioButton
+                    android:id="@+id/rdStreet"
                     style="@style/RadioButton"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:buttonTint="@color/colorPrimaryDark"
                     android:text="Street"
-                    android:textSize="@dimen/txt_size_14sp" />
+                    android:textSize="@dimen/txt_size_10sp" />
 
             </RadioGroup>
 
             <LinearLayout
                 android:id="@+id/li_search_with_filter"
-                android:layout_below="@id/rd_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/rd_group"
                 android:orientation="horizontal"
-                android:layout_marginTop="@dimen/dim_5dp">
+                android:layout_marginBottom="@dimen/dim_2dp">
 
                 <androidx.cardview.widget.CardView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -108,7 +99,7 @@
                         android:id="@+id/rl_search_box"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/dim_10dp"
+                        android:layout_marginHorizontal="@dimen/dim_5dp"
                         android:padding="@dimen/dim_10dp">
 
                         <ImageView
@@ -119,7 +110,6 @@
                             android:src="@drawable/ic_search" />
 
                         <EditText
-                            android:id="@+id/edt_search_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -128,9 +118,7 @@
                             android:layout_toEndOf="@id/img_search"
                             android:background="@android:color/transparent"
                             android:gravity="center_vertical"
-                            android:hint="@string/str_hint_search_ulbs_name"
-                            android:imeOptions="actionSearch"
-                            android:inputType="text"
+                            android:hint="@string/str_search_name_or_id"
                             android:singleLine="true"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/txt_size_12sp" />
@@ -162,6 +150,7 @@
                     android:dividerHeight="2.0px"
                     android:outlineSpotShadowColor="@color/colorPrimaryDark"
                     android:outlineProvider="background"
+                    android:layout_gravity="center_vertical"
                     android:padding="@dimen/dim_10dp"
                     app:cardCornerRadius="@dimen/dim_25dp"
                     app:cardElevation="@dimen/dim_4dp">
@@ -170,14 +159,13 @@
                         android:id="@+id/rl_filter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/dim_10dp"
                         android:gravity="center"
-                        android:padding="@dimen/dim_10dp">
+                        android:padding="@dimen/dim_12dp">
 
                         <ImageView
                             android:id="@+id/img_filter"
-                            android:layout_width="@dimen/dim_25dp"
-                            android:layout_height="@dimen/dim_25dp"
+                            android:layout_width="@dimen/dim_20dp"
+                            android:layout_height="@dimen/dim_20dp"
                             android:layout_centerVertical="true"
                             android:src="@drawable/edit" />
 
@@ -185,16 +173,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/dim_2dp"
+                            android:layout_marginStart="@dimen/dim_4dp"
                             android:layout_toEndOf="@id/img_filter"
                             android:background="@android:color/transparent"
                             android:gravity="center_vertical"
                             android:padding="@dimen/dim_2dp"
                             android:singleLine="true"
-                            android:text="@string/str_card_btn_filter"
+                            android:textStyle="bold"
+                            android:text="Filter"
                             android:textAllCaps="true"
                             android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/txt_size_12sp" />
+                            android:textSize="@dimen/txt_size_8sp" />
 
                     </RelativeLayout>
 
@@ -209,225 +198,63 @@
                 android:layout_below="@id/li_search_with_filter"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/dim_10dp"
-                android:paddingVertical="@dimen/dim_5dp"
-                android:paddingHorizontal="@dimen/dim_10dp"
+                android:padding="@dimen/dim_2dp"
+                android:layout_marginBottom="@dimen/dim_2dp"
+                android:layout_marginEnd="@dimen/dim_20dp"
                 android:text="25 Entries"
                 android:textColor="@color/colorFentText"
                 android:textSize="@dimen/txt_size_12sp" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_table_view"
+            <RelativeLayout
+                android:id="@+id/rl_list_box"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                app:cardCornerRadius="@dimen/dim_12dp"
-                app:cardElevation="@dimen/dim_5dp"
-                android:padding="@dimen/dim_10dp"
-                android:layout_marginBottom="@dimen/dim_15dp"
-                android:layout_marginVertical="@dimen/dim_10dp"
-                android:layout_marginHorizontal="5dp"
-                android:divider="@color/colorPrimaryDark"
-                android:dividerHeight="1.0px"
-                android:outlineSpotShadowColor="@color/colorPrimaryDark"
-                android:outlineProvider="background"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:layout_below="@id/li_search_with_filter">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dim_4dp"
+                android:layout_below="@id/txt_entries"
+                android:padding="@dimen/dim_5dp">
 
-                <RelativeLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_House_image"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:fitsSystemWindows="true"
+                    android:scrollbars="horizontal">
 
-                <RelativeLayout
-                    android:id="@+id/rl_card_tool"
-                    android:layout_width="match_parent"
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <ProgressBar
+                    android:id="@+id/progress_circular"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/card_box">
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginHorizontal="@dimen/dim_5dp">
+                <TextView
+                    android:id="@+id/txt_no_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="@dimen/dim_5dp"
+                    android:text="@string/str_no_data_found"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/txt_size_12sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
-                        <LinearLayout
-                            android:id="@+id/li_layer_one"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="@dimen/dim_2dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="Date"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="start"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
+            </RelativeLayout>
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="30/05/2211:30 AM"
-                                android:layout_marginEnd="@dimen/dim_5dp"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="end"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/li_layer_two"
-                            android:layout_below="@id/li_layer_one"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="@dimen/dim_2dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="House Id"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="start"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="HPSBA13500"
-                                android:layout_marginEnd="@dimen/dim_5dp"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="end"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/li_layer_there"
-                            android:layout_below="@+id/li_layer_two"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="@dimen/dim_2dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="Emp Name"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="start"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="Rahul Rokade"
-                                android:layout_marginEnd="@dimen/dim_5dp"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="end"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/li_layer_four"
-                            android:layout_below="@+id/li_layer_there"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="@dimen/dim_2dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="Latiture"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="start"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="21.070675444"
-                                android:layout_marginEnd="@dimen/dim_5dp"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="end"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/li_layer_five"
-                            android:layout_below="@+id/li_layer_four"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginVertical="@dimen/dim_2dp"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="Longitude"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="start"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="5"
-                                android:layout_height="wrap_content"
-                                android:text="78.9632189877"
-                                android:layout_marginEnd="@dimen/dim_5dp"
-                                android:textSize="@dimen/txt_size_14sp"
-                                android:layout_gravity="center_vertical"
-                                android:textColor="@color/colorWhite"
-                                android:gravity="end"
-                                android:paddingHorizontal="@dimen/dim_5dp"
-                                android:paddingVertical="@dimen/dim_2dp"/>
-
-                        </LinearLayout>
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="500dp"
-                        android:scaleType="fitXY"
-                        android:layout_below="@id/rl_card_tool"/>
-
-                </RelativeLayout>
-
-
-            </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/txt_entries_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_list_box"
+                android:layout_centerInParent="true"
+                android:layout_marginVertical="@dimen/dim_5dp"
+                android:padding="@dimen/dim_5dp"
+                android:text="Showing 261 entries"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/txt_size_12sp" />
 
         </RelativeLayout>
 

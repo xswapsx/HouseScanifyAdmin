@@ -55,6 +55,9 @@
         <activity
             android:name=".activities.UserRightsActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.ZoomViewActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
