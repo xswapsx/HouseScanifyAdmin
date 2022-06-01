@@ -1,11 +1,13 @@
 package com.appynitty.adminapp.adapters;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +42,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
         final UlbDTO ulb = ulbList.get(position);
         holder.itemListBinding.setUlb(ulb);
         holder.itemListBinding.executePendingBindings();
+        ObjectAnimator objAnimator = ObjectAnimator.ofFloat(holder.itemListBinding.imgDot, "alpha", 0f, 1f);
+        objAnimator.setDuration(1000);
+        objAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        objAnimator.setRepeatCount(Animation.INFINITE);
+        objAnimator.start();
     }
 
     @Override
@@ -61,10 +68,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
             itemListBinding.cardDashItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e(TAG, "onClick: " + ulbList.get(getAdapterPosition()).getUlbName());
-//                    DynamicToast.makeSuccess(context, ulbList.get(getAdapterPosition()).getUlbName()).show();
                     Intent intent = new Intent(context, HomeActivity.class);
                     intent.putExtra("appId", String.valueOf(ulbList.get(getAdapterPosition()).getAppId()));
+                    intent.putExtra("ulbName", String.valueOf(ulbList.get(getAdapterPosition()).getUlbName()));
                     context.startActivity(intent);
                 }
             });

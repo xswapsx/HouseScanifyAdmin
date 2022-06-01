@@ -2,7 +2,11 @@ package com.appynitty.adminapp.utils;
 
 public class MainUtils {
 
-    public static final String BASE_URL = "http://183.177.126.33:6560";
+    //Staging Server
+//    public static final String BASE_URL = "http://183.177.126.33:6560";
+
+    //Live Server
+    public static final String BASE_URL = "https://ictsbm.com:30443";
 
 
     public static final String CONTENT_TYPE = "application/json";

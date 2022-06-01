@@ -1,36 +1,37 @@
 package com.appynitty.adminapp.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.fragments.AttendanceFragment;
 import com.appynitty.adminapp.fragments.EmpDetailsFragment;
 import com.appynitty.adminapp.fragments.HouseDetailsFragment;
 import com.appynitty.adminapp.fragments.LiveDataFragment;
+import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.HashMap;
+
 public class HomeActivity extends AppCompatActivity {
+    private static final String TAG = "HomeActivity";
     private Context context;
     private BottomNavigationView navigationView;
-    /*private PagerAdapter pagerAdapter;
-    private ViewPager viewPager;*/
     private FrameLayout frameLayout;
     private LiveDataFragment liveDataFragment;
     private HouseDetailsFragment houseDetailsFragment;
     private AttendanceFragment attendanceFragment;
     private EmpDetailsFragment empDetailsFragment;
-
+    UlbDataViewModel ulbDataViewModel;
+    private String appId, ulbName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,26 +40,22 @@ public class HomeActivity extends AppCompatActivity {
         init();
     }
 
-    private void init() {
-        context = this;
-        navigationView = findViewById(R.id.bottom_navigation);
-        /*navigationView.isItemHorizontalTranslationEnabled();
-        navigationView.layout(0,1,2,3);*/
-        /*viewPager = findViewById(R.id.view_pager);*/
-        frameLayout = findViewById(R.id.container_frame_layout);
-//        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        /*pagerAdapter = new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return 0;
-            }
+    public Bundle getUlbData() {
+        Bundle ulbData = new Bundle();
+        ulbData.putString("val1", appId);
+        ulbData.putString("val2", ulbName);
+        return ulbData;
+    }
 
-            @Override
-            public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-                return false;
-            }
-        };
-        viewPager.setAdapter(pagerAdapter);*/
+    private void init() {
+
+        context = this;
+        Intent intent = getIntent();
+        appId = intent.getStringExtra("appId");
+        ulbName = intent.getStringExtra("ulbName");
+//        ulbDataViewModel = ViewModelProviders.of(this).get(UlbDataViewModel.class);
+        navigationView = findViewById(R.id.bottom_navigation);
+        frameLayout = findViewById(R.id.container_frame_layout);
         liveDataFragment = new LiveDataFragment();
         houseDetailsFragment = new HouseDetailsFragment();
         attendanceFragment = new AttendanceFragment();
@@ -70,6 +67,13 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    public HashMap<String, String> getResult() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("appId", appId);
+        map.put("ulbName", ulbName);
+        return map;
+    }
+
     private void setOnClick() {
         navigationView.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -77,19 +81,19 @@ public class HomeActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (item.getItemId()) {
                     case R.id.nav_live_date:
-                         fragment = new LiveDataFragment();
-                       /* viewPager.setCurrentItem(0);*/
+                        fragment = new LiveDataFragment();
+                        /* viewPager.setCurrentItem(0);*/
                         break;
                     case R.id.nav_house_details:
                         fragment = new HouseDetailsFragment();
                         /*viewPager.setCurrentItem(1);*/
                         break;
                     case R.id.nav_attendance:
-                         fragment = new AttendanceFragment();
+                        fragment = new AttendanceFragment();
                         /*viewPager.setCurrentItem(2);*/
                         break;
                     case R.id.nav_emp_details:
-                         fragment = new EmpDetailsFragment();
+                        fragment = new EmpDetailsFragment();
                         /*viewPager.setCurrentItem(3);*/
                         break;
                 }
@@ -97,35 +101,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        /*viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        navigationView.getMenu().findItem(R.id.nav_live_date).setChecked(true);
-                        break;
-                    case 1:
-                        navigationView.getMenu().findItem(R.id.nav_house_details).setChecked(true);
-                        break;
-                    case 2:
-                        navigationView.getMenu().findItem(R.id.nav_attendance).setChecked(true);
-                        break;
-                    case 3:
-                        navigationView.getMenu().findItem(R.id.nav_emp_details).setChecked(true);
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });*/
     }
 
     private boolean loadFragment(Fragment fragment) {
@@ -138,23 +113,4 @@ public class HomeActivity extends AppCompatActivity {
         return false;
     }
 
-    /*@Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        Fragment fragment = null;
-        switch (item.getItemId()) {
-            case R.id.nav_live_date:
-                fragment = new LiveDataFragment();
-                break;
-            case R.id.nav_house_details:
-                fragment = new HouseDetailsFragment();
-                break;
-            case R.id.nav_attendance:
-                fragment = new AttendanceFragment();
-                break;
-            case R.id.nav_emp_details:
-                fragment = new EmpDetailsFragment();
-                break;
-        }
-        return loadFragment(fragment);
-    }*/
 }
