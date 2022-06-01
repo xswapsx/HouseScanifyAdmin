@@ -121,7 +121,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Start Date/Time"
+                        android:text="End Date/Time"
                         android:textSize="@dimen/txt_size_12sp"
                         android:paddingVertical="@dimen/dim_1dp"
                         android:textColor="@color/colorFentText"/>

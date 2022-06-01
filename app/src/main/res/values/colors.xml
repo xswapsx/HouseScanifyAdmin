@@ -12,6 +12,10 @@
     <color name="colorPrimaryDark">#0c73a7</color>
     <color name="colorAccent">#168bc6</color>
     <color name="colorPinkLight">#ff6058</color>
+    <color name="colorOrange">#fe973c</color>
+
+    <color name="colorOFFDutyRed">#ff6168</color>
+    <color name="colorONDutyGreen">#3d8e40</color>
 
     <color name="colorDefault">#9e9e9e</color>
     <color name="colorGray">#757575</color>
