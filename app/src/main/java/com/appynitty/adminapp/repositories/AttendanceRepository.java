@@ -33,7 +33,7 @@ public class AttendanceRepository {
         String toDate = Prefs.getString(MainUtils.TO_DATE);
         int appId = Prefs.getInt(String.valueOf(MainUtils.APP_ID));
 
-        AttendanceWebService attendanceWebService = RetrofitClient.createService(AttendanceWebService.class, MainUtils.BASE_LIVE_URL);
+        AttendanceWebService attendanceWebService = RetrofitClient.createService(AttendanceWebService.class, MainUtils.BASE_URL);
         Call<List<AttendanceDTO>> attendanceDTOCall = attendanceWebService.getFragAttendanceList(MainUtils.CONTENT_TYPE, empType,
                userId, fromDate, toDate,appId);
         attendanceDTOCall.enqueue(new Callback<List<AttendanceDTO>>() {
