@@ -15,4 +15,8 @@ public class MainUtils {
     public static final String EMP_TYPE = "EmpType";
     public static final String USER_ID = "userId";
     public static final String IS_LOGIN = "IsLoggedIn";
+
+    public static final String FROM_DATE = "startDate";
+    public static final String TO_DATE = "endDate";
+    public static final int APP_ID = Integer.parseInt("appId");
 }
