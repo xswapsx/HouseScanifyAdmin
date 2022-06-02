@@ -12,12 +12,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.databinding.ActivityHomeBinding;
 import com.appynitty.adminapp.fragments.AttendanceFragment;
 import com.appynitty.adminapp.fragments.EmpDetailsFragment;
 import com.appynitty.adminapp.fragments.HouseDetailsFragment;
 import com.appynitty.adminapp.fragments.LiveDataFragment;
+import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.HashMap;
 
@@ -31,12 +34,14 @@ public class HomeActivity extends AppCompatActivity {
     private AttendanceFragment attendanceFragment;
     private EmpDetailsFragment empDetailsFragment;
     UlbDataViewModel ulbDataViewModel;
+    ActivityHomeBinding binding;
     private String appId, ulbName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         init();
     }
 
@@ -54,7 +59,14 @@ public class HomeActivity extends AppCompatActivity {
         appId = intent.getStringExtra("appId");
         ulbName = intent.getStringExtra("ulbName");
 //        ulbDataViewModel = ViewModelProviders.of(this).get(UlbDataViewModel.class);
-        navigationView = findViewById(R.id.bottom_navigation);
+        binding.txtUlbName.setText(ulbName);
+
+        if (Prefs.getString(MainUtils.EMP_TYPE_ADMIN).equals("A")) {
+            binding.txtAdminType.setText("ADMIN");
+        } else {
+            binding.txtAdminType.setText("SUB-ADMIN");
+        }
+
         frameLayout = findViewById(R.id.container_frame_layout);
         liveDataFragment = new LiveDataFragment();
         houseDetailsFragment = new HouseDetailsFragment();
@@ -75,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setOnClick() {
-        navigationView.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        binding.bottomNavigation.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;

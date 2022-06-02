@@ -56,6 +56,7 @@ public class LiveDataFragment extends Fragment {
 
     private void init() {
         activity = (HomeActivity) getActivity();
+
         Bundle results = activity.getUlbData();
         appId = results.getString("val1");
         ulbName = results.getString("val2");
@@ -63,7 +64,7 @@ public class LiveDataFragment extends Fragment {
 
         context = getActivity();
         ulbDataViewModel = ViewModelProviders.of(getActivity(),
-                new MyViewModelFactory(/*getActivity().getApplication(),*/ appId)).get(UlbDataViewModel.class);
+                new MyViewModelFactory(appId)).get(UlbDataViewModel.class);
         binding.setUlbData(ulbDataViewModel);
 
         ulbDataViewModel.getSpecificUlbMutableLiveData().observe(getActivity(), new Observer<SpecificUlbDTO>() {

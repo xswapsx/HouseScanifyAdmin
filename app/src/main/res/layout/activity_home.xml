@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorScreenBg"
-    tools:context=".activities.HomeActivity">
+    tools:context=".activities.HomeActivity"
+    tools:viewBindingIgnore="false">
 
     <RelativeLayout
         android:id="@+id/rl_home_box"
@@ -28,10 +28,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:padding="@dimen/dim_10dp"
                 android:drawableStart="@drawable/ic_house"
                 android:drawablePadding="@dimen/dim_10dp"
                 android:gravity="center_vertical"
+                android:padding="@dimen/dim_10dp"
                 android:text="ULB Name"
                 android:textAllCaps="true"
                 android:textColor="@color/colorWhite"
@@ -54,11 +54,11 @@
             <ImageView
                 android:id="@+id/img_logout"
                 android:layout_width="0dp"
-                android:layout_weight="2"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_log_out"
+                android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:padding="@dimen/dim_10dp"/>
+                android:padding="@dimen/dim_10dp"
+                android:src="@drawable/ic_log_out" />
 
         </LinearLayout>
 
@@ -66,15 +66,15 @@
 
     <FrameLayout
         android:id="@+id/container_frame_layout"
-        android:layout_below="@id/rl_home_box"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation">
+        android:layout_above="@id/bottom_navigation"
+        android:layout_below="@id/rl_home_box">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </FrameLayout>
 
@@ -85,9 +85,9 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorAccent"
         android:theme="@style/ThemeOverlay.BottomNavView"
+        app:itemIconTint="@drawable/icon_color_selector"
         app:itemTextColor="@drawable/selector"
         app:labelVisibilityMode="labeled"
-        app:itemIconTint="@drawable/icon_color_selector"
         app:menu="@menu/home_menu">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
