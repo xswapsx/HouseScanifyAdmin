@@ -20,10 +20,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.AttendanceAdapter;
+import com.appynitty.adminapp.databinding.FragmentAttendanceBinding;
+import com.appynitty.adminapp.utils.MyApplication;
+import com.appynitty.adminapp.viewmodels.AttendanceViewModel;
 
 
 public class AttendanceFragment extends Fragment {
+    private static final String TAG = "AttendanceFragment";
+    private String empType = "";
     private Context context;
     private View view;
     private LinearLayoutManager layoutManager;
@@ -33,6 +39,11 @@ public class AttendanceFragment extends Fragment {
     private EditText edtSearchText;
     private RecyclerView recyclerAttendance;
     private AttendanceAdapter adapter;
+
+    private AttendanceViewModel attendanceViewModel;
+    private FragmentAttendanceBinding attendanceBinding;
+    HomeActivity activity;
+    MyApplication application;
 
 
     @Override

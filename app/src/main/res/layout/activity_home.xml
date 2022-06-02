@@ -19,7 +19,7 @@
             android:id="@+id/li_dash"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dim_15dp"
+            android:layout_marginHorizontal="@dimen/dim_5dp"
             android:layout_marginVertical="@dimen/dim_10dp"
             android:orientation="horizontal">
 
@@ -29,13 +29,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:drawableStart="@drawable/ic_house"
-                android:drawablePadding="@dimen/dim_10dp"
-                android:gravity="center_vertical"
+                android:drawablePadding="@dimen/dim_5dp"
+                android:gravity="start|center_vertical"
                 android:padding="@dimen/dim_10dp"
                 android:text="ULB Name"
                 android:textAllCaps="true"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/txt_size_14sp"
+                android:textSize="@dimen/txt_size_12sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -48,7 +48,7 @@
                 android:text="Admin"
                 android:textAllCaps="true"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/txt_size_14sp"
+                android:textSize="@dimen/txt_size_12sp"
                 android:textStyle="bold" />
 
             <ImageView

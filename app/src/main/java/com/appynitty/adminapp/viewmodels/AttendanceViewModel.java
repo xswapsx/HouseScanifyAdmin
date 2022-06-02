@@ -3,6 +3,7 @@ package com.appynitty.adminapp.viewmodels;
 import android.util.Log;
 import android.view.View;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -50,6 +51,11 @@ public class AttendanceViewModel extends ViewModel {
         switch (id){
             case R.id.card_filter :
         }
+    }
+
+
+    public LiveData<Integer> getProgress() {
+        return mProgressMutableData;
     }
 
 }
