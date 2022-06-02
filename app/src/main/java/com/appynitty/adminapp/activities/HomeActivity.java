@@ -1,12 +1,16 @@
 package com.appynitty.adminapp.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -36,6 +40,8 @@ public class HomeActivity extends AppCompatActivity {
     UlbDataViewModel ulbDataViewModel;
     ActivityHomeBinding binding;
     private String appId, ulbName;
+    AlertDialog.Builder builder;
+    AlertDialog alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +67,26 @@ public class HomeActivity extends AppCompatActivity {
 //        ulbDataViewModel = ViewModelProviders.of(this).get(UlbDataViewModel.class);
         binding.txtUlbName.setText(ulbName);
 
-        if (Prefs.getString(MainUtils.EMP_TYPE_ADMIN).equals("A")) {
+        if (Prefs.getString(MainUtils.EMP_TYPE, null).matches("A")) {
             binding.txtAdminType.setText("ADMIN");
         } else {
             binding.txtAdminType.setText("SUB-ADMIN");
+            Log.e(TAG, "init: " + Prefs.getString(MainUtils.EMP_TYPE_ADMIN, null));
         }
-
+        builder = new AlertDialog.Builder(this);
         frameLayout = findViewById(R.id.container_frame_layout);
         liveDataFragment = new LiveDataFragment();
         houseDetailsFragment = new HouseDetailsFragment();
         attendanceFragment = new AttendanceFragment();
         empDetailsFragment = new EmpDetailsFragment();
+
+
+        binding.imgLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutUser();
+            }
+        });
 
         setOnClick();
 
@@ -123,6 +138,36 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void logoutUser() {
+
+        builder.setMessage("Do you want to logout ?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Prefs.remove(MainUtils.USER_ID);
+                        Prefs.remove(MainUtils.EMP_TYPE);
+                        Prefs.putBoolean(MainUtils.IS_LOGIN, false);
+                        startActivity(new Intent(context, LoginActivity.class));
+
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.cancel();
+            }
+        });
+
+        alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Logout!");
+        alert.show();
     }
 
 }

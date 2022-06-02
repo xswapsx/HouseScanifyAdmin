@@ -66,6 +66,8 @@ public class DashboardActivity extends AppCompatActivity {
         empType = Prefs.getString(MainUtils.EMP_TYPE);
         if (!empType.isEmpty() && empType.matches("SA")) {
             binding.empType.setText("SUB-ADMIN");
+        } else {
+            binding.empType.setText("ADMIN");
         }
 
         refreshLayout = findViewById(R.id.refresh_layout);
