@@ -1,6 +1,5 @@
 package com.appynitty.adminapp.viewmodels;
 
-import android.app.Application;
 import android.util.Log;
 import android.view.View;
 
@@ -32,7 +31,7 @@ public class UlbDataViewModel extends ViewModel {
     public MutableLiveData<Integer> TotalStreetUpdated_CurrentDayLiveData = new MutableLiveData<>();
 
     public UlbDataViewModel(/*Application mApplication,*/ String appId) {
-        mProgressMutableData.postValue(View.VISIBLE);
+        mProgressMutableData.setValue(View.VISIBLE);
         ulbDataRepository.getUlbDataInfo(appId, new UlbDataRepository.IUlbDataResponse() {
             @Override
             public void onResponse(MutableLiveData<SpecificUlbDTO> specificUlbDataResponse) {

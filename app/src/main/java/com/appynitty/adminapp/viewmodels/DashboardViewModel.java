@@ -25,7 +25,7 @@ public class DashboardViewModel extends ViewModel {
 
     public DashboardViewModel() {
         mProgressMutableData.postValue(View.VISIBLE);
-        dashboardRepository.getListOfULBs(new DashboardRepository.IDashboardResponse() {
+        dashboardRepository.getListOfULBs(true, new DashboardRepository.IDashboardResponse() {
 
             @Override
             public void onResponse(MutableLiveData<List<DashboardDTO>> dashboardResponse) {

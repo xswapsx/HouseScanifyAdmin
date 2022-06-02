@@ -11,6 +11,7 @@ import retrofit2.http.Header;
 public interface DashboardWebService {
     @GET("api/Supervisor/AllUlb")
     Call<List<DashboardDTO>> getAll_ULBs(@Header("Content-Type") String content_type,
-                                            @Header("EmpType") String emp_type,
-                                            @Header("userId") String user_id);
+                                         @Header("EmpType") String emp_type,
+                                         @Header("userId") String user_id,
+                                         @Header("status") Boolean status);
 }

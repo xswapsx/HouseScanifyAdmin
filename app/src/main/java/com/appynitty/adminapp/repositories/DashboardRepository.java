@@ -25,13 +25,13 @@ public class DashboardRepository {
         return instance;
     }
 
-    public void getListOfULBs(IDashboardResponse iDashboardResponse) {
+    public void getListOfULBs(Boolean status, IDashboardResponse iDashboardResponse) {
         Log.e(TAG, "getListOfULBs: ");
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
         String userId = Prefs.getString(MainUtils.USER_ID);
 
         DashboardWebService dashboardWebService = RetrofitClient.createService(DashboardWebService.class, MainUtils.BASE_URL);
-        Call<List<DashboardDTO>> dashboardDTOCall = dashboardWebService.getAll_ULBs(MainUtils.CONTENT_TYPE, empType, userId);
+        Call<List<DashboardDTO>> dashboardDTOCall = dashboardWebService.getAll_ULBs(MainUtils.CONTENT_TYPE, empType, userId, status);
         dashboardDTOCall.enqueue(new Callback<List<DashboardDTO>>() {
             @Override
             public void onResponse(Call<List<DashboardDTO>> call, Response<List<DashboardDTO>> response) {

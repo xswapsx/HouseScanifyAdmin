@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -518,26 +519,25 @@
 
                 <LinearLayout
                     android:id="@+id/li_search_with_filter"
-                    android:layout_below="@+id/li_live_box_two"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/dim_5dp">
+                    android:layout_below="@+id/li_live_box_two"
+                    android:layout_marginTop="@dimen/dim_5dp"
+                    android:orientation="horizontal">
 
-                    <androidx.cardview.widget.CardView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_dash_item"
                         android:layout_width="0dp"
-                        android:layout_weight="6"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dim_4dp"
+                        android:layout_marginVertical="@dimen/dim_5dp"
+                        android:layout_weight="6"
                         android:clipChildren="false"
                         android:clipToPadding="false"
-                        android:layout_marginVertical="@dimen/dim_5dp"
-                        android:layout_marginHorizontal="@dimen/dim_4dp"
                         android:divider="@color/colorPrimaryDark"
                         android:dividerHeight="1.0px"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:outlineProvider="background"
+                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:padding="@dimen/dim_10dp"
                         app:cardCornerRadius="@dimen/dim_25dp"
                         app:cardElevation="@dimen/dim_4dp">
@@ -572,35 +572,35 @@
                                 android:singleLine="true"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="@dimen/txt_size_12sp" />
+
                             <ImageView
                                 android:id="@+id/img_close"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
                                 android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/dim_2dp"
                                 android:src="@drawable/ic_close"
-                                android:visibility="gone"
-                                />
+                                android:visibility="gone" />
 
                         </RelativeLayout>
 
                     </androidx.cardview.widget.CardView>
-                    <androidx.cardview.widget.CardView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_filter"
                         android:layout_width="0dp"
-                        android:layout_weight="3"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginHorizontal="@dimen/dim_4dp"
+                        android:layout_marginVertical="@dimen/dim_5dp"
+                        android:layout_weight="3"
                         android:clipChildren="false"
                         android:clipToPadding="false"
-                        android:layout_marginVertical="@dimen/dim_5dp"
-                        android:layout_marginHorizontal="@dimen/dim_4dp"
                         android:divider="@color/colorPrimaryDark"
                         android:dividerHeight="2.0px"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:outlineProvider="background"
-                        android:layout_gravity="center_vertical"
+                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:padding="@dimen/dim_10dp"
                         app:cardCornerRadius="@dimen/dim_25dp"
                         app:cardElevation="@dimen/dim_4dp">
@@ -616,8 +616,8 @@
                                 android:id="@+id/img_filter"
                                 android:layout_width="@dimen/dim_20dp"
                                 android:layout_height="@dimen/dim_20dp"
-                                android:layout_marginHorizontal="@dimen/dim_5dp"
                                 android:layout_centerVertical="true"
+                                android:layout_marginHorizontal="@dimen/dim_5dp"
                                 android:src="@drawable/edit" />
 
                             <TextView
@@ -630,11 +630,11 @@
                                 android:gravity="center_vertical|center"
                                 android:padding="@dimen/dim_2dp"
                                 android:singleLine="true"
-                                android:textStyle="bold"
                                 android:text="Filter"
                                 android:textAllCaps="true"
                                 android:textColor="@color/colorBlack"
-                                android:textSize="@dimen/txt_size_12sp" />
+                                android:textSize="@dimen/txt_size_12sp"
+                                android:textStyle="bold" />
 
                         </RelativeLayout>
 
@@ -642,7 +642,7 @@
 
                 </LinearLayout>
 
-                <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <androidx.cardview.widget.CardView
                     android:id="@+id/card_table_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -970,6 +970,14 @@
                                     android:textStyle="bold"
                                     android:visibility="gone" />
 
+                                <ProgressBar
+                                    android:id="@+id/progressBar"
+                                    style="?android:attr/progressBarStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:indeterminateTint="@color/black"
+                                    android:visibility="gone" />
                             </RelativeLayout>
 
                         </TableLayout>
@@ -990,17 +998,10 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dim_120sp"
-            android:visibility="gone" />
+            android:indeterminateTint="@color/black"
+            android:visibility="@{ulbData.mProgressMutableData}" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dim_120sp"
-            android:visibility="gone" />
+
         <!--android:layout_centerInParent="true"-->
     </RelativeLayout>
 </layout>

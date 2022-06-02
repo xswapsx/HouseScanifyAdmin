@@ -4,9 +4,10 @@ public class MainUtils {
 
     //Staging Server
 //    public static final String BASE_URL = "http://183.177.126.33:6560";
+    public static final String BASE_URL = "http://202.65.157.254:6560";  //Temp url
 
     //Live Server
-    public static final String BASE_URL = "https://ictsbm.com:30443";
+//    public static final String BASE_URL = "https://ictsbm.com:30443";
 
 
     public static final String CONTENT_TYPE = "application/json";
