@@ -3,12 +3,14 @@ package com.appynitty.adminapp.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,20 +46,35 @@ public class AttendanceFragment extends Fragment {
     private FragmentAttendanceBinding attendanceBinding;
     HomeActivity activity;
     MyApplication application;
+    private String appId, ulbName;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (view == null){
-            view = inflater.inflate(R.layout.fragment_attendance, container, false);
+
+            attendanceBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_attendance, container, false);
+            view = attendanceBinding.getRoot();
+            //here data must be an instance of the class MarsDataProvider
+            attendanceBinding.setLifecycleOwner(this);
+
+        /*view = inflater.inflate(R.layout.fragment_attendance, container, false);*/
             init();
         }
         return view;
     }
 
     private void init(){
+        /*context = getActivity();*/
+        activity = (HomeActivity) getActivity();
+        Bundle results =activity.getUlbData();
+        appId = results.getString("val1");
+        ulbName = results.getString("val2");
+        Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
+
         context = getActivity();
+
         recyclerAttendance = view.findViewById(R.id.recycler_attendance);
         loader = view.findViewById(R.id.progress_circular);
         txtNoData = view.findViewById(R.id.txt_no_data);

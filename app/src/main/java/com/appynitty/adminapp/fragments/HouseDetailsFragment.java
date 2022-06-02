@@ -2,9 +2,11 @@ package com.appynitty.adminapp.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,9 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.adapters.HouseDetailsAdapter;
+import com.appynitty.adminapp.dialog.FilterDialog;
 
 
-public class HouseDetailsFragment extends Fragment {
+public class HouseDetailsFragment extends Fragment implements FilterDialog.FilterDialogInterface {
     private static final String TAG = "HouseDetailsFragment";
     private Context context;
     private View view;
@@ -33,6 +36,7 @@ public class HouseDetailsFragment extends Fragment {
     private TextView txtNoData;
 
     private CardView crdFilter;
+    private FilterDialog filterDialog;
 
 
     @Override
@@ -79,7 +83,21 @@ public class HouseDetailsFragment extends Fragment {
     }
 
     private void openDialog() {
-
+        filterDialog = new FilterDialog(context, new FilterDialog.FilterDialogInterface() {
+            @Override
+            public int hashCode() {
+                return super.hashCode();
+            }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(filterDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.BOTTOM;
+        lp.windowAnimations = R.style.DialogAnimation;
+        filterDialog.getWindow().setAttributes(lp);
+        filterDialog.setCancelable(false);
+        filterDialog.show();
     }
 
     private void setOnRecycler() {

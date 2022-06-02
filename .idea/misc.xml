@@ -34,8 +34,10 @@
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/activity_home.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/activity_zoom_view.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/dashboard_item_list.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/dialog_filter.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_attendance.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_house_details.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_live_data.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_attendance_frag_list.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_card_photos_list.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/menu/home_menu.xml" value="0.26875" />

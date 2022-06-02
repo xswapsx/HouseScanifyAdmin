@@ -25,6 +25,7 @@
     <color name="colorBlack">#050505</color>
     <color name="colorDivider">#C8C8C8</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorDialogBg">#ECECEC</color>
 
     <color name="colorItemSelected">#c8e6c9</color>
     <color name="black_alpha_170">#86000000</color>
