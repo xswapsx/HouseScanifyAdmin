@@ -2,6 +2,7 @@ package com.appynitty.adminapp.viewmodels;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -21,11 +22,15 @@ public class DashboardViewModel extends ViewModel {
     public MutableLiveData<List<DashboardDTO>> dashboardResponseLiveData;
     public MutableLiveData<Integer> mProgressMutableData = new MutableLiveData<>();
     public DashboardRepository dashboardRepository = DashboardRepository.getInstance();
-
+    private Boolean status = false;
 
     public DashboardViewModel() {
+        getUlbData();
+    }
+
+    private void getUlbData() {
         mProgressMutableData.postValue(View.VISIBLE);
-        dashboardRepository.getListOfULBs(true, new DashboardRepository.IDashboardResponse() {
+        dashboardRepository.getListOfULBs(status, new DashboardRepository.IDashboardResponse() {
 
             @Override
             public void onResponse(MutableLiveData<List<DashboardDTO>> dashboardResponse) {
@@ -51,6 +56,11 @@ public class DashboardViewModel extends ViewModel {
                 break;
             case R.id.btnUserRights:
                 userRightsLiveData.setValue("clicked");
+                break;
+            case R.id.cb_actvInactivUlb:
+                status = ((CheckBox) view).isChecked();
+                Log.e(TAG, "checked: " + status);
+                getUlbData();
                 break;
             default:
                 // code block

@@ -221,10 +221,13 @@
                             android:textSize="@dimen/txt_size_14sp" />
 
                         <CheckBox
+                            android:id="@+id/cb_actvInactivUlb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/colorPrimaryDark"
-                            android:checked="false" />
+                            android:checked="false"
+                            android:onClick="@{(v) -> DashboardViewModel.onClick(v)}"
+                            />
 
                     </LinearLayout>
 
