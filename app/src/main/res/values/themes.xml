@@ -34,9 +34,10 @@
         <item name="buttonTint">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="ThemeOverlay.BottomNavView" parent="">
+    <style name="ThemeOverlay.BottomNavView" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorWhite</item>
-        <item name="colorOnSurface">@color/colorAccent</item>
+        <item name="colorOnSurface">@color/colorDivider</item>
+        <item name="android:textColorSecondary">@color/colorDivider</item>
     </style>
 
 
