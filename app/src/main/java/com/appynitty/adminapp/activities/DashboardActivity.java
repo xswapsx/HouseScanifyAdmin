@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -112,9 +111,10 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
         dashboardViewModel.getDashboardResponse().observe(this, new Observer<List<DashboardDTO>>() {
+
             @Override
             public void onChanged(List<DashboardDTO> dashboardResults) {
-                Log.e(TAG, "onChanged: 1st ULB: " + dashboardResults.get(0).getUlb());
+                ulbList.clear();
                 for (int i = 0; i < dashboardResults.size(); i++) {
                     ulbList.add(new UlbDTO(dashboardResults.get(i).getUlb(),
                             dashboardResults.get(i).getAppid()));
@@ -136,6 +136,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void setOnRecycler(List<UlbDTO> ulbList) {
         adapter = new DashboardAdapter(context, ulbList);
+        adapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
         binding.recyclerView.setLayoutManager(layoutManager);
         binding.recyclerView.setAdapter(adapter);
@@ -149,7 +150,6 @@ public class DashboardActivity extends AppCompatActivity {
                 filteredList.add(item);
             }
         }
-
         adapter.filterList(filteredList);
     }
 

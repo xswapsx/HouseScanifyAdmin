@@ -37,7 +37,6 @@ public class DashboardViewModel extends ViewModel {
                 mProgressMutableData.setValue(View.INVISIBLE);
                 ulbCountLiveData.setValue(dashboardResponse.getValue().size());
                 dashboardResponseLiveData.setValue(dashboardResponse.getValue());
-                Log.e(TAG, "onResponse: " + dashboardResponse.getValue().get(0).getUlb());
             }
 
             @Override

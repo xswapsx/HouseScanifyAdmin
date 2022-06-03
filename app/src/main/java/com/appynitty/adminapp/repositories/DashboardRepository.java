@@ -38,8 +38,6 @@ public class DashboardRepository {
                 if (response.code() == 200) {
                     ULBListLiveData.setValue(response.body());
                     iDashboardResponse.onResponse(ULBListLiveData);
-
-                    Log.e(TAG, "onResponse: " + response.body().get(0).getUlb());
                 } else if (response.code() == 500) {
 
                     Log.e(TAG, "onResponse: " + response.body());
