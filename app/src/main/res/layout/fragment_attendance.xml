@@ -38,7 +38,7 @@
 
                 <androidx.cardview.widget.CardView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/card_dash_item"
+                    android:id="@+id/card_search_view_at"
                     android:layout_width="0dp"
                     android:layout_weight="6"
                     android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                             android:src="@drawable/ic_search" />
 
                         <EditText
-                            android:id="@+id/edt_search_text"
+                            android:id="@+id/edt_search_text_at"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -78,7 +78,7 @@
                             android:layout_toEndOf="@id/img_search"
                             android:background="@android:color/transparent"
                             android:gravity="center_vertical"
-                            android:hint="@string/str_hint_search_ulbs_name"
+                            android:hint="@string/str_search_name_or_id"
                             android:imeOptions="actionSearch"
                             android:inputType="text"
                             android:singleLine="true"
@@ -100,7 +100,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/card_filter"
+                    android:id="@+id/card_filter_at"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"

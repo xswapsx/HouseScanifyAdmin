@@ -11,10 +11,10 @@ import retrofit2.http.Header;
 public interface AttendanceWebService {
     @GET("api/Supervisor/AttendanceGridRow")
     Call<List<AttendanceDTO>> getFragAttendanceList (@Header("Content-Type") String content_type,
-                                                     @Header("EmpType") String emp_type,
-                                                     @Header("userId") String user_id,
-                                                     @Header("FromDate") String from_date,
-                                                     @Header("Todate") String to_date,
-                                                     @Header("appId") int appId);
+                                                     @Header("EmpType") String EmpType,
+                                                     @Header("userId") String userId,
+                                                     @Header("appId") String appId,
+                                                     @Header("FromDate") String fromDate,
+                                                     @Header("Todate") String toDate);
 
 }

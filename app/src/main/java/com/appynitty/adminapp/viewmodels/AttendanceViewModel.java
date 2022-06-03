@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.models.AttendanceDTO;
+import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.repositories.AttendanceRepository;
 
 import java.util.List;
@@ -21,9 +22,9 @@ public class AttendanceViewModel extends ViewModel {
     public MutableLiveData<Integer> mProgressMutableData = new MutableLiveData<>();
     public AttendanceRepository attendanceRepository = AttendanceRepository.getInstance();
 
-    public AttendanceViewModel() {
+    public AttendanceViewModel(String appId) {
         mProgressMutableData.postValue(View.VISIBLE);
-        attendanceRepository.getListOfAttendance(new AttendanceRepository.IAttendanceResponse() {
+        attendanceRepository.getListOfAttendance(appId,new AttendanceRepository.IAttendanceResponse() {
             @Override
             public void onResponse(MutableLiveData<List<AttendanceDTO>> attendanceResponse) {
                 mProgressMutableData.setValue(View.INVISIBLE);
@@ -56,6 +57,13 @@ public class AttendanceViewModel extends ViewModel {
 
     public LiveData<Integer> getProgress() {
         return mProgressMutableData;
+    }
+
+    public MutableLiveData<List<AttendanceDTO>> getAttendanceResponseLiveData() {
+        if (attendanceResponseLiveData == null) {
+            attendanceResponseLiveData = new MutableLiveData<>();
+        }
+        return attendanceResponseLiveData;
     }
 
 }
