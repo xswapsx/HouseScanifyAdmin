@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,8 +27,17 @@ import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.AttendanceAdapter;
 import com.appynitty.adminapp.databinding.FragmentAttendanceBinding;
+import com.appynitty.adminapp.models.AttendanceDTO;
+import com.appynitty.adminapp.models.SpecificUlbDTO;
+import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.utils.MyApplication;
+import com.appynitty.adminapp.utils.MyViewModelFactory;
 import com.appynitty.adminapp.viewmodels.AttendanceViewModel;
+import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
+import com.pixplicity.easyprefs.library.Prefs;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AttendanceFragment extends Fragment {
@@ -47,6 +58,7 @@ public class AttendanceFragment extends Fragment {
     HomeActivity activity;
     MyApplication application;
     private String appId, ulbName;
+    private List<AttendanceDTO> attendanceDTOList;
 
 
     @Override
@@ -71,10 +83,13 @@ public class AttendanceFragment extends Fragment {
         Bundle results =activity.getUlbData();
         appId = results.getString("val1");
         ulbName = results.getString("val2");
-        Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
 
+        Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
+        Log.e(TAG, "From Date: " + MainUtils.getLocalDate() + " toDate: " + MainUtils.getLocalDate());
         context = getActivity();
 
+
+        attendanceDTOList = new ArrayList<>();
         recyclerAttendance = view.findViewById(R.id.recycler_attendance);
         loader = view.findViewById(R.id.progress_circular);
         txtNoData = view.findViewById(R.id.txt_no_data);
@@ -88,6 +103,10 @@ public class AttendanceFragment extends Fragment {
 
         setRecycler();
         setOnClick();
+        setDate();
+    }
+
+    private void setDate() {
     }
 
     private void setOnClick() {
@@ -108,11 +127,11 @@ public class AttendanceFragment extends Fragment {
     }
 
     private void setRecycler() {
-        txtNoData.setVisibility(View.GONE);
-        loader.setVisibility(View.GONE);
-        adapter = new AttendanceAdapter(context);
-        recyclerAttendance.setLayoutManager(layoutManager);
-        recyclerAttendance.setAdapter(adapter);
+         attendanceBinding.txtNoData.setVisibility(View.GONE);
+        attendanceBinding.progressCircular.setVisibility(View.GONE);
+        adapter = new AttendanceAdapter(context, attendanceDTOList);
+        attendanceBinding.recyclerAttendance.setLayoutManager(layoutManager);
+        attendanceBinding.recyclerAttendance.setAdapter(adapter);
 
     }
 

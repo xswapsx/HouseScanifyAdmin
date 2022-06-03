@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="attendanceItem"
+            type="com.appynitty.adminapp.models.AttendanceDTO" />
+    </data>
+
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -32,25 +40,28 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginHorizontal="@dimen/dim_5dp">
+
                 <TextView
+                    android:id="@+id/txt_emp_name_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rahul Rokade"
                     android:layout_alignParentStart="true"
-                    android:textSize="@dimen/txt_size_14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorWhite"
                     android:gravity="start"
-                    android:padding="@dimen/dim_5dp"/>
+                    android:padding="@dimen/dim_5dp"
+                    android:text="@{attendanceItem.userName}"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/txt_size_14sp"
+                    android:textStyle="bold" />
+
                 <TextView
-                    android:id="@+id/txt_date"
+                    android:id="@+id/txt_current_date_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="21 May 2022"
-                    android:textSize="@dimen/txt_size_14sp"
-                    android:textColor="@color/colorWhite"
                     android:layout_alignParentEnd="true"
-                    android:padding="@dimen/dim_5dp"/>
+                    android:padding="@dimen/dim_5dp"
+                    android:text="21 May 2022"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/txt_size_14sp" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -85,6 +96,7 @@
                         android:textSize="@dimen/txt_size_12sp" />
 
                     <TextView
+                        android:id="@+id/txt_start_date_at"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/dim_1dp"
@@ -94,6 +106,7 @@
 
 
                     <TextView
+                        android:id="@+id/txt_start_time_at"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/dim_1dp"
@@ -126,6 +139,7 @@
                         android:paddingVertical="@dimen/dim_1dp"
                         android:textColor="@color/colorFentText"/>
                     <TextView
+                        android:id="@+id/txt_end_date_at"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="23/05/2022"
@@ -134,6 +148,7 @@
                         android:textColor="@color/colorBlack"/>
 
                     <TextView
+                        android:id="@+id/txt_ent_time_at"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="12:23 PM"
@@ -200,6 +215,7 @@
                 android:background="@color/colorWhite"
                 android:padding="@dimen/dim_5dp">
                 <TextView
+                    android:id="@+id/txt_house_count_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -208,6 +224,7 @@
                     android:textSize="@dimen/txt_size_12sp"
                     android:text="100" />
                 <TextView
+                    android:id="@+id/txt_liquid_count_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -216,6 +233,7 @@
                     android:textSize="@dimen/txt_size_12sp"
                     android:text="0" />
                 <TextView
+                    android:id="@+id/txt_street_count_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -225,6 +243,7 @@
                     android:text="0" />
 
                 <TextView
+                    android:id="@+id/txt_dump_count_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -240,3 +259,5 @@
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
+
+</layout>

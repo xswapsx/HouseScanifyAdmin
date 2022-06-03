@@ -1,5 +1,6 @@
 package com.appynitty.adminapp.repositories;
 
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -29,13 +30,13 @@ public class AttendanceRepository {
         Log.e(TAG, "getListOfAttendance: ");
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
         String userId = Prefs.getString(MainUtils.USER_ID);
-        String fromDate = Prefs.getString(MainUtils.FROM_DATE);
-        String toDate = Prefs.getString(MainUtils.TO_DATE);
-        int appId = Prefs.getInt(String.valueOf(MainUtils.APP_ID));
+        String fromDate = MainUtils.getLocalDate();
+        String toDate = MainUtils.getLocalDate();
+        String appId = Prefs.getString(MainUtils.PREFS.APP_ID);
 
         AttendanceWebService attendanceWebService = RetrofitClient.createService(AttendanceWebService.class, MainUtils.BASE_URL);
         Call<List<AttendanceDTO>> attendanceDTOCall = attendanceWebService.getFragAttendanceList(MainUtils.CONTENT_TYPE, empType,
-               userId, fromDate, toDate,appId);
+               userId,fromDate,toDate, Integer.parseInt(appId));
         attendanceDTOCall.enqueue(new Callback<List<AttendanceDTO>>() {
             @Override
             public void onResponse(Call<List<AttendanceDTO>> call, Response<List<AttendanceDTO>> response) {

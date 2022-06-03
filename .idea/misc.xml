@@ -32,14 +32,19 @@
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/activity_dashboard.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/activity_dashboard1.xml" value="0.22685185185185186" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/activity_home.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/activity_login.xml" value="0.22685185185185186" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/activity_zoom_view.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/dashboard_item_list.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/dialog_emp_list.xml" value="0.2677083333333333" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/dialog_filter.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_attendance.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_emp_details.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_house_details.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_live_data.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_attendance_frag_list.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_card_photos_list.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_emp_details_list.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_emp_list.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/menu/home_menu.xml" value="0.26875" />
       </map>
     </option>

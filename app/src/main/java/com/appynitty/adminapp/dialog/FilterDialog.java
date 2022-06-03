@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,13 +25,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class FilterDialog extends Dialog {
+public class FilterDialog extends Dialog implements EmpListDialog.EmpListDialogInterface{
 
     private Context context;
     private EditText edtSelectToDate, edtSelectFromDate, edtSelectEmployee;
     private TextView txtBtnCancel, txtBtnApplyFilter;
 
     private CardView crdSelectFromD, crdSelectToD, crdSelectEmp;
+    private EmpListDialog empListDialog;
 
     final Calendar myCalendar= Calendar.getInstance();
 
@@ -71,6 +74,7 @@ public class FilterDialog extends Dialog {
         crdSelectEmp = findViewById(R.id.card_select_emp);
 
         setOnClick();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.colorWhite));
         }
@@ -96,46 +100,73 @@ public class FilterDialog extends Dialog {
         crdSelectEmp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                openEmpListDialog();
             }
         });
 
         crdSelectFromD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(context,date,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                updateFromDate();
+                DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        edtSelectFromDate.setText(dayOfMonth + ""+monthOfYear + ""+year);
+                    }
+                };
+                DatePickerDialog datePickerDialog=  new DatePickerDialog(context,R.style.DialogTheme, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
             }
         });
 
         crdSelectToD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(context,date,myCalendar.get(Calendar.YEAR),myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-                updateToDate();
+                DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        edtSelectToDate.setText(dayOfMonth + ""+monthOfYear + ""+year);
+                    }
+                };
+                DatePickerDialog datePickerDialog=  new DatePickerDialog(context,R.style.DialogTheme, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
             }
         });
     }
 
-    DatePickerDialog.OnDateSetListener date =new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH,month);
-            myCalendar.set(Calendar.DAY_OF_MONTH,day);
-            updateToDate();
-            updateFromDate();
-        }
-    };
+    private void datePickerDialog(){
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
-    private void updateToDate() {
-        SimpleDateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-        edtSelectToDate.setText(dateFormat.format(myCalendar.getTime()));
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            }
+        };
+        DatePickerDialog datePickerDialog=  new DatePickerDialog(context,R.style.DialogTheme, date, myCalendar
+                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
     }
 
-    private void updateFromDate() {
-        SimpleDateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-        edtSelectFromDate.setText(dateFormat.format(myCalendar.getTime()));
+    private void openEmpListDialog(){
+        empListDialog = new EmpListDialog(context, new EmpListDialog.EmpListDialogInterface() {
+            @Override
+            public int hashCode() {
+                return super.hashCode();
+            }
+        });
+        empListDialog.setCancelable(true);
+        empListDialog.show();
     }
 
 }
