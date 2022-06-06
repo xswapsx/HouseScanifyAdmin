@@ -26,26 +26,30 @@ public class AttendanceRepository {
         return instance;
     }
 
-    public void getListOfAttendance (IAttendanceResponse iAttendanceResponse){
+    public void getListOfAttendance (String appId,IAttendanceResponse iAttendanceResponse){
         Log.e(TAG, "getListOfAttendance: ");
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
-        String userId = Prefs.getString(MainUtils.USER_ID);
+        String userId = "";
+        /*String userId = "0";*/
         String fromDate = MainUtils.getLocalDate();
         String toDate = MainUtils.getLocalDate();
-        String appId = Prefs.getString(MainUtils.PREFS.APP_ID);
+        /*String appId = Prefs.getString(MainUtils.APP_ID);*/
 
         AttendanceWebService attendanceWebService = RetrofitClient.createService(AttendanceWebService.class, MainUtils.BASE_URL);
-        Call<List<AttendanceDTO>> attendanceDTOCall = attendanceWebService.getFragAttendanceList(MainUtils.CONTENT_TYPE, empType,
-               userId,fromDate,toDate, Integer.parseInt(appId));
+        Call<List<AttendanceDTO>> attendanceDTOCall = attendanceWebService.getFragAttendanceList(MainUtils.CONTENT_TYPE,empType,userId,appId,
+                fromDate,toDate);
         attendanceDTOCall.enqueue(new Callback<List<AttendanceDTO>>() {
             @Override
             public void onResponse(Call<List<AttendanceDTO>> call, Response<List<AttendanceDTO>> response) {
 
                 if (response.code() == 200){
-                    attendanceListLiveData.setValue(response.body());
-                    iAttendanceResponse.onResponse(attendanceListLiveData);
-                    Log.e(TAG, "onResponse: " + response.body());
-
+                    if (response.body() != null){
+                        /*attendanceListLiveData = (MutableLiveData<List<AttendanceDTO>>) response.body();*/
+                        attendanceListLiveData.setValue(response.body());
+                        iAttendanceResponse.onResponse(attendanceListLiveData);
+                        Log.e(TAG, "onResponse: " + response.body());
+                        Log.e(TAG, "iAttendanceResponse: " + iAttendanceResponse);
+                    }
                 } else if (response.code() == 500){
                     Log.e(TAG, "onResponse: " + response.body());
                 }

@@ -21,6 +21,7 @@ public class MainUtils {
 
     public static final String EMP_TYPE = "EmpType";
     public static final String USER_ID = "userId";
+    public static final String APP_ID = "appId";
     public static final String IS_LOGIN = "IsLoggedIn";
 
     private static final String EMP_SERVER_DATE_FORMATE = "dd-MM-yyyy";

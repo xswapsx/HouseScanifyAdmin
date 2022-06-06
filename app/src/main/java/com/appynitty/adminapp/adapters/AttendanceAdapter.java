@@ -41,6 +41,14 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
       final  AttendanceDTO attendanceDTO = attendanceDTOList.get(position);
         holder.attendanceFragListBinding.txtEmpNameAt.setText(attendanceDTO.getUserName());
+        holder.attendanceFragListBinding.txtHouseCountAt.setText(attendanceDTO.getHouseCount());
+        holder.attendanceFragListBinding.txtDumpCountAt.setText(attendanceDTO.getDumpYardCount());
+        holder.attendanceFragListBinding.txtLiquidCountAt.setText(attendanceDTO.getLiquidCount());
+        holder.attendanceFragListBinding.txtStreetCountAt.setText(attendanceDTO.getStreetCount());
+        holder.attendanceFragListBinding.txtStartDateAt.setText(attendanceDTO.getStartDate());
+        holder.attendanceFragListBinding.txtStartTimeAt.setText(attendanceDTO.getStartTime());
+        holder.attendanceFragListBinding.txtEndDateAt.setText(attendanceDTO.getEndDate());
+        holder.attendanceFragListBinding.txtEntTimeAt.setText(attendanceDTO.getEndTime());
 
     }
 

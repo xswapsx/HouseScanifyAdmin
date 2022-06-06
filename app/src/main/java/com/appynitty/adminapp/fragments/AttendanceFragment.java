@@ -54,6 +54,7 @@ public class AttendanceFragment extends Fragment {
     private AttendanceAdapter adapter;
 
     private AttendanceViewModel attendanceViewModel;
+    UlbDataViewModel ulbDataViewModel;
     private FragmentAttendanceBinding attendanceBinding;
     HomeActivity activity;
     MyApplication application;
@@ -80,20 +81,27 @@ public class AttendanceFragment extends Fragment {
     private void init(){
         /*context = getActivity();*/
         activity = (HomeActivity) getActivity();
-        Bundle results =activity.getUlbData();
+        Bundle results = activity.getUlbData();
         appId = results.getString("val1");
         ulbName = results.getString("val2");
-
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
-        Log.e(TAG, "From Date: " + MainUtils.getLocalDate() + " toDate: " + MainUtils.getLocalDate());
-        context = getActivity();
 
+        context = getActivity();
+        attendanceViewModel = ViewModelProviders.of(getActivity(),new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
+        attendanceBinding.setAttendanceViewModel(attendanceViewModel);
+
+        attendanceViewModel.getAttendanceResponseLiveData().observe(activity, new Observer<List<AttendanceDTO>>() {
+            @Override
+            public void onChanged(List<AttendanceDTO> attendanceDTOS) {
+                Log.e(TAG, "onChanged: " + attendanceDTOS);
+            }
+        });
 
         attendanceDTOList = new ArrayList<>();
         recyclerAttendance = view.findViewById(R.id.recycler_attendance);
         loader = view.findViewById(R.id.progress_circular);
         txtNoData = view.findViewById(R.id.txt_no_data);
-        edtSearchText = view.findViewById(R.id.edt_search_text);
+        edtSearchText = view.findViewById(R.id.edt_search_text_at);
         imgClear = view.findViewById(R.id.img_close);
         txtEntries = view.findViewById(R.id.txt_entries);
         layoutManager = new LinearLayoutManager(context);
@@ -160,4 +168,6 @@ public class AttendanceFragment extends Fragment {
 
         }
     };
+
+
 }
