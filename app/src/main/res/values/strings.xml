@@ -29,5 +29,6 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="str_search_name_or_id">Search Name or ID</string>
+    <string name="str_hint_search_employees_name">Search employee name</string>
 
 </resources>
