@@ -87,9 +87,15 @@ public class AttendanceFragment extends Fragment {
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
 
         context = getActivity();
-        attendanceViewModel = ViewModelProviders.of(getActivity(),
-                new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
+        attendanceViewModel = ViewModelProviders.of(getActivity(),new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
         attendanceBinding.setAttendanceViewModel(attendanceViewModel);
+
+        attendanceViewModel.getAttendanceResponseLiveData().observe(activity, new Observer<List<AttendanceDTO>>() {
+            @Override
+            public void onChanged(List<AttendanceDTO> attendanceDTOS) {
+                Log.e(TAG, "onChanged: " + attendanceDTOS);
+            }
+        });
 
         attendanceDTOList = new ArrayList<>();
         recyclerAttendance = view.findViewById(R.id.recycler_attendance);

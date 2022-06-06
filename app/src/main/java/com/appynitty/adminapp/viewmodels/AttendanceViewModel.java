@@ -3,11 +3,14 @@ package com.appynitty.adminapp.viewmodels;
 import android.util.Log;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.fragments.AttendanceFragment;
 import com.appynitty.adminapp.models.AttendanceDTO;
 import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.repositories.AttendanceRepository;
@@ -65,5 +68,10 @@ public class AttendanceViewModel extends ViewModel {
         }
         return attendanceResponseLiveData;
     }
+
+    /*private Fragment getActivity() {
+        AttendanceFragment attendanceFragment = new AttendanceFragment();
+        return attendanceFragment;
+    }*/
 
 }
