@@ -37,7 +37,8 @@ public class UlbDataViewModel extends ViewModel {
     public MutableLiveData<Integer> TotalStreetUpdatedLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalStreetUpdated_CurrentDayLiveData = new MutableLiveData<>();
 
-    public UlbDataViewModel(/*Application mApplication,*/ String appId) {
+    public UlbDataViewModel(Object[] mParams) {
+        String appId = (String) mParams[0];
         mProgressMutableData.setValue(View.VISIBLE);
         mProgressMutableData1.setValue(View.VISIBLE);
         ulbDataRepository.getUlbDataInfo(appId, new UlbDataRepository.IUlbDataResponse() {
@@ -74,18 +75,24 @@ public class UlbDataViewModel extends ViewModel {
         employeeDetailsRepository.getEmpDetailsList(appId, new EmployeeDetailsRepository.IEmpDetailsListener() {
             @Override
             public void onResponse(MutableLiveData<List<EmployeeDetailsDTO>> empDetailsResponse) {
-                mProgressMutableData1.setValue(View.GONE);
+                mProgressMutableData1.setValue(View.INVISIBLE);
                 Log.e(TAG, "onResponse: EmpDetails= " + empDetailsResponse.getValue().toString());
                 empDetailsListLiveData.setValue(empDetailsResponse.getValue());
             }
 
             @Override
             public void onFailure(Throwable t) {
-                mProgressMutableData1.setValue(View.GONE);
+                mProgressMutableData1.setValue(View.INVISIBLE);
                 Log.e(TAG, "onResponse: EmpDetails= " + t.getMessage());
             }
         });
+
+        if (mParams.length > 1) {
+            Log.e(TAG, "Check lenght : " + mParams.length);
+        }
+
     }
+
 
     public MutableLiveData<SpecificUlbDTO> getSpecificUlbMutableLiveData() {
         if (specificUlbMutableLiveData == null) {

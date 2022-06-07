@@ -2,6 +2,7 @@ package com.appynitty.adminapp.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,12 +84,17 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
     }
 
     private void openDialog() {
-        filterDialog = new FilterDialog(context, new FilterDialog.FilterDialogInterface() {
+        /*filterDialog = new FilterDialog(context, new FilterDialog.FilterDialogInterface() {
+            @Override
+            public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
+                Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate);
+            }
+
             @Override
             public int hashCode() {
                 return super.hashCode();
             }
-        });
+        });*/
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(filterDialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -106,5 +112,10 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
         houseDetailsAdapter = new HouseDetailsAdapter(context);
         recyclerHouseImage.setLayoutManager(layoutManager);
         recyclerHouseImage.setAdapter(houseDetailsAdapter);
+    }
+
+    @Override
+    public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
+        Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate);
     }
 }

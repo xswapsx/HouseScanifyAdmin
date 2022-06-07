@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.EmployeeDetailsAdapter;
+import com.appynitty.adminapp.databinding.DialogFilterBinding;
 import com.appynitty.adminapp.databinding.FragmentLiveDataBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
@@ -40,6 +41,7 @@ public class LiveDataFragment extends Fragment {
     private Context context;
     private View view;
     private FragmentLiveDataBinding binding;
+    private DialogFilterBinding filterBinding;
     private LinearLayoutManager layoutManager;
     private EmployeeDetailsAdapter adapter;
     private String appId, ulbName;
@@ -49,7 +51,9 @@ public class LiveDataFragment extends Fragment {
     private FilterDialog filterDialog;
     private List<EmployeeDetailsDTO> employeeDetailsList;
     HomeActivity activity;
-    UlbDataViewModel ulbDataViewModel;
+    UlbDataViewModel ulbDataViewModel, filterDataViewModel;
+    private String frmDate, toDate, userId;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,6 +76,8 @@ public class LiveDataFragment extends Fragment {
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
         employeeDetailsList = new ArrayList<>();
         context = getActivity();
+        filterDialog = new FilterDialog(context);
+        filterBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.dialog_filter, null, false);
         tvDate = view.findViewById(R.id.txt_date);
         etSearchEmp = view.findViewById(R.id.edt_search_text);
         btnFilter = view.findViewById(R.id.card_filter);
@@ -79,6 +85,19 @@ public class LiveDataFragment extends Fragment {
         ulbDataViewModel = ViewModelProviders.of(getActivity(),
                 new MyViewModelFactory(appId)).get(UlbDataViewModel.class);
         binding.setUlbData(ulbDataViewModel);
+
+        filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
+            @Override
+            public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
+                Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
+                Bundle extras = new Bundle();
+                extras.putString("frmDate", frmDate);
+                extras.putString("toDate", toDate);
+                extras.putString("userId", userId);
+                filterDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(extras)).get(UlbDataViewModel.class);
+                filterBinding.setEmpList(filterDataViewModel);
+            }
+        });
 
         etSearchEmp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -122,6 +141,12 @@ public class LiveDataFragment extends Fragment {
             public void onClick(View view) {
 //                Toast.makeText(getActivity(), "Clicked!", Toast.LENGTH_SHORT).show();
                 openDialog();
+                Bundle extras = new Bundle();
+                extras.putString("frmDate", "3098");
+                extras.putString("toDate", "07-06-2022");
+                extras.putString("userId", "02-06-2022");
+                filterDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(extras)).get(UlbDataViewModel.class);
+                filterBinding.setEmpList(filterDataViewModel);
             }
         });
 
@@ -146,19 +171,13 @@ public class LiveDataFragment extends Fragment {
     }
 
     private void openDialog() {
-        filterDialog = new FilterDialog(context, new FilterDialog.FilterDialogInterface() {
-            @Override
-            public int hashCode() {
-                return super.hashCode();
-            }
-        });
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(filterDialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.BOTTOM;
-        lp.windowAnimations = R.style.DialogAnimation;
-        filterDialog.getWindow().setAttributes(lp);
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(filterDialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.gravity = Gravity.BOTTOM;
+        layoutParams.windowAnimations = R.style.DialogAnimation;
+        filterDialog.getWindow().setAttributes(layoutParams);
         filterDialog.setCancelable(false);
         filterDialog.show();
     }

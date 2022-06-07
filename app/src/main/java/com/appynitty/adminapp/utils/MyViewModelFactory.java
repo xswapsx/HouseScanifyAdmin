@@ -22,7 +22,7 @@ public class MyViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass == UlbDataViewModel.class) {
-            return (T) new UlbDataViewModel(/*mApplication, */(String) mParams[0]);
+            return (T) new UlbDataViewModel(/*mApplication, */mParams);
         }else if (modelClass == AttendanceViewModel.class){
             return (T) new AttendanceViewModel((String) mParams[0]);
         }

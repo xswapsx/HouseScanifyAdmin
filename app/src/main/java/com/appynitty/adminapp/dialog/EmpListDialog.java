@@ -33,8 +33,8 @@ public class EmpListDialog extends Dialog {
         this.listener = listener;
     }
 
-    public interface EmpListDialogInterface{
-
+    public interface EmpListDialogInterface {
+        void onDialogDismissed(String fromDate, String toDate, int userId);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class EmpListDialog extends Dialog {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(context.getResources().getColor(R.color.colorWhite));
         }
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         init();
 
