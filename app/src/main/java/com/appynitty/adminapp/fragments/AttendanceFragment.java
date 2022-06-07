@@ -28,7 +28,9 @@ import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.AttendanceAdapter;
 import com.appynitty.adminapp.databinding.FragmentAttendanceBinding;
 import com.appynitty.adminapp.models.AttendanceDTO;
+import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
+import com.appynitty.adminapp.models.UlbDTO;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.utils.MyViewModelFactory;
@@ -87,15 +89,6 @@ public class AttendanceFragment extends Fragment {
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
 
         context = getActivity();
-        attendanceViewModel = ViewModelProviders.of(getActivity(),new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
-        attendanceBinding.setAttendanceViewModel(attendanceViewModel);
-
-        attendanceViewModel.getAttendanceResponseLiveData().observe(activity, new Observer<List<AttendanceDTO>>() {
-            @Override
-            public void onChanged(List<AttendanceDTO> attendanceDTOS) {
-                Log.e(TAG, "onChanged: " + attendanceDTOS);
-            }
-        });
 
         attendanceDTOList = new ArrayList<>();
         recyclerAttendance = view.findViewById(R.id.recycler_attendance);
@@ -109,32 +102,58 @@ public class AttendanceFragment extends Fragment {
         imgClear.setVisibility(View.GONE);
         loader.setVisibility(View.VISIBLE);
 
-        setRecycler();
-        setOnClick();
-        setDate();
-    }
 
-    private void setDate() {
-    }
+        attendanceViewModel = ViewModelProviders.of(getActivity(),new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
+        attendanceBinding.setAttendanceViewModel(attendanceViewModel);
 
-    private void setOnClick() {
-        edtSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        attendanceViewModel.getAttendanceResponseLiveData().observe(activity, new Observer<List<AttendanceDTO>>() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-
-                if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
-                    return true;
+            public void onChanged(List<AttendanceDTO> attendanceDTOS) {
+                Log.e(TAG, "onChanged: " + attendanceDTOS);
+                attendanceDTOList.clear();
+                for (int i = 0; i < attendanceDTOS.size(); i++) {
+                    attendanceDTOS.get(i).getUserName();
                 }
-                return false;
+                setRecycler(attendanceDTOList);
             }
         });
 
-       /* edtSearchText.addOnAttachStateChangeListener((View.OnAttachStateChangeListener) searchViewTextWatcher);*/
+        /*setRecycler(attendanceDTOList);*/
+        setDate();
+
+
+        edtSearchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
+
+        attendanceViewModel.getProgress().observe(getActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                attendanceBinding.progressCircular.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
-    private void setRecycler() {
+    private void setDate() {
+
+    }
+
+
+    private void setRecycler(List<AttendanceDTO> attendanceDTOList) {
          attendanceBinding.txtNoData.setVisibility(View.GONE);
         attendanceBinding.progressCircular.setVisibility(View.GONE);
         adapter = new AttendanceAdapter(context, attendanceDTOList);
@@ -143,31 +162,15 @@ public class AttendanceFragment extends Fragment {
 
     }
 
-    private void performSearch(){
 
-    }
+    private void filter(String text) {
+        List<AttendanceDTO> filteredList = new ArrayList<>();
 
-    TextWatcher searchViewTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if(charSequence.toString().trim().length()==0){
-                imgClear.setVisibility(View.GONE);
-            } else {
-                imgClear.setVisibility(View.VISIBLE);
+        for (AttendanceDTO item : attendanceDTOList) {
+            if (item.getUserName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
             }
-
         }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
-
-
+        adapter.filterList(filteredList);
+    }
 }

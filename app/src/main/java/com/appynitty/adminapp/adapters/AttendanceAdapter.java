@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.ItemAttendanceFragListBinding;
 import com.appynitty.adminapp.models.AttendanceDTO;
+import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
       final  AttendanceDTO attendanceDTO = attendanceDTOList.get(position);
-        holder.attendanceFragListBinding.txtEmpNameAt.setText(attendanceDTO.getUserName());
+        /*holder.attendanceFragListBinding.txtEmpNameAt.setText(attendanceDTO.getUserName());
         holder.attendanceFragListBinding.txtHouseCountAt.setText(attendanceDTO.getHouseCount());
         holder.attendanceFragListBinding.txtDumpCountAt.setText(attendanceDTO.getDumpYardCount());
         holder.attendanceFragListBinding.txtLiquidCountAt.setText(attendanceDTO.getLiquidCount());
@@ -49,7 +50,15 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.attendanceFragListBinding.txtStartTimeAt.setText(attendanceDTO.getStartTime());
         holder.attendanceFragListBinding.txtEndDateAt.setText(attendanceDTO.getEndDate());
         holder.attendanceFragListBinding.txtEntTimeAt.setText(attendanceDTO.getEndTime());
+*/
+        holder.attendanceFragListBinding.setAttendanceItem(attendanceDTO);
+        holder.attendanceFragListBinding.executePendingBindings();
 
+    }
+
+    public void filterList(List<AttendanceDTO> filteredList) {
+        attendanceDTOList = filteredList;
+        notifyDataSetChanged();
     }
 
     @Override

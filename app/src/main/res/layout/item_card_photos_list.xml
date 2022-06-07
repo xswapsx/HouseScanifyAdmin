@@ -219,12 +219,29 @@
             android:id="@+id/img_share"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/share_bg"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dim_10dp"
+            android:layout_marginTop="@dimen/dim_10dp"
+            android:layout_marginEnd="@dimen/dim_10dp"
+            android:layout_marginBottom="@dimen/dim_10dp"
             android:elevation="@dimen/dim_20dp"
-            android:layout_margin="@dimen/dim_10dp"/>
+            android:visibility="gone"
+            android:src="@drawable/share_bg" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dim_10dp"
+            android:layout_marginTop="@dimen/dim_10dp"
+            android:layout_marginEnd="@dimen/dim_10dp"
+            android:layout_marginBottom="@dimen/dim_10dp">
+
+        </LinearLayout>
 
     </RelativeLayout>
 
