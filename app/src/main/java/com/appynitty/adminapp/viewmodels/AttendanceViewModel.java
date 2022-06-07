@@ -33,12 +33,12 @@ public class AttendanceViewModel extends ViewModel {
                 mProgressMutableData.setValue(View.INVISIBLE);
                 totalEntries.setValue(attendanceResponse.getValue().size());
                 attendanceResponseLiveData.setValue(attendanceResponse.getValue());
-                /*Log.e(TAG, "onResponse: " + attendanceResponse.getValue().get(0).getUserName()
+                Log.e(TAG, "onResponse: " + attendanceResponse.getValue()/*.get(0).getUserName()
                         + attendanceResponse.getValue().get(1).getStartDate() + attendanceResponse.getValue().get(2).getEndDate()
                         + attendanceResponse.getValue().get(3).getHouseCount()
                         + attendanceResponse.getValue().get(4).getDumpYardCount()
                         + attendanceResponse.getValue().get(5).getLiquidCount()
-                        + attendanceResponse.getValue().get(6).getStreetCount());*/
+                        + attendanceResponse.getValue().get(6).getStreetCount()*/);
             }
 
             @Override
@@ -48,13 +48,6 @@ public class AttendanceViewModel extends ViewModel {
 
             }
         });
-    }
-
-    public void onClick(View view){
-        int id = view.getId();
-        switch (id){
-            case R.id.card_filter :
-        }
     }
 
 
@@ -67,6 +60,10 @@ public class AttendanceViewModel extends ViewModel {
             attendanceResponseLiveData = new MutableLiveData<>();
         }
         return attendanceResponseLiveData;
+    }
+
+    public void setOnClick() {
+
     }
 
     /*private Fragment getActivity() {

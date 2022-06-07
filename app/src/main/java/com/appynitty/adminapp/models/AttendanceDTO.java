@@ -84,6 +84,15 @@ public class AttendanceDTO {
     @Expose
     private int DumpYardCount;
 
+    /*public AttendanceDTO(int qrEmpId, String userName, int houseCount, int liquidCount, int streetCount, int dumpYardCount) {
+        this.qrEmpId = qrEmpId;
+        this.userName = userName;
+        HouseCount = houseCount;
+        LiquidCount = liquidCount;
+        StreetCount = streetCount;
+        DumpYardCount = dumpYardCount;
+    }*/
+
     public int getQrEmpDaId() {
         return qrEmpDaId;
     }
@@ -242,5 +251,32 @@ public class AttendanceDTO {
 
     public void setDumpYardCount(int dumpYardCount) {
         DumpYardCount = dumpYardCount;
+    }
+
+
+    @Override
+    public String toString() {
+        return "AttendanceDTO{" +
+                "qrEmpDaId=" + qrEmpDaId +
+                ", qrEmpId=" + qrEmpId +
+                ", startLat='" + startLat + '\'' +
+                ", startLong='" + startLong + '\'' +
+                ", endLat='" + endLat + '\'' +
+                ", endLong='" + endLong + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", startNote='" + startNote + '\'' +
+                ", endNote='" + endNote + '\'' +
+                ", batteryStatus='" + batteryStatus + '\'' +
+                ", userName='" + userName + '\'' +
+                ", CompareDate='" + CompareDate + '\'' +
+                ", HouseCount=" + HouseCount +
+                ", LiquidCount=" + LiquidCount +
+                ", StreetCount=" + StreetCount +
+                ", daDateTIme='" + daDateTIme + '\'' +
+                ", DumpYardCount=" + DumpYardCount +
+                '}';
     }
 }
