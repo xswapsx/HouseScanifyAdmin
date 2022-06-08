@@ -135,7 +135,7 @@ public class AttendanceFragment extends Fragment {
         setDate();
 
 
-        edtSearchText.addTextChangedListener(new TextWatcher() {
+        attendanceBinding.edtSearchTextAt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
