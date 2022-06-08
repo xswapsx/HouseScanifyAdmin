@@ -3,11 +3,14 @@ package com.appynitty.adminapp.viewmodels;
 import android.util.Log;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.fragments.AttendanceFragment;
 import com.appynitty.adminapp.models.AttendanceDTO;
 import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.repositories.AttendanceRepository;
@@ -30,12 +33,12 @@ public class AttendanceViewModel extends ViewModel {
                 mProgressMutableData.setValue(View.INVISIBLE);
                 totalEntries.setValue(attendanceResponse.getValue().size());
                 attendanceResponseLiveData.setValue(attendanceResponse.getValue());
-                Log.e(TAG, "onResponse: " + attendanceResponse.getValue().get(0).getUserName()
+                Log.e(TAG, "onResponse: " + attendanceResponse.getValue()/*.get(0).getUserName()
                         + attendanceResponse.getValue().get(1).getStartDate() + attendanceResponse.getValue().get(2).getEndDate()
                         + attendanceResponse.getValue().get(3).getHouseCount()
                         + attendanceResponse.getValue().get(4).getDumpYardCount()
                         + attendanceResponse.getValue().get(5).getLiquidCount()
-                        + attendanceResponse.getValue().get(6).getStreetCount());
+                        + attendanceResponse.getValue().get(6).getStreetCount()*/);
             }
 
             @Override
@@ -45,13 +48,6 @@ public class AttendanceViewModel extends ViewModel {
 
             }
         });
-    }
-
-    public void onClick(View view){
-        int id = view.getId();
-        switch (id){
-            case R.id.card_filter :
-        }
     }
 
 
@@ -65,5 +61,14 @@ public class AttendanceViewModel extends ViewModel {
         }
         return attendanceResponseLiveData;
     }
+
+    public void setOnClick() {
+
+    }
+
+    /*private Fragment getActivity() {
+        AttendanceFragment attendanceFragment = new AttendanceFragment();
+        return attendanceFragment;
+    }*/
 
 }

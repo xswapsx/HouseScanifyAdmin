@@ -6,14 +6,21 @@ import android.view.View;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
+import com.appynitty.adminapp.repositories.EmployeeDetailsRepository;
 import com.appynitty.adminapp.repositories.UlbDataRepository;
+
+import java.util.List;
 
 public class UlbDataViewModel extends ViewModel {
     private static final String TAG = "UlbDataViewModel";
     public UlbDataRepository ulbDataRepository = UlbDataRepository.getInstance();
+    public EmployeeDetailsRepository employeeDetailsRepository = EmployeeDetailsRepository.getInstance();
     public MutableLiveData<SpecificUlbDTO> specificUlbMutableLiveData;
+    public MutableLiveData<List<EmployeeDetailsDTO>> empDetailsListLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> mProgressMutableData = new MutableLiveData<>();
+    public MutableLiveData<Integer> mProgressMutableData1 = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalHouseLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalHouseUpdatedLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalHouseUpdated_CurrentDayLiveData = new MutableLiveData<>();
@@ -30,8 +37,10 @@ public class UlbDataViewModel extends ViewModel {
     public MutableLiveData<Integer> TotalStreetUpdatedLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalStreetUpdated_CurrentDayLiveData = new MutableLiveData<>();
 
-    public UlbDataViewModel(/*Application mApplication,*/ String appId) {
+    public UlbDataViewModel(Object[] mParams) {
+        String appId = (String) mParams[0];
         mProgressMutableData.setValue(View.VISIBLE);
+        mProgressMutableData1.setValue(View.VISIBLE);
         ulbDataRepository.getUlbDataInfo(appId, new UlbDataRepository.IUlbDataResponse() {
             @Override
             public void onResponse(MutableLiveData<SpecificUlbDTO> specificUlbDataResponse) {
@@ -62,12 +71,40 @@ public class UlbDataViewModel extends ViewModel {
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
+
+        employeeDetailsRepository.getEmpDetailsList(appId, new EmployeeDetailsRepository.IEmpDetailsListener() {
+            @Override
+            public void onResponse(MutableLiveData<List<EmployeeDetailsDTO>> empDetailsResponse) {
+                mProgressMutableData1.setValue(View.INVISIBLE);
+                Log.e(TAG, "onResponse: EmpDetails= " + empDetailsResponse.getValue().toString());
+                empDetailsListLiveData.setValue(empDetailsResponse.getValue());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                mProgressMutableData1.setValue(View.INVISIBLE);
+                Log.e(TAG, "onResponse: EmpDetails= " + t.getMessage());
+            }
+        });
+
+        if (mParams.length > 1) {
+            Log.e(TAG, "Check lenght : " + mParams.length);
+        }
+
     }
+
 
     public MutableLiveData<SpecificUlbDTO> getSpecificUlbMutableLiveData() {
         if (specificUlbMutableLiveData == null) {
             specificUlbMutableLiveData = new MutableLiveData<>();
         }
         return specificUlbMutableLiveData;
+    }
+
+    public MutableLiveData<List<EmployeeDetailsDTO>> getEmpDetailsListLiveData() {
+        if (empDetailsListLiveData == null) {
+            empDetailsListLiveData = new MutableLiveData<>();
+        }
+        return empDetailsListLiveData;
     }
 }

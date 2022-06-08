@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorScreenBg"
-    tools:context=".fragment.HouseDetailsFragment">
+    tools:context=".fragments.HouseDetailsFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -166,8 +166,8 @@
                             android:id="@+id/img_filter"
                             android:layout_width="@dimen/dim_20dp"
                             android:layout_height="@dimen/dim_20dp"
-                            android:layout_marginHorizontal="@dimen/dim_5dp"
                             android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="@dimen/dim_5dp"
                             android:src="@drawable/edit" />
 
                         <TextView

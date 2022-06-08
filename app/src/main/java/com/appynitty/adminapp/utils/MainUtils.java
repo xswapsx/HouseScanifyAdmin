@@ -25,6 +25,7 @@ public class MainUtils {
     public static final String IS_LOGIN = "IsLoggedIn";
 
     private static final String EMP_SERVER_DATE_FORMATE = "dd-MM-yyyy";
+    private static final String EMP_DATE_FORMAT = "dd/MM/yyyy";
 
     private static final String TITLE_DATE_FORMATE = "dd MMM yyyy";
 
@@ -41,9 +42,28 @@ public class MainUtils {
 
 
     public interface PREFS {
-        String  APP_ID = "appId";
+        String APP_ID = "appId";
     }
 
+    public static String getDateAndTime() {
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+//        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String formattedDate = df.format(c);
+
+        return formattedDate;
+    }
+
+
+    public static String getDate() {
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+        SimpleDateFormat df = new SimpleDateFormat(MainUtils.EMP_DATE_FORMAT, Locale.getDefault());
+        String formattedDate = df.format(c);
+
+        return formattedDate;
+    }
 
     public static String serverDateFromLocal(String date) {
 
@@ -58,11 +78,25 @@ public class MainUtils {
         return server.format(new Date());
     }
 
+    public static String serverDate(String date) {
+
+        SimpleDateFormat local = new SimpleDateFormat(MainUtils.SERVER_DATE_FORMATE_LOCAL, Locale.ENGLISH);
+        SimpleDateFormat server = new SimpleDateFormat(MainUtils.EMP_DATE_FORMAT, Locale.ENGLISH);
+        try {
+            return server.format(local.parse(date));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return server.format(new Date());
+    }
+
     public static String getServerTime() {
 
         SimpleDateFormat format = new SimpleDateFormat(MainUtils.SERVER_TIME_FORMATE, Locale.ENGLISH);
         return format.format(Calendar.getInstance().getTime());
     }
+
     public static String getLocalDate() {
 
         SimpleDateFormat format = new SimpleDateFormat(MainUtils.SERVER_DATE_FORMATE_LOCAL, Locale.ENGLISH);

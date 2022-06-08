@@ -28,7 +28,9 @@ import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.AttendanceAdapter;
 import com.appynitty.adminapp.databinding.FragmentAttendanceBinding;
 import com.appynitty.adminapp.models.AttendanceDTO;
+import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
+import com.appynitty.adminapp.models.UlbDTO;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.utils.MyViewModelFactory;
@@ -87,9 +89,6 @@ public class AttendanceFragment extends Fragment {
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
 
         context = getActivity();
-        attendanceViewModel = ViewModelProviders.of(getActivity(),
-                new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
-        attendanceBinding.setAttendanceViewModel(attendanceViewModel);
 
         attendanceDTOList = new ArrayList<>();
         recyclerAttendance = view.findViewById(R.id.recycler_attendance);
@@ -103,32 +102,71 @@ public class AttendanceFragment extends Fragment {
         imgClear.setVisibility(View.GONE);
         loader.setVisibility(View.VISIBLE);
 
-        setRecycler();
-        setOnClick();
-        setDate();
-    }
 
-    private void setDate() {
-    }
+        attendanceViewModel = ViewModelProviders.of(getActivity(),new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
+        attendanceBinding.setAttendanceViewModel(attendanceViewModel);
 
-    private void setOnClick() {
-        edtSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        attendanceViewModel.getAttendanceResponseLiveData().observe(activity, new Observer<List<AttendanceDTO>>() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            public void onChanged(List<AttendanceDTO> attendanceDTOS) {
+                Log.e(TAG, "onChanged: " + attendanceDTOS);
+                attendanceDTOList.clear();
 
-                if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
-                    return true;
+                if (attendanceDTOList != null ){
+                    attendanceBinding.recyclerAttendance.setVisibility(View.VISIBLE);
+                    attendanceBinding.progressCircular.setVisibility(View.GONE);
+                    attendanceBinding.txtNoData.setVisibility(View.GONE);
+                    for (AttendanceDTO emp : attendanceDTOS) {
+                        attendanceDTOList.add(new AttendanceDTO(emp.getStartDate(), emp.getStartTime(),
+                                emp.getEndDate(), emp.getEndTime(), emp.getUserName(), emp.getHouseCount(),
+                                emp.getLiquidCount(), emp.getStreetCount(), emp.getDumpYardCount()));
                 }
-                return false;
+                    setRecycler(attendanceDTOList);
+                }
+                else {
+                    attendanceBinding.recyclerAttendance.setVisibility(View.GONE);
+                    attendanceBinding.progressCircular.setVisibility(View.GONE);
+                    attendanceBinding.txtNoData.setVisibility(View.VISIBLE);
+                }
             }
         });
 
-       /* edtSearchText.addOnAttachStateChangeListener((View.OnAttachStateChangeListener) searchViewTextWatcher);*/
+        /*setRecycler(attendanceDTOList);*/
+        setDate();
+
+
+        attendanceBinding.edtSearchTextAt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
+
+        attendanceViewModel.getProgress().observe(getActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                attendanceBinding.progressCircular.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
-    private void setRecycler() {
+    private void setDate() {
+
+    }
+
+
+    private void setRecycler(List<AttendanceDTO> attendanceDTOList) {
          attendanceBinding.txtNoData.setVisibility(View.GONE);
         attendanceBinding.progressCircular.setVisibility(View.GONE);
         adapter = new AttendanceAdapter(context, attendanceDTOList);
@@ -137,31 +175,15 @@ public class AttendanceFragment extends Fragment {
 
     }
 
-    private void performSearch(){
 
-    }
+    private void filter(String text) {
+        List<AttendanceDTO> filteredList = new ArrayList<>();
 
-    TextWatcher searchViewTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if(charSequence.toString().trim().length()==0){
-                imgClear.setVisibility(View.GONE);
-            } else {
-                imgClear.setVisibility(View.VISIBLE);
+        for (AttendanceDTO item : attendanceDTOList) {
+            if (item.getUserName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
             }
-
         }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
-
-
+        adapter.filterList(filteredList);
+    }
 }

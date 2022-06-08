@@ -61,7 +61,8 @@
                     android:padding="@dimen/dim_5dp"
                     android:text="21 May 2022"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/txt_size_14sp" />
+                    android:textSize="@dimen/txt_size_14sp"
+                    android:visibility="gone" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -80,7 +81,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/dim_8dp"
@@ -88,29 +89,32 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/dim_1dp"
+                        android:gravity="start"
                         android:text="Start Date/Time"
                         android:textColor="@color/colorFentText"
                         android:textSize="@dimen/txt_size_12sp" />
 
                     <TextView
                         android:id="@+id/txt_start_date_at"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/dim_1dp"
-                        android:text="23/05/2022"
+                        android:gravity="start"
+                        android:text="@{attendanceItem.startDate}"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/txt_size_12sp" />
 
 
                     <TextView
                         android:id="@+id/txt_start_time_at"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/dim_1dp"
-                        android:text="12:23 PM"
+                        android:gravity="start"
+                        android:text="@{attendanceItem.startTime}"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/txt_size_12sp" />
 
@@ -124,37 +128,42 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/dim_8dp"
                     android:gravity="end"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true">
+                    android:orientation="vertical">
+
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="End Date/Time"
-                        android:textSize="@dimen/txt_size_12sp"
+                        android:gravity="end"
                         android:paddingVertical="@dimen/dim_1dp"
-                        android:textColor="@color/colorFentText"/>
+                        android:text="End Date/Time"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp" />
+
                     <TextView
                         android:id="@+id/txt_end_date_at"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="23/05/2022"
                         android:paddingVertical="@dimen/dim_1dp"
-                        android:textSize="@dimen/txt_size_12sp"
-                        android:textColor="@color/colorBlack"/>
+                        android:gravity="end"
+                        android:text="@{attendanceItem.endDate}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/txt_size_12sp" />
 
                     <TextView
                         android:id="@+id/txt_ent_time_at"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="12:23 PM"
+                        android:gravity="end"
                         android:paddingVertical="@dimen/dim_1dp"
-                        android:textSize="@dimen/txt_size_12sp"
-                        android:textColor="@color/colorBlack"/>
+                        android:text="@{attendanceItem.endTime}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/txt_size_12sp" />
 
                 </LinearLayout>
 
@@ -222,7 +231,7 @@
                     android:gravity="start"
                     android:textColor="@color/colorFentText"
                     android:textSize="@dimen/txt_size_12sp"
-                    android:text="100" />
+                    android:text="@{String.valueOf(attendanceItem.houseCount)}" />
                 <TextView
                     android:id="@+id/txt_liquid_count_at"
                     android:layout_width="wrap_content"
@@ -231,7 +240,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorFentText"
                     android:textSize="@dimen/txt_size_12sp"
-                    android:text="0" />
+                    android:text="@{String.valueOf(attendanceItem.liquidCount)}" />
                 <TextView
                     android:id="@+id/txt_street_count_at"
                     android:layout_width="wrap_content"
@@ -240,7 +249,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorFentText"
                     android:textSize="@dimen/txt_size_12sp"
-                    android:text="0" />
+                    android:text="@{String.valueOf(attendanceItem.streetCount)}" />
 
                 <TextView
                     android:id="@+id/txt_dump_count_at"
@@ -250,7 +259,7 @@
                     android:gravity="end"
                     android:textColor="@color/colorFentText"
                     android:textSize="@dimen/txt_size_12sp"
-                    android:text="0" />
+                    android:text="@{String.valueOf(attendanceItem.dumpYardCount)}" />
 
             </TableRow>
 
