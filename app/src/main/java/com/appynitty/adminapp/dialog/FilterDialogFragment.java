@@ -48,15 +48,6 @@ public class FilterDialogFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        /*if (getDialog() == null) return;
-        Window window = getDialog().getWindow();
-        if (window == null) return;
-        int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.4);
-        WindowManager.LayoutParams params = window.getAttributes();
-        params.width = width;
-        params.gravity = Gravity.BOTTOM;
-        params.windowAnimations = R.style.DialogAnimation;
-        window.setAttributes(params);*/
 
         ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
