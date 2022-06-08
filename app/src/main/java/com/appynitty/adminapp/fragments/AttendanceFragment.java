@@ -111,10 +111,23 @@ public class AttendanceFragment extends Fragment {
             public void onChanged(List<AttendanceDTO> attendanceDTOS) {
                 Log.e(TAG, "onChanged: " + attendanceDTOS);
                 attendanceDTOList.clear();
-                for (int i = 0; i < attendanceDTOS.size(); i++) {
-                    attendanceDTOS.get(i).getUserName();
+
+                if (attendanceDTOList != null ){
+                    attendanceBinding.recyclerAttendance.setVisibility(View.VISIBLE);
+                    attendanceBinding.progressCircular.setVisibility(View.GONE);
+                    attendanceBinding.txtNoData.setVisibility(View.GONE);
+                    for (AttendanceDTO emp : attendanceDTOS) {
+                        attendanceDTOList.add(new AttendanceDTO(emp.getStartDate(), emp.getStartTime(),
+                                emp.getEndDate(), emp.getEndTime(), emp.getUserName(), emp.getHouseCount(),
+                                emp.getLiquidCount(), emp.getStreetCount(), emp.getDumpYardCount()));
                 }
-                setRecycler(attendanceDTOList);
+                    setRecycler(attendanceDTOList);
+                }
+                else {
+                    attendanceBinding.recyclerAttendance.setVisibility(View.GONE);
+                    attendanceBinding.progressCircular.setVisibility(View.GONE);
+                    attendanceBinding.txtNoData.setVisibility(View.VISIBLE);
+                }
             }
         });
 
