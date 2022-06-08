@@ -37,6 +37,11 @@ public class UlbDataViewModel extends ViewModel {
     public MutableLiveData<Integer> TotalStreetUpdatedLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalStreetUpdated_CurrentDayLiveData = new MutableLiveData<>();
 
+
+    public UlbDataViewModel() {
+
+    }
+
     public UlbDataViewModel(Object[] mParams) {
         String appId = (String) mParams[0];
         mProgressMutableData.setValue(View.VISIBLE);
