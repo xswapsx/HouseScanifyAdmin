@@ -26,7 +26,6 @@ import com.appynitty.adminapp.adapters.EmployeeDetailsAdapter;
 import com.appynitty.adminapp.databinding.DialogFilterBinding;
 import com.appynitty.adminapp.databinding.FragmentLiveDataBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
-import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
 import com.appynitty.adminapp.utils.MainUtils;
@@ -49,11 +48,12 @@ public class LiveDataFragment extends Fragment {
     private TextView tvDate;
     private EditText etSearchEmp;
     private CardView btnFilter;
-    private FilterDialogFragment filterDialog;
+    private FilterDialog filterDialog;
     private List<EmployeeDetailsDTO> employeeDetailsList;
     HomeActivity activity;
     UlbDataViewModel ulbDataViewModel, filterDataViewModel;
     private String frmDate, toDate, userId;
+    Bundle filterExtras;
 
 
     @Override
@@ -77,7 +77,8 @@ public class LiveDataFragment extends Fragment {
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
         employeeDetailsList = new ArrayList<>();
         context = getActivity();
-        filterDialog = new FilterDialogFragment();
+//        filterDialog = new FilterDialogFragment();
+        filterDialog = new FilterDialog(context);
         filterBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.dialog_filter, null, false);
         tvDate = view.findViewById(R.id.txt_date);
         etSearchEmp = view.findViewById(R.id.edt_search_text);
@@ -91,14 +92,17 @@ public class LiveDataFragment extends Fragment {
             @Override
             public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
                 Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
-                Bundle extras = new Bundle();
-                extras.putString("frmDate", frmDate);
-                extras.putString("toDate", toDate);
-                extras.putString("userId", userId);
-                filterDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(extras)).get(UlbDataViewModel.class);
-                filterBinding.setEmpList(filterDataViewModel);
+                filterExtras = new Bundle();
+                filterExtras.putString("frmDate", frmDate);
+                filterExtras.putString("toDate", toDate);
+                filterExtras.putString("userId", userId);
+                /*filterDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(extras)).get(UlbDataViewModel.class);
+                filterBinding.setEmpList(filterDataViewModel);*/
+//                ulbDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(filterExtras)).get(UlbDataViewModel.class);
             }
         });
+
+        ulbDataViewModel = ViewModelProviders.of(this, new MyViewModelFactory(filterExtras)).get(UlbDataViewModel.class);
 
         etSearchEmp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -172,15 +176,16 @@ public class LiveDataFragment extends Fragment {
     }
 
     private void openDialog() {
-        /*WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(filterDialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.gravity = Gravity.BOTTOM;
         layoutParams.windowAnimations = R.style.DialogAnimation;
         filterDialog.getWindow().setAttributes(layoutParams);
-        filterDialog.setCancelable(false);*/
-        filterDialog.show(getChildFragmentManager(), TAG);
+        filterDialog.setCancelable(false);
+        filterDialog.show();
+//        filterDialog.show(getChildFragmentManager(), TAG);
     }
 
 }

@@ -45,17 +45,11 @@ public class UlbDataViewModel extends ViewModel {
     public MutableLiveData<FilterDTO> FilterLiveData = new MutableLiveData<>();
     public MutableLiveData<Boolean> btnCancelStateLiveData = new MutableLiveData<>();
 
-    public UlbDataViewModel() {
-
-    }
-
-
-    public UlbDataViewModel() {
-
-    }
-
     public UlbDataViewModel(Object[] mParams) {
         String appId = (String) mParams[0];
+
+        Log.e(TAG, "UlbDataViewModel: size" + mParams.length);
+
         mProgressMutableData.setValue(View.VISIBLE);
         mProgressMutableData1.setValue(View.VISIBLE);
 

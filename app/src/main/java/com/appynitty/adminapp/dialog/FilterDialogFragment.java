@@ -34,7 +34,7 @@ public class FilterDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ulbDataViewModel = new ViewModelProvider(this).get(UlbDataViewModel.class);
+//        ulbDataViewModel = new ViewModelProvider(this).get(UlbDataViewModel.class);
     }
 
     @Nullable
