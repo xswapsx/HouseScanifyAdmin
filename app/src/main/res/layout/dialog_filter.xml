@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:project="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,9 +10,7 @@
             type="com.appynitty.adminapp.viewmodels.UlbDataViewModel" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:project="http://schemas.android.com/tools"
+    <androidx.cardview.widget.CardView
         style="@style/DialogAnimation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -166,7 +166,7 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <androidx.cardview.widget.CardView
                     android:id="@+id/card_select_emp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -224,19 +224,18 @@
                         <androidx.appcompat.widget.AppCompatSpinner
                             android:id="@+id/spinner_EmpList"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:layout_centerInParent="true"
-                            android:layout_marginStart="@dimen/dim_2dp"
+                            android:layout_marginStart="@dimen/dim_12dp"
                             android:drawSelectorOnTop="true"
                             android:hint="@string/str_select_user_role"
                             android:isScrollContainer="true"
-                            android:padding="@dimen/dim_10dp"
+                            android:paddingHorizontal="@dimen/dim_8dp"
                             android:spinnerMode="dropdown"
                             android:textAlignment="gravity"
                             android:textColor="@color/colorGray"
                             android:textColorHint="@color/colorFentText"
-                            android:textSize="@dimen/txt_size_14sp"
-                            android:tooltipText="User Role" />
+                            android:textSize="@dimen/txt_size_10sp"/>
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>
