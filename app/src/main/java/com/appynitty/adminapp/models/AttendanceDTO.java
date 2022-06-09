@@ -84,14 +84,17 @@ public class AttendanceDTO {
     @Expose
     private int DumpYardCount;
 
-    /*public AttendanceDTO(int qrEmpId, String userName, int houseCount, int liquidCount, int streetCount, int dumpYardCount) {
-        this.qrEmpId = qrEmpId;
+    public AttendanceDTO(String startDate, String startTime, String endDate,String endTime, String userName, int houseCount, int liquidCount, int streetCount, int dumpYardCount) {
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
         this.userName = userName;
         HouseCount = houseCount;
         LiquidCount = liquidCount;
         StreetCount = streetCount;
         DumpYardCount = dumpYardCount;
-    }*/
+    }
 
     public int getQrEmpDaId() {
         return qrEmpDaId;

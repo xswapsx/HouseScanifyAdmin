@@ -49,8 +49,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.attendanceFragListBinding.txtStartDateAt.setText(attendanceDTO.getStartDate());
         holder.attendanceFragListBinding.txtStartTimeAt.setText(attendanceDTO.getStartTime());
         holder.attendanceFragListBinding.txtEndDateAt.setText(attendanceDTO.getEndDate());
-        holder.attendanceFragListBinding.txtEntTimeAt.setText(attendanceDTO.getEndTime());
-*/
+        holder.attendanceFragListBinding.txtEntTimeAt.setText(attendanceDTO.getEndTime());*/
         holder.attendanceFragListBinding.setAttendanceItem(attendanceDTO);
         holder.attendanceFragListBinding.executePendingBindings();
 

@@ -26,6 +26,7 @@ import com.appynitty.adminapp.adapters.EmployeeDetailsAdapter;
 import com.appynitty.adminapp.databinding.DialogFilterBinding;
 import com.appynitty.adminapp.databinding.FragmentLiveDataBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
+import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
 import com.appynitty.adminapp.utils.MainUtils;
@@ -48,8 +49,7 @@ public class LiveDataFragment extends Fragment {
     private TextView tvDate;
     private EditText etSearchEmp;
     private CardView btnFilter;
-    //    private FilterDialog filterDialog;
-    private FilterDialog filterDialog;
+    private FilterDialogFragment filterDialog;
     private List<EmployeeDetailsDTO> employeeDetailsList;
     HomeActivity activity;
     UlbDataViewModel ulbDataViewModel, filterDataViewModel;
@@ -77,17 +77,17 @@ public class LiveDataFragment extends Fragment {
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
         employeeDetailsList = new ArrayList<>();
         context = getActivity();
-        filterDialog = new FilterDialog(context);
-//        filterBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.dialog_filter, null, false);
+        filterDialog = new FilterDialogFragment();
+        filterBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.dialog_filter, null, false);
         tvDate = view.findViewById(R.id.txt_date);
         etSearchEmp = view.findViewById(R.id.edt_search_text);
         btnFilter = view.findViewById(R.id.card_filter);
         tvDate.setText(MainUtils.getDateAndTime());
-        ulbDataViewModel = ViewModelProviders.of(getActivity(),
+        ulbDataViewModel = ViewModelProviders.of(this,
                 new MyViewModelFactory(appId)).get(UlbDataViewModel.class);
         binding.setUlbData(ulbDataViewModel);
 
-        /*filterDialog.setFilterDialogListener(new FilterDialogFragment().FilterDialogInterface() {
+        filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
             @Override
             public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
                 Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
@@ -98,28 +98,7 @@ public class LiveDataFragment extends Fragment {
                 filterDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(extras)).get(UlbDataViewModel.class);
                 filterBinding.setEmpList(filterDataViewModel);
             }
-        });*/
-
-        /*filterDialog.setFilterDialogListener(new FilterDialogFragment.FilterDialogInterface() {
-            @Override
-            public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
-                Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
-            }
-        });*/
-
-        filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
-            @Override
-            public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
-                Log.e(TAG, "onFilterDialogDismiss: frmDate" + frmDate + ", toDate" + toDate + ", userId" + userId);
-            }
         });
-
-        /*filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
-            @Override
-            public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
-                Log.d(TAG, "onFilterDialogDismiss: frmDate:- " + frmDate);
-            }
-        });*/
 
         etSearchEmp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -163,10 +142,10 @@ public class LiveDataFragment extends Fragment {
             public void onClick(View view) {
 //                Toast.makeText(getActivity(), "Clicked!", Toast.LENGTH_SHORT).show();
                 openDialog();
-                /*Bundle extras = new Bundle();
+                Bundle extras = new Bundle();
                 extras.putString("frmDate", "3098");
                 extras.putString("toDate", "07-06-2022");
-                extras.putString("userId", "02-06-2022");*/
+                extras.putString("userId", "02-06-2022");
                 /*filterDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(extras)).get(UlbDataViewModel.class);
                 filterBinding.setEmpList(filterDataViewModel);*/
             }
@@ -193,29 +172,15 @@ public class LiveDataFragment extends Fragment {
     }
 
     private void openDialog() {
-
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        /*WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(filterDialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.gravity = Gravity.BOTTOM;
         layoutParams.windowAnimations = R.style.DialogAnimation;
         filterDialog.getWindow().setAttributes(layoutParams);
-        filterDialog.setCancelable(false);
-        filterDialog.show();
-        /*WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(getActivity().getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        layoutParams.gravity = Gravity.BOTTOM;
-        layoutParams.windowAnimations = R.style.DialogAnimation;
-        getActivity().getWindow().setAttributes(layoutParams);
-        filterDialog.setCancelable(false);
-//        filterDialog.show();
-
-
-        filterDialog.show(getChildFragmentManager(), TAG);*/
-       /* DialogFragment dialog = (DialogFragment) DialogFragment.instantiate(getActivity(), "Hello world");
-        dialog.show(getFragmentManager(), "dialog");*/
+        filterDialog.setCancelable(false);*/
+        filterDialog.show(getChildFragmentManager(), TAG);
     }
+
 }

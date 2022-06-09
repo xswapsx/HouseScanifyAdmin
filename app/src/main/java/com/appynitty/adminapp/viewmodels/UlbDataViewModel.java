@@ -49,6 +49,11 @@ public class UlbDataViewModel extends ViewModel {
 
     }
 
+
+    public UlbDataViewModel() {
+
+    }
+
     public UlbDataViewModel(Object[] mParams) {
         String appId = (String) mParams[0];
         mProgressMutableData.setValue(View.VISIBLE);
