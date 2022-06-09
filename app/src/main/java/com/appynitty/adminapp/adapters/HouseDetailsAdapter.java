@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,9 @@ import com.appynitty.adminapp.activities.ZoomViewActivity;
 public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapter.MyViewHolder> {
 
     private Context context;
+    boolean isChecked = true;
+    public static int imgAccept = 1;
+    public static int imgReject = 2;
 
     public HouseDetailsAdapter(Context context) {
         this.context = context;
@@ -38,6 +42,28 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
                 context.startActivity(new Intent(context, ZoomViewActivity.class));
             }
         });
+
+            holder.txtImgAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.txtImgAccept.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.solid_rounded_green_btn));
+                    holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.white));
+                    holder.txtImgReject.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.solid_rounded_white));
+                    holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.black));
+                    Toast.makeText(context, "Image approved successfully", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            holder.txtImgReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.txtImgReject.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.solid_rounded_red_btn));
+                    holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.white));
+                    holder.txtImgAccept.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.solid_rounded_white));
+                    holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.black));
+                    Toast.makeText(context, "Image reject successfully", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         holder.imgShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +92,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtDateTime, txtHouseId, txtEmpName, txtLatitude, txtLongitude;
         private ImageView imgPhoto, imgShare;
+        private TextView txtImgAccept, txtImgReject;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -76,6 +103,8 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
             txtLongitude = itemView.findViewById(R.id.txt_longitude);
             imgPhoto = itemView.findViewById(R.id.img_photos);
             imgShare = itemView.findViewById(R.id.img_share);
+            txtImgAccept = itemView.findViewById(R.id.txt_img_accept);
+            txtImgReject = itemView.findViewById(R.id.txt_img_reject);
         }
     }
 }
