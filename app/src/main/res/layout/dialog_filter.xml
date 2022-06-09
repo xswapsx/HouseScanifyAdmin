@@ -179,7 +179,7 @@
                     android:dividerHeight="1.0px"
                     android:outlineProvider="background"
                     android:outlineSpotShadowColor="@color/colorPrimaryDark"
-                    android:padding="@dimen/dim_10dp"
+                    android:padding="@dimen/dim_5dp"
                     app:cardBackgroundColor="@color/colorWhite"
                     app:cardCornerRadius="@dimen/dim_25dp"
                     app:cardElevation="@dimen/dim_5dp">
@@ -188,7 +188,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
+                        <!--<EditText
                             android:id="@+id/edt_select_emp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -204,8 +204,39 @@
                             android:padding="@dimen/dim_10dp"
                             android:singleLine="true"
                             android:textColorHint="@color/colorFentText"
-                            android:textSize="@dimen/txt_size_14sp" />
+                            android:textSize="@dimen/txt_size_14sp" />-->
 
+                        <!--<Spinner
+                            android:id="@+id/spinner_EmpList"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dim_30dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/dim_12dp"
+                            android:textSize="@dimen/txt_size_14sp"
+                            android:background="@android:color/transparent"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+
+                            android:singleLine="true"
+                            android:textColorHint="@color/colorFentText" />-->
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/spinner_EmpList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginStart="@dimen/dim_2dp"
+                            android:drawSelectorOnTop="true"
+                            android:hint="@string/str_select_user_role"
+                            android:isScrollContainer="true"
+                            android:padding="@dimen/dim_10dp"
+                            android:spinnerMode="dropdown"
+                            android:textAlignment="gravity"
+                            android:textColor="@color/colorGray"
+                            android:textColorHint="@color/colorFentText"
+                            android:textSize="@dimen/txt_size_14sp"
+                            android:tooltipText="User Role" />
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>

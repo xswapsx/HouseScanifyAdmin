@@ -51,6 +51,10 @@ public class EmployeeDetailsRepository {
         });
     }
 
+    public void getFilteredEmpDetails(){
+
+    }
+
     public interface IEmpDetailsListener {
         void onResponse(MutableLiveData<List<EmployeeDetailsDTO>> empDetailsResponse);
 

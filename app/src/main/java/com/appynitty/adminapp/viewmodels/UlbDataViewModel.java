@@ -1,5 +1,6 @@
 package com.appynitty.adminapp.viewmodels;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
@@ -99,13 +100,6 @@ public class UlbDataViewModel extends ViewModel {
             }
         });
 
-        if (mParams.length > 1) {
-            Log.e(TAG, "Check lenght : " + mParams.length);
-        }
-
-        /*FilterDTO filterDTO = new FilterDTO(edtFrmDateLiveData.getValue(), edtToDateLiveData.getValue(), "0");
-        FilterLiveData.setValue(filterDTO);
-*/
     }
 
     public void onClick(View view) {
@@ -168,5 +162,9 @@ public class UlbDataViewModel extends ViewModel {
 
     public MutableLiveData<FilterDTO> getFilterLiveData() {
         return FilterLiveData;
+    }
+
+    public void setFilteredData(Bundle bundle) {
+        Log.e(TAG, "getFilteredItem: FromDate: " + bundle.get("frmDate") + " toDate: " + bundle.get("toDate") + " UserId:" + bundle.get("userId"));
     }
 }

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.databinding.DashboardItemListBinding;
 import com.appynitty.adminapp.models.UlbDTO;
+import com.appynitty.adminapp.utils.MainUtils;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
@@ -69,6 +71,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, HomeActivity.class);
+                    Prefs.putString(MainUtils.APP_ID, String.valueOf(ulbList.get(getAdapterPosition()).getAppId()));
                     intent.putExtra("appId", String.valueOf(ulbList.get(getAdapterPosition()).getAppId()));
                     intent.putExtra("ulbName", String.valueOf(ulbList.get(getAdapterPosition()).getUlbName()));
                     context.startActivity(intent);

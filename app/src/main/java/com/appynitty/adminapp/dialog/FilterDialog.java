@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import androidx.core.content.ContextCompat;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.DialogFilterBinding;
+import com.appynitty.adminapp.viewmodels.QREmpListVM;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,7 +30,8 @@ import java.util.Calendar;
 public class FilterDialog extends Dialog {
     private static final String TAG = "FilterDialog";
     private Context context;
-    private EditText edtSelectToDate, edtSelectFromDate, edtSelectEmployee;
+    private EditText edtSelectToDate, edtSelectFromDate;
+    Spinner spinnerEmpList;
     private TextView txtBtnCancel, txtBtnApplyFilter;
     private FilterDialogInterface filterDialogListener;
     private CardView crdSelectFromD, crdSelectToD, crdSelectEmp;
@@ -36,6 +39,7 @@ public class FilterDialog extends Dialog {
     DialogFilterBinding filterBinding;
     private String frmDate, toDate, userId = "0";
     final Calendar myCalendar = Calendar.getInstance();
+    QREmpListVM qrEmpListVM;
 
     public FilterDialog(@NonNull Context context) {
         super(context);
@@ -67,9 +71,10 @@ public class FilterDialog extends Dialog {
 
     private void init() {
 
+//        qrEmpListVM = ViewModelProviders.of().get(QREmpListVM.class);
         edtSelectFromDate = findViewById(R.id.edt_from_date);
         edtSelectToDate = findViewById(R.id.edt_to_date);
-        edtSelectEmployee = findViewById(R.id.edt_select_emp);
+        spinnerEmpList = findViewById(R.id.spinner_EmpList);
         txtBtnApplyFilter = findViewById(R.id.txt_btn_app_filter);
         txtBtnCancel = findViewById(R.id.txt_btn_cancel);
         crdSelectFromD = findViewById(R.id.card_select_from_date);

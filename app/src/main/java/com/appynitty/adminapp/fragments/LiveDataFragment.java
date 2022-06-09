@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -26,6 +24,7 @@ import com.appynitty.adminapp.adapters.EmployeeDetailsAdapter;
 import com.appynitty.adminapp.databinding.DialogFilterBinding;
 import com.appynitty.adminapp.databinding.FragmentLiveDataBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
+import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
 import com.appynitty.adminapp.utils.MainUtils;
@@ -48,7 +47,7 @@ public class LiveDataFragment extends Fragment {
     private TextView tvDate;
     private EditText etSearchEmp;
     private CardView btnFilter;
-    private FilterDialog filterDialog;
+    private FilterDialogFragment filterDialog;
     private List<EmployeeDetailsDTO> employeeDetailsList;
     HomeActivity activity;
     UlbDataViewModel ulbDataViewModel, filterDataViewModel;
@@ -78,7 +77,7 @@ public class LiveDataFragment extends Fragment {
         employeeDetailsList = new ArrayList<>();
         context = getActivity();
 //        filterDialog = new FilterDialogFragment();
-        filterDialog = new FilterDialog(context);
+        filterDialog = new FilterDialogFragment();
         filterBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.dialog_filter, null, false);
         tvDate = view.findViewById(R.id.txt_date);
         etSearchEmp = view.findViewById(R.id.edt_search_text);
@@ -99,10 +98,10 @@ public class LiveDataFragment extends Fragment {
                 /*filterDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(extras)).get(UlbDataViewModel.class);
                 filterBinding.setEmpList(filterDataViewModel);*/
 //                ulbDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(filterExtras)).get(UlbDataViewModel.class);
+                ulbDataViewModel.setFilteredData(filterExtras);
             }
         });
 
-        ulbDataViewModel = ViewModelProviders.of(this, new MyViewModelFactory(filterExtras)).get(UlbDataViewModel.class);
 
         etSearchEmp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -176,7 +175,7 @@ public class LiveDataFragment extends Fragment {
     }
 
     private void openDialog() {
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        /*WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(filterDialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -184,8 +183,8 @@ public class LiveDataFragment extends Fragment {
         layoutParams.windowAnimations = R.style.DialogAnimation;
         filterDialog.getWindow().setAttributes(layoutParams);
         filterDialog.setCancelable(false);
-        filterDialog.show();
-//        filterDialog.show(getChildFragmentManager(), TAG);
+        filterDialog.show();*/
+        filterDialog.show(getChildFragmentManager(), TAG);
     }
 
 }
