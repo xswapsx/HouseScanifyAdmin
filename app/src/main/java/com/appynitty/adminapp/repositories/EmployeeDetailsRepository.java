@@ -51,8 +51,25 @@ public class EmployeeDetailsRepository {
         });
     }
 
-    public void getFilteredEmpDetails(){
+    public void getFilteredEmpDetails(String frmDate, String toDate, String appId, String userId, IEmpDetailsListener iEmpDetailsListener) {
+        EmployeeDetailsWebService empDetailsWebService = RetrofitClient.createService(EmployeeDetailsWebService.class, MainUtils.BASE_URL);
+        Call<List<EmployeeDetailsDTO>> empDetailsCall = empDetailsWebService.getEmployeesDetails(MainUtils.CONTENT_TYPE, frmDate, toDate, appId, Integer.parseInt(userId));
+        empDetailsCall.enqueue(new Callback<List<EmployeeDetailsDTO>>() {
+            @Override
+            public void onResponse(Call<List<EmployeeDetailsDTO>> call, Response<List<EmployeeDetailsDTO>> response) {
+                if (response.code() == 200) {
+                    Log.e(TAG, "onResponse: empDetails:- " + response.body().toString());
+                    empDetailsList.setValue(response.body());
+                    iEmpDetailsListener.onResponse(empDetailsList);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<EmployeeDetailsDTO>> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+                iEmpDetailsListener.onFailure(t);
+            }
+        });
     }
 
     public interface IEmpDetailsListener {
