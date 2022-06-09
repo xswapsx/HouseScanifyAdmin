@@ -10,6 +10,7 @@ import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.webservices.QREmployeeListWebService;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -19,7 +20,7 @@ import retrofit2.Response;
 public class QREmpListRepo {
     private static final String TAG = "QREmpListRepo";
     private static final QREmpListRepo instance = new QREmpListRepo();
-    private MutableLiveData<List<QREmployeeDTO>> QrEmpListMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<QREmployeeDTO>> QrEmpListMutableLiveData = new MutableLiveData<>();
     String empType = Prefs.getString(MainUtils.EMP_TYPE);
     String userId = Prefs.getString(MainUtils.USER_ID);
     String appId = Prefs.getString(MainUtils.APP_ID);
@@ -31,10 +32,10 @@ public class QREmpListRepo {
     public void getQREmpsList(IQREmpListResponse iqrEmpListResponse) {
 
         QREmployeeListWebService qrEmployeeListWebService = RetrofitClient.createService(QREmployeeListWebService.class, MainUtils.BASE_URL);
-        Call<List<QREmployeeDTO>> qrEmployeeCall = qrEmployeeListWebService.getAllQREmployees(MainUtils.CONTENT_TYPE, empType, userId, appId);
-        qrEmployeeCall.enqueue(new Callback<List<QREmployeeDTO>>() {
+        Call<ArrayList<QREmployeeDTO>> qrEmployeeCall = qrEmployeeListWebService.getAllQREmployees(MainUtils.CONTENT_TYPE, empType, userId, appId);
+        qrEmployeeCall.enqueue(new Callback<ArrayList<QREmployeeDTO>>() {
             @Override
-            public void onResponse(Call<List<QREmployeeDTO>> call, Response<List<QREmployeeDTO>> response) {
+            public void onResponse(Call<ArrayList<QREmployeeDTO>> call, Response<ArrayList<QREmployeeDTO>> response) {
                 if (response.code() == 200) {
                     QrEmpListMutableLiveData.setValue(response.body());
                     iqrEmpListResponse.onResponse(QrEmpListMutableLiveData);
@@ -44,7 +45,7 @@ public class QREmpListRepo {
             }
 
             @Override
-            public void onFailure(Call<List<QREmployeeDTO>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<QREmployeeDTO>> call, Throwable t) {
                 iqrEmpListResponse.onFailure(t);
                 Log.e(TAG, "onResponse: " + t.getMessage());
             }
@@ -55,7 +56,7 @@ public class QREmpListRepo {
     }
 
     public interface IQREmpListResponse {
-        void onResponse(MutableLiveData<List<QREmployeeDTO>> qrEmpListLiveData);
+        void onResponse(MutableLiveData<ArrayList<QREmployeeDTO>> qrEmpListLiveData);
 
         void onFailure(Throwable s);
     }
