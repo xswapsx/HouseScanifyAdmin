@@ -20,6 +20,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.databinding.DialogFilterBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,6 +33,7 @@ public class FilterDialog extends Dialog {
     private FilterDialogInterface filterDialogListener;
     private CardView crdSelectFromD, crdSelectToD, crdSelectEmp;
     private EmpListDialog empListDialog;
+    DialogFilterBinding filterBinding;
     private String frmDate, toDate, userId = "0";
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -51,7 +53,7 @@ public class FilterDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        filterBinding = DialogFilterBinding.inflate(LayoutInflater.from(context), (ViewGroup) filterBinding.getRoot());
         setContentView(R.layout.dialog_filter);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

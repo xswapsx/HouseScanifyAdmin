@@ -3,10 +3,13 @@ package com.appynitty.adminapp.viewmodels;
 import android.util.Log;
 import android.view.View;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
+import com.appynitty.adminapp.models.FilterDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
 import com.appynitty.adminapp.repositories.EmployeeDetailsRepository;
 import com.appynitty.adminapp.repositories.UlbDataRepository;
@@ -36,11 +39,21 @@ public class UlbDataViewModel extends ViewModel {
     public MutableLiveData<Integer> TotalStreetLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalStreetUpdatedLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalStreetUpdated_CurrentDayLiveData = new MutableLiveData<>();
+    public MutableLiveData<String> edtFrmDateLiveData = new MutableLiveData<>();
+    public MutableLiveData<String> edtToDateLiveData = new MutableLiveData<>();
+    public MutableLiveData<Boolean> btnFilterStateLiveData = new MutableLiveData<>();
+    public MutableLiveData<FilterDTO> FilterLiveData = new MutableLiveData<>();
+    public MutableLiveData<Boolean> btnCancelStateLiveData = new MutableLiveData<>();
+
+    public UlbDataViewModel() {
+
+    }
 
     public UlbDataViewModel(Object[] mParams) {
         String appId = (String) mParams[0];
         mProgressMutableData.setValue(View.VISIBLE);
         mProgressMutableData1.setValue(View.VISIBLE);
+
         ulbDataRepository.getUlbDataInfo(appId, new UlbDataRepository.IUlbDataResponse() {
             @Override
             public void onResponse(MutableLiveData<SpecificUlbDTO> specificUlbDataResponse) {
@@ -91,8 +104,42 @@ public class UlbDataViewModel extends ViewModel {
             Log.e(TAG, "Check lenght : " + mParams.length);
         }
 
+        /*FilterDTO filterDTO = new FilterDTO(edtFrmDateLiveData.getValue(), edtToDateLiveData.getValue(), "0");
+        FilterLiveData.setValue(filterDTO);
+*/
     }
 
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            /*case R.id.edt_from_date:
+                Log.e(TAG, "onClick: frmDate!");
+                edtFrmDateLiveData.setValue("");
+                break;
+
+            case R.id.edt_to_date:
+                Log.e(TAG, "onClick: toDate!");
+                edtToDateLiveData.setValue("");
+                break;*/
+            case R.id.txt_btn_cancel:
+                Log.e(TAG, "onClick: cancel!");
+                edtFrmDateLiveData.setValue("");
+                break;
+
+            case R.id.txt_btn_app_filter:
+                Log.e(TAG, "onClick: Button!");
+//                btnFilterStateLiveData.setValue(true);
+                FilterDTO filterDTO = new FilterDTO(edtFrmDateLiveData.getValue(), edtToDateLiveData.getValue(), "0");
+                FilterLiveData.setValue(filterDTO);
+//                Log.e(TAG, "onClick: " + FilterLiveData.getValue().toString());
+                break;
+
+            default:
+                // code block
+        }
+
+
+    }
 
     public MutableLiveData<SpecificUlbDTO> getSpecificUlbMutableLiveData() {
         if (specificUlbMutableLiveData == null) {
@@ -106,5 +153,21 @@ public class UlbDataViewModel extends ViewModel {
             empDetailsListLiveData = new MutableLiveData<>();
         }
         return empDetailsListLiveData;
+    }
+
+    public LiveData<String> getEdtFrmDateState() {
+        return edtFrmDateLiveData;
+    }
+
+    public LiveData<String> getEdtToDateState() {
+        return edtToDateLiveData;
+    }
+
+    public MutableLiveData<Boolean> getBtnFilterStateLiveData() {
+        return btnFilterStateLiveData;
+    }
+
+    public MutableLiveData<FilterDTO> getFilterLiveData() {
+        return FilterLiveData;
     }
 }
