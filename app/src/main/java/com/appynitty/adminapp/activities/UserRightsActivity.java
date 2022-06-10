@@ -69,9 +69,9 @@ public class UserRightsActivity extends AppCompatActivity {
         recyclerUserRights = findViewById(R.id.recycler_user_rights);
         loader = findViewById(R.id.progress_circular);
         txtNoData = findViewById(R.id.txt_no_data);
-        edtSearchText = findViewById(R.id.edt_search_text);
+        edtSearchText = findViewById(R.id.edt_search_user_right);
         imgClear = findViewById(R.id.img_close);
-        crdAddEmp = findViewById(R.id.card_add_emp);
+        crdAddEmp = findViewById(R.id.card_addEmp_user_right);
         txtEntries = findViewById(R.id.txt_entries);
         layoutManager = new LinearLayoutManager(context);
         txtNoData.setVisibility(View.VISIBLE);

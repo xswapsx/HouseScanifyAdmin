@@ -53,9 +53,9 @@ public class EmpDetailsFragment extends Fragment {
         recyclerEmpDetails = view.findViewById(R.id.recycler_emp_details_frag);
         loader = view.findViewById(R.id.progress_circular);
         txtNoData = view.findViewById(R.id.txt_no_data);
-        edtSearchText = view.findViewById(R.id.edt_search_text);
+        edtSearchText = view.findViewById(R.id.edt_search_empD);
         imgClear = view.findViewById(R.id.img_close);
-        crdAddEmp = view.findViewById(R.id.card_add_emp);
+        crdAddEmp = view.findViewById(R.id.card_add_empD);
         txtEntries = view.findViewById(R.id.txt_entries);
         layoutManager = new LinearLayoutManager(context);
         txtNoData.setVisibility(View.VISIBLE);
