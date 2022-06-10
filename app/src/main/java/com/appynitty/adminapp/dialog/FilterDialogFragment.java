@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.appynitty.adminapp.adapters.QREmpListAdapter;
 import com.appynitty.adminapp.databinding.DialogFilterBinding;
 import com.appynitty.adminapp.models.QREmployeeDTO;
 import com.appynitty.adminapp.viewmodels.QREmpListVM;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class FilterDialogFragment extends DialogFragment {
     private FilterDialog.FilterDialogInterface filterDialogListener;
     private EditText edtSelectToDate, edtSelectFromDate;
     private Spinner spnrSelectEmployee;
+    private ProgressBar progressBar;
     private TextView txtBtnCancel, txtBtnApplyFilter;
     private String frmDate, toDate, userId = "0";
     final Calendar myCalendar = Calendar.getInstance();
@@ -58,30 +61,26 @@ public class FilterDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        qrEmpListVM = new ViewModelProvider(this).get(QREmpListVM.class);
     }
 
     private void init(View view) {
-        initList();
+        mQrEmpList = new ArrayList<>();
         edtSelectFromDate = view.findViewById(R.id.edt_from_date);
         edtSelectToDate = view.findViewById(R.id.edt_to_date);
         spnrSelectEmployee = view.findViewById(R.id.spinner_EmpList);
         txtBtnApplyFilter = view.findViewById(R.id.txt_btn_app_filter);
         txtBtnCancel = view.findViewById(R.id.txt_btn_cancel);
-
-        mAdapter = new QREmpListAdapter(getActivity(), mQrEmpList);
-        spnrSelectEmployee.setAdapter(mAdapter);
+        progressBar = view.findViewById(R.id.progress_filter);
 
         spnrSelectEmployee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                QREmployeeDTO qrEmployee = (QREmployeeDTO) adapterView.getItemAtPosition(i);
-                String selectedEmp = qrEmployee.getEmployeeName();
-                userId = qrEmployee.getEmployeeID();
-                Toast.makeText(getActivity(), selectedEmp + " selected", Toast.LENGTH_SHORT).show();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                QREmployeeDTO qrEmployee = (QREmployeeDTO) parent.getItemAtPosition(position);
 
-                Log.e(TAG, "onItemSelected: " + userId);
+                if (position > 0) {
+                    userId = qrEmployee.getEmployeeID();
+                }
+
             }
 
             @Override
@@ -91,7 +90,7 @@ public class FilterDialogFragment extends DialogFragment {
         });
 
         qrEmpListVM = new ViewModelProvider(this).get(QREmpListVM.class);
-        qrEmpListVM.init();
+
         edtSelectFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,28 +142,42 @@ public class FilterDialogFragment extends DialogFragment {
         txtBtnApplyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                filterDialogListener.onFilterDialogDismiss(frmDate, toDate, userId);
-                dismiss();
+
+                if (frmDate == null) {
+                    DynamicToast.makeWarning(getActivity(), "please select From Date").show();
+                } else if (toDate == null) {
+                    DynamicToast.makeWarning(getActivity(), "please select To Date").show();
+                } else if (userId.matches("0")) {
+                    DynamicToast.makeWarning(getActivity(), "please select an employee").show();
+                } else {
+                    filterDialogListener.onFilterDialogDismiss(frmDate, toDate, userId);
+                    dismiss();
+                }
+
+            }
+        });
+
+        qrEmpListVM.getmProgressLiveData().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                progressBar.setVisibility(integer);
             }
         });
 
         qrEmpListVM.getQREmpListLiveData().observe(getViewLifecycleOwner(), new Observer<List<QREmployeeDTO>>() {
             @Override
             public void onChanged(List<QREmployeeDTO> qrEmployeeDTOS) {
-                Log.e(TAG, "onChanged: " + qrEmployeeDTOS.toString());
+                Log.e(TAG, "onChanged: " + qrEmployeeDTOS.size());
+                mQrEmpList.add(new QREmployeeDTO("Please select an employee", "0"));
+                for (QREmployeeDTO qrEmployee : qrEmployeeDTOS) {
+                    mQrEmpList.add(qrEmployee);
+                }
+//                initList();
+                mAdapter = new QREmpListAdapter(getActivity(), mQrEmpList);
+                spnrSelectEmployee.setAdapter(mAdapter);
             }
-        });
-    }
 
-    private void initList() {
-        mQrEmpList = new ArrayList<>();
-        mQrEmpList.add(new QREmployeeDTO("Swapnil", "1"));
-        mQrEmpList.add(new QREmployeeDTO("Nikhil", "4"));
-        mQrEmpList.add(new QREmployeeDTO("Ankit", "8"));
-        mQrEmpList.add(new QREmployeeDTO("Abijit", "11"));
-        mQrEmpList.add(new QREmployeeDTO("Hrithik", "13"));
-        mQrEmpList.add(new QREmployeeDTO("Shahid", "15"));
-        mQrEmpList.add(new QREmployeeDTO("Salman", "17"));
+        });
 
     }
 

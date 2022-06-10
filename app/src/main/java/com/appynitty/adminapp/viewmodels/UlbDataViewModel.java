@@ -14,11 +14,14 @@ import com.appynitty.adminapp.models.FilterDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
 import com.appynitty.adminapp.repositories.EmployeeDetailsRepository;
 import com.appynitty.adminapp.repositories.UlbDataRepository;
+import com.appynitty.adminapp.utils.MainUtils;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
 public class UlbDataViewModel extends ViewModel {
     private static final String TAG = "UlbDataViewModel";
+    String appId = Prefs.getString(MainUtils.APP_ID);
     public UlbDataRepository ulbDataRepository = UlbDataRepository.getInstance();
     public EmployeeDetailsRepository employeeDetailsRepository = EmployeeDetailsRepository.getInstance();
     public MutableLiveData<SpecificUlbDTO> specificUlbMutableLiveData;
@@ -166,5 +169,24 @@ public class UlbDataViewModel extends ViewModel {
 
     public void setFilteredData(Bundle bundle) {
         Log.e(TAG, "getFilteredItem: FromDate: " + bundle.get("frmDate") + " toDate: " + bundle.get("toDate") + " UserId:" + bundle.get("userId"));
+        String frmDate = bundle.get("frmDate").toString();
+        String toDate = bundle.get("toDate").toString();
+        String userId = bundle.get("userId").toString();
+
+        employeeDetailsRepository.getFilteredEmpDetails(frmDate, toDate, appId, userId, new EmployeeDetailsRepository.IEmpDetailsListener() {
+            @Override
+            public void onResponse(MutableLiveData<List<EmployeeDetailsDTO>> empDetailsResponse) {
+                mProgressMutableData1.setValue(View.INVISIBLE);
+                Log.e(TAG, "onResponse: EmpDetails= " + empDetailsResponse.getValue().toString());
+                empDetailsListLiveData.setValue(empDetailsResponse.getValue());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                mProgressMutableData1.setValue(View.INVISIBLE);
+                Log.e(TAG, "onResponse: EmpDetails= " + t.getMessage());
+            }
+        });
+
     }
 }

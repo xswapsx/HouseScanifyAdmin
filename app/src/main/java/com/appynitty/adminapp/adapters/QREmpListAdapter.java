@@ -1,6 +1,7 @@
 package com.appynitty.adminapp.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,24 @@ public class QREmpListAdapter extends ArrayAdapter<QREmployeeDTO> {
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return initView(position, convertView, parent);
+        View view = initView(position, convertView, parent);
+        TextView tv = (TextView) view;
+        if (position == 0) {
+            // Set the hint text color gray
+            tv.setTextColor(Color.GRAY);
+        } else {
+            tv.setTextColor(Color.BLACK);
+        }
+        return view;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        if (position == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private View initView(int position, View convertView, ViewGroup parent) {
