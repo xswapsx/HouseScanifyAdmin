@@ -78,8 +78,10 @@ public class FilterDialogFragment extends DialogFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 QREmployeeDTO qrEmployee = (QREmployeeDTO) adapterView.getItemAtPosition(i);
                 String selectedEmp = qrEmployee.getEmployeeName();
+                userId = qrEmployee.getEmployeeID();
                 Toast.makeText(getActivity(), selectedEmp + " selected", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "onItemSelected: " + selectedEmp);
+
+                Log.e(TAG, "onItemSelected: " + userId);
             }
 
             @Override
