@@ -3,7 +3,7 @@ package com.appynitty.adminapp.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class EmpDModel {
+public class EmpDModelDTO {
 
     @SerializedName("qrEmpId")
     @Expose
@@ -78,7 +78,7 @@ public class EmpDModel {
     private String Password = null;
 
 
-    public EmpDModel(String qrEmpName, String qrEmpMobileNumber, String qrEmpAddress, boolean isActive) {
+    public EmpDModelDTO(String qrEmpName, String qrEmpMobileNumber, String qrEmpAddress, boolean isActive) {
         this.qrEmpName = qrEmpName;
         this.qrEmpMobileNumber = qrEmpMobileNumber;
         this.qrEmpAddress = qrEmpAddress;

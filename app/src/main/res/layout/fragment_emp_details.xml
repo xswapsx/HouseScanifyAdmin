@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<layout>
+    <data>
+        <variable
+            name="empDlist"
+            type="com.appynitty.adminapp.viewmodels.EmpDViewModel" />
+
+    </data>
+
+    <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -70,7 +78,7 @@
                             android:layout_toEndOf="@id/img_search"
                             android:background="@android:color/transparent"
                             android:gravity="center_vertical"
-                            android:hint="@string/str_search_name_or_id"
+                            android:hint="@string/str_hint_search_name"
                             android:imeOptions="actionSearch"
                             android:inputType="text"
                             android:singleLine="true"
@@ -190,3 +198,5 @@
     </ScrollView>
 
 </RelativeLayout>
+
+</layout>
