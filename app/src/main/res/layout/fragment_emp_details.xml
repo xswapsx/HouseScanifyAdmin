@@ -30,7 +30,7 @@
 
                 <androidx.cardview.widget.CardView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/card_dash_item"
+                    android:id="@+id/card_search_empD"
                     android:layout_width="0dp"
                     android:layout_weight="6"
                     android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                             android:src="@drawable/ic_search" />
 
                         <EditText
-                            android:id="@+id/edt_search_text"
+                            android:id="@+id/edt_search_empD"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -70,7 +70,7 @@
                             android:layout_toEndOf="@id/img_search"
                             android:background="@android:color/transparent"
                             android:gravity="center_vertical"
-                            android:hint="Search ULBs Name"
+                            android:hint="@string/str_search_name_or_id"
                             android:imeOptions="actionSearch"
                             android:inputType="text"
                             android:singleLine="true"
@@ -92,7 +92,7 @@
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/card_add_emp"
+                    android:id="@+id/card_add_empD"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
@@ -104,6 +104,7 @@
                     android:dividerHeight="2.0px"
                     android:outlineSpotShadowColor="@color/colorPrimaryDark"
                     android:outlineProvider="background"
+                    android:layout_gravity="center_vertical"
                     android:padding="@dimen/dim_10dp"
                     app:cardCornerRadius="@dimen/dim_25dp"
                     app:cardElevation="@dimen/dim_4dp">
@@ -112,19 +113,20 @@
                         android:id="@+id/rl_filter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/dim_10dp"
                         android:gravity="center"
-                        android:padding="@dimen/dim_10dp">
+                        android:paddingVertical="@dimen/dim_12dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/dim_4dp"
                             android:background="@android:color/transparent"
-                            android:gravity="center_vertical"
-                            android:padding="@dimen/dim_4dp"
+                            android:gravity="center_vertical|center"
+                            android:padding="@dimen/dim_2dp"
                             android:singleLine="true"
-                            android:text="Add Emp"
+                            android:textStyle="bold"
+                            android:text="Add EMP"
                             android:textAllCaps="true"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/txt_size_12sp" />
