@@ -30,6 +30,7 @@ import com.appynitty.adminapp.models.SpecificUlbDTO;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.utils.MyViewModelFactory;
 import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,7 @@ public class LiveDataFragment extends Fragment {
         appId = results.getString("val1");
         ulbName = results.getString("val2");
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
+        Prefs.putString("QR_APP_ID", results.getString("val1"));
         employeeDetailsList = new ArrayList<>();
         context = getActivity();
 //        filterDialog = new FilterDialogFragment();
@@ -126,14 +128,7 @@ public class LiveDataFragment extends Fragment {
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(getActivity(), "Clicked!", Toast.LENGTH_SHORT).show();
                 openDialog();
-                Bundle extras = new Bundle();
-                extras.putString("frmDate", "3098");
-                extras.putString("toDate", "07-06-2022");
-                extras.putString("userId", "02-06-2022");
-                /*filterDataViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(extras)).get(UlbDataViewModel.class);
-                filterBinding.setEmpList(filterDataViewModel);*/
             }
         });
 
@@ -168,6 +163,7 @@ public class LiveDataFragment extends Fragment {
                 filterExtras.putString("frmDate", frmDate);
                 filterExtras.putString("toDate", toDate);
                 filterExtras.putString("userId", userId);
+                filterExtras.putString("appId", appId);
                 ulbDataViewModel.setFilteredData(filterExtras);
             }
         });

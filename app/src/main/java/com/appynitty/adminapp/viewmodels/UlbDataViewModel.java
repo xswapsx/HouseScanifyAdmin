@@ -21,7 +21,7 @@ import java.util.List;
 
 public class UlbDataViewModel extends ViewModel {
     private static final String TAG = "UlbDataViewModel";
-    String appId = Prefs.getString(MainUtils.APP_ID);
+    String appId = Prefs.getString(MainUtils.APP_ID, null);
     public UlbDataRepository ulbDataRepository = UlbDataRepository.getInstance();
     public EmployeeDetailsRepository employeeDetailsRepository = EmployeeDetailsRepository.getInstance();
     public MutableLiveData<SpecificUlbDTO> specificUlbMutableLiveData;
@@ -168,12 +168,13 @@ public class UlbDataViewModel extends ViewModel {
     }
 
     public void setFilteredData(Bundle bundle) {
-        Log.e(TAG, "getFilteredItem: FromDate: " + bundle.get("frmDate") + " toDate: " + bundle.get("toDate") + " UserId:" + bundle.get("userId"));
+        Log.e(TAG, "getFilteredItem: FromDate: " + bundle.get("frmDate") + ", toDate: " + bundle.get("toDate")
+                + ", UserId:" + bundle.get("userId") + ", appId from bundle: " + bundle.get("appId") + ", appId from Prefs: " + appId);
         String frmDate = bundle.get("frmDate").toString();
         String toDate = bundle.get("toDate").toString();
         String userId = bundle.get("userId").toString();
 
-        employeeDetailsRepository.getFilteredEmpDetails(frmDate, toDate, appId, userId, new EmployeeDetailsRepository.IEmpDetailsListener() {
+        employeeDetailsRepository.getFilteredEmpDetails(frmDate, toDate, bundle.get("appId").toString(), userId, new EmployeeDetailsRepository.IEmpDetailsListener() {
             @Override
             public void onResponse(MutableLiveData<List<EmployeeDetailsDTO>> empDetailsResponse) {
                 mProgressMutableData1.setValue(View.INVISIBLE);

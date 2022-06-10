@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +25,9 @@ import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.adapters.QREmpListAdapter;
 import com.appynitty.adminapp.databinding.DialogFilterBinding;
 import com.appynitty.adminapp.models.QREmployeeDTO;
+import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.QREmpListVM;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.text.SimpleDateFormat;
@@ -37,12 +38,13 @@ import java.util.List;
 public class FilterDialogFragment extends DialogFragment {
     private static final String TAG = "FilterDialogFragment";
     private DialogFilterBinding binding;
+    String appId;
     private FilterDialog.FilterDialogInterface filterDialogListener;
     private EditText edtSelectToDate, edtSelectFromDate;
     private Spinner spnrSelectEmployee;
     private ProgressBar progressBar;
     private TextView txtBtnCancel, txtBtnApplyFilter;
-    private String frmDate, toDate, userId = "0";
+    private String frmDate, toDate, empType, userId = "0";
     final Calendar myCalendar = Calendar.getInstance();
     QREmpListVM qrEmpListVM;
     private ArrayList<QREmployeeDTO> mQrEmpList;
@@ -71,6 +73,7 @@ public class FilterDialogFragment extends DialogFragment {
         txtBtnApplyFilter = view.findViewById(R.id.txt_btn_app_filter);
         txtBtnCancel = view.findViewById(R.id.txt_btn_cancel);
         progressBar = view.findViewById(R.id.progress_filter);
+        empType = Prefs.getString(MainUtils.EMP_TYPE);
 
         spnrSelectEmployee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -147,8 +150,6 @@ public class FilterDialogFragment extends DialogFragment {
                     DynamicToast.makeWarning(getActivity(), "please select From Date").show();
                 } else if (toDate == null) {
                     DynamicToast.makeWarning(getActivity(), "please select To Date").show();
-                } else if (userId.matches("0")) {
-                    DynamicToast.makeWarning(getActivity(), "please select an employee").show();
                 } else {
                     filterDialogListener.onFilterDialogDismiss(frmDate, toDate, userId);
                     dismiss();
@@ -164,7 +165,7 @@ public class FilterDialogFragment extends DialogFragment {
             }
         });
 
-        qrEmpListVM.getQREmpListLiveData().observe(getViewLifecycleOwner(), new Observer<List<QREmployeeDTO>>() {
+        qrEmpListVM.getQREmpListLiveData().observe(this, new Observer<List<QREmployeeDTO>>() {
             @Override
             public void onChanged(List<QREmployeeDTO> qrEmployeeDTOS) {
                 Log.e(TAG, "onChanged: " + qrEmployeeDTOS.size());
@@ -178,6 +179,7 @@ public class FilterDialogFragment extends DialogFragment {
             }
 
         });
+
 
     }
 
@@ -206,7 +208,7 @@ public class FilterDialogFragment extends DialogFragment {
 
     public String getCurrentDate() {
 
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = format.format(myCalendar.getTime());
         return strDate;
     }

@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.appynitty.adminapp.models.QREmployeeDTO;
 import com.appynitty.adminapp.repositories.QREmpListRepo;
+import com.appynitty.adminapp.utils.MainUtils;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class QREmpListVM extends ViewModel {
     private static final String TAG = "QREmpListVM";
@@ -18,10 +19,13 @@ public class QREmpListVM extends ViewModel {
     public MutableLiveData<String> text = new MutableLiveData<>();
     public MutableLiveData<ArrayList<QREmployeeDTO>> QREmpListLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> mProgressLiveData = new MutableLiveData<>();
+    String appId = Prefs.getString(MainUtils.APP_ID);
+
 
     public QREmpListVM() {
+        Log.e(TAG, "QREmpListVM: appId" + Prefs.getString(MainUtils.APP_ID));
         mProgressLiveData.postValue(View.VISIBLE);
-        qrEmpListRepo.getQREmpsList(new QREmpListRepo.IQREmpListResponse() {
+        qrEmpListRepo.getQREmpsList(appId,new QREmpListRepo.IQREmpListResponse() {
 
             @Override
             public void onResponse(MutableLiveData<ArrayList<QREmployeeDTO>> qrEmpListLiveData) {

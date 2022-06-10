@@ -11,7 +11,6 @@ import com.appynitty.adminapp.webservices.QREmployeeListWebService;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,10 +28,11 @@ public class QREmpListRepo {
         return instance;
     }
 
-    public void getQREmpsList(IQREmpListResponse iqrEmpListResponse) {
+    public void getQREmpsList(String appId, IQREmpListResponse iqrEmpListResponse) {
 
         QREmployeeListWebService qrEmployeeListWebService = RetrofitClient.createService(QREmployeeListWebService.class, MainUtils.BASE_URL);
         Call<ArrayList<QREmployeeDTO>> qrEmployeeCall = qrEmployeeListWebService.getAllQREmployees(MainUtils.CONTENT_TYPE, empType, userId, appId);
+        Log.e(TAG, "getQREmpsList: " + appId);
         qrEmployeeCall.enqueue(new Callback<ArrayList<QREmployeeDTO>>() {
             @Override
             public void onResponse(Call<ArrayList<QREmployeeDTO>> call, Response<ArrayList<QREmployeeDTO>> response) {
