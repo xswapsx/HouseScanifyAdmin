@@ -23,14 +23,23 @@
             android:layout_marginVertical="@dimen/dim_10dp"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/ib_home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/dim_10dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:src="@drawable/ic_home"
+                app:tint="@color/white" />
+
             <TextView
                 android:id="@+id/txt_ulb_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:drawableStart="@drawable/ic_house"
-                android:drawablePadding="@dimen/dim_5dp"
-                android:gravity="start|center_vertical"
+                android:gravity="center_vertical"
                 android:padding="@dimen/dim_10dp"
                 android:text="ULB Name"
                 android:textAllCaps="true"

@@ -1,6 +1,7 @@
 package com.appynitty.adminapp.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.activities.DashboardActivity;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.EmployeeDetailsAdapter;
 import com.appynitty.adminapp.databinding.DialogFilterBinding;
@@ -39,7 +41,7 @@ import java.util.List;
 public class LiveDataFragment extends Fragment {
     private static final String TAG = "LiveDataFragment";
     private Context context;
-    private View view;
+    private View view, homeButton;
     private FragmentLiveDataBinding binding;
     private DialogFilterBinding filterBinding;
     private LinearLayoutManager layoutManager;
@@ -131,6 +133,9 @@ public class LiveDataFragment extends Fragment {
                 openDialog();
             }
         });
+
+        homeButton = getActivity().findViewById(R.id.ib_home);
+        homeButton.setOnClickListener(view -> startActivity(new Intent(getActivity(), DashboardActivity.class)));
 
     }
 
