@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +25,19 @@ import android.widget.TextView;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.AddEmpActivity;
+import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.EmpDetailsAdapter;
+import com.appynitty.adminapp.databinding.FragmentEmpDetailsBinding;
+import com.appynitty.adminapp.models.EmpDModelDTO;
+import com.appynitty.adminapp.utils.MyApplication;
+import com.appynitty.adminapp.viewmodels.EmpDViewModel;
+import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
+
+import java.util.List;
 
 
 public class EmpDetailsFragment extends Fragment {
+    private static final String TAG = "EmpDetailsFragment";
     private Context context;
     private View view;
     private LinearLayoutManager layoutManager;
@@ -38,18 +49,40 @@ public class EmpDetailsFragment extends Fragment {
     private EmpDetailsAdapter adapter;
     private CardView crdAddEmp;
 
+    //binding part
+    private FragmentEmpDetailsBinding empDetailsBinding;
+    HomeActivity activity;
+    MyApplication application;
+    private String appId, ulbName;
+    Bundle filterExtras;
+    List<EmpDModelDTO> empDModelList;
+    UlbDataViewModel ulbDataViewModel;
+    EmpDViewModel empDViewModel;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (view== null){
-            view =inflater.inflate(R.layout.fragment_emp_details, container, false);
+            empDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_emp_details, container, false);
+            //view =inflater.inflate(R.layout.fragment_emp_details, container, false);
+            view = empDetailsBinding.getRoot();
+            empDetailsBinding.setLifecycleOwner(this);
             init();
         }
         return view;
     }
 
     private void init(){
+        activity = (HomeActivity) getActivity();
+        Bundle results = activity.getUlbData();
+        appId = results.getString("val1");
+        ulbName = results.getString("val2");
+        Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
         context = getActivity();
+
+
+
         recyclerEmpDetails = view.findViewById(R.id.recycler_emp_details_frag);
         loader = view.findViewById(R.id.progress_circular);
         txtNoData = view.findViewById(R.id.txt_no_data);
@@ -67,62 +100,19 @@ public class EmpDetailsFragment extends Fragment {
     }
 
     private void setOnClick() {
-        edtSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-
-                if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        /* edtSearchText.addOnAttachStateChangeListener((View.OnAttachStateChangeListener) searchViewTextWatcher);*/
-
-        crdAddEmp.setOnClickListener(new View.OnClickListener() {
+        empDetailsBinding.cardAddEmpD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context.startActivity(new Intent(getContext(), AddEmpActivity.class));
             }
         });
-
-
     }
 
     private void setRecycler() {
-        loader.setVisibility(View.GONE);
-        txtNoData.setVisibility(View.GONE);
+        empDetailsBinding.progressCircular.setVisibility(View.GONE);
+        empDetailsBinding.txtNoData.setVisibility(View.GONE);
         adapter = new EmpDetailsAdapter(context);
-        recyclerEmpDetails.setLayoutManager(layoutManager);
-        recyclerEmpDetails.setAdapter(adapter);
-
+        empDetailsBinding.recyclerEmpDetailsFrag.setLayoutManager(layoutManager);
+        empDetailsBinding.recyclerEmpDetailsFrag.setAdapter(adapter);
     }
-
-    private void performSearch(){
-
-    }
-
-    TextWatcher searchViewTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if(charSequence.toString().trim().length()==0){
-                imgClear.setVisibility(View.GONE);
-            } else {
-                imgClear.setVisibility(View.VISIBLE);
-            }
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
 }

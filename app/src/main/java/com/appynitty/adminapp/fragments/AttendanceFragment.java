@@ -27,6 +27,8 @@ import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.AttendanceAdapter;
 import com.appynitty.adminapp.databinding.FragmentAttendanceBinding;
+import com.appynitty.adminapp.dialog.FilterDialog;
+import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.AttendanceDTO;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
@@ -54,7 +56,7 @@ public class AttendanceFragment extends Fragment {
     private EditText edtSearchText;
     private RecyclerView recyclerAttendance;
     private AttendanceAdapter adapter;
-
+    private FilterDialogFragment filterDialog;
     private AttendanceViewModel attendanceViewModel;
     UlbDataViewModel ulbDataViewModel;
     private FragmentAttendanceBinding attendanceBinding;
@@ -62,6 +64,7 @@ public class AttendanceFragment extends Fragment {
     MyApplication application;
     private String appId, ulbName;
     private List<AttendanceDTO> attendanceDTOList;
+    Bundle filterExtras;
 
 
     @Override
@@ -110,9 +113,10 @@ public class AttendanceFragment extends Fragment {
             @Override
             public void onChanged(List<AttendanceDTO> attendanceDTOS) {
                 Log.e(TAG, "onChanged: " + attendanceDTOS);
+
                 attendanceDTOList.clear();
 
-                if (attendanceDTOList != null ){
+                if (attendanceDTOList != null && attendanceDTOList.isEmpty()){
                     attendanceBinding.recyclerAttendance.setVisibility(View.VISIBLE);
                     attendanceBinding.progressCircular.setVisibility(View.GONE);
                     attendanceBinding.txtNoData.setVisibility(View.GONE);
@@ -159,6 +163,21 @@ public class AttendanceFragment extends Fragment {
             }
         });
 
+        setOnClick();
+
+    }
+
+    private void setOnClick() {
+        attendanceBinding.cardFilterAt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+                Bundle extras = new Bundle();
+                extras.putString("frmDate", "3098");
+                extras.putString("toDate", "07-06-2022");
+                extras.putString("userId", "02-06-2022");
+            }
+        });
     }
 
     private void setDate() {
@@ -185,5 +204,25 @@ public class AttendanceFragment extends Fragment {
             }
         }
         adapter.filterList(filteredList);
+    }
+
+    private void openDialog() {
+        filterDialog = new FilterDialogFragment();
+
+        filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
+            @Override
+            public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
+                Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
+                filterExtras = new Bundle();
+                filterExtras.putString("frmDate", frmDate);
+                filterExtras.putString("toDate", toDate);
+                filterExtras.putString("userId", userId);
+                ulbDataViewModel.setFilteredData(filterExtras);
+
+
+            }
+        });
+
+        filterDialog.show(getChildFragmentManager(), TAG);
     }
 }

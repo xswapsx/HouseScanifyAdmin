@@ -1,6 +1,7 @@
 package com.appynitty.adminapp.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.ItemAttendanceFragListBinding;
 import com.appynitty.adminapp.models.AttendanceDTO;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
+import com.appynitty.adminapp.utils.MainUtils;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
@@ -72,6 +75,8 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         public MyViewHolder(@NonNull ItemAttendanceFragListBinding attendanceFragListBinding) {
             super(attendanceFragListBinding.getRoot());
             this.attendanceFragListBinding = attendanceFragListBinding;
+            Prefs.putString(MainUtils.EMP_ID, String.valueOf(attendanceDTOList.get(getAdapterPosition()).getQrEmpId()));
+            Log.e(TAG, "QrEmpID: " + attendanceDTOList.get(getAdapterPosition()).getQrEmpId());
         }
     }
 }

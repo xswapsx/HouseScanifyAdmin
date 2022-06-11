@@ -22,10 +22,12 @@ public class MainUtils {
     public static final String EMP_TYPE = "EmpType";
     public static final String USER_ID = "userId";
     public static final String APP_ID = "appId";
+    public static final String EMP_ID = "qrEmpId";
     public static final String IS_LOGIN = "IsLoggedIn";
 
     private static final String EMP_SERVER_DATE_FORMATE = "dd-MM-yyyy";
     private static final String EMP_DATE_FORMAT = "dd/MM/yyyy";
+    private static final String EMP_DATE_FORMAT_DASH = "dd-MM-yyyy";
 
     private static final String TITLE_DATE_FORMATE = "dd MMM yyyy";
 
@@ -60,6 +62,15 @@ public class MainUtils {
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
         SimpleDateFormat df = new SimpleDateFormat(MainUtils.EMP_DATE_FORMAT, Locale.getDefault());
+        String formattedDate = df.format(c);
+
+        return formattedDate;
+    }
+
+    public static String getDateDash() {
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+        SimpleDateFormat df = new SimpleDateFormat(MainUtils.EMP_DATE_FORMAT_DASH, Locale.getDefault());
         String formattedDate = df.format(c);
 
         return formattedDate;
