@@ -75,8 +75,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         public MyViewHolder(@NonNull ItemAttendanceFragListBinding attendanceFragListBinding) {
             super(attendanceFragListBinding.getRoot());
             this.attendanceFragListBinding = attendanceFragListBinding;
-            Prefs.putString(MainUtils.EMP_ID, String.valueOf(attendanceDTOList.get(getAdapterPosition()).getQrEmpId()));
-            Log.e(TAG, "QrEmpID: " + attendanceDTOList.get(getAdapterPosition()).getQrEmpId());
+
         }
     }
 }

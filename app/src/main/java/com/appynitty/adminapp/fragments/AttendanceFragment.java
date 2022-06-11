@@ -173,9 +173,9 @@ public class AttendanceFragment extends Fragment {
             public void onClick(View view) {
                 openDialog();
                 Bundle extras = new Bundle();
-                extras.putString("frmDate", "3098");
+                extras.putString("frmDate", "07-06-2022");
                 extras.putString("toDate", "07-06-2022");
-                extras.putString("userId", "02-06-2022");
+                extras.putString("userId", "3098");
             }
         });
     }

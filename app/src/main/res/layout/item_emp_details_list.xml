@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="empDItem"
+            type="com.appynitty.adminapp.models.EmpDModelDTO" />
+        <variable
+            name="isActive"
+            type="Boolean" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -31,7 +45,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="6"
                 android:layout_height="wrap_content"
-                android:text="Rahul Rokade"
+                android:text="@{empDItem.qrEmpName}"
                 android:textSize="@dimen/txt_size_14sp"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
@@ -77,7 +91,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:layout_height="wrap_content"
-                android:text="8999539845"
+                android:text="@{empDItem.qrEmpMobileNumber}"
                 android:layout_marginEnd="@dimen/dim_5dp"
                 android:textSize="@dimen/txt_size_14sp"
                 android:layout_gravity="center_vertical"
@@ -111,7 +125,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:layout_height="wrap_content"
-                android:text="Nagpur"
+                android:text="@{empDItem.qrEmpAddress}"
                 android:layout_marginEnd="@dimen/dim_5dp"
                 android:textSize="@dimen/txt_size_14sp"
                 android:layout_gravity="center_vertical"
@@ -145,7 +159,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="5"
                 android:layout_height="wrap_content"
-                android:text="Active"
+                android:text="@{empDItem.active ?  @string/str_active : @string/str_inactive }"
                 android:textSize="@dimen/txt_size_14sp"
                 android:layout_marginEnd="@dimen/dim_5dp"
                 android:layout_gravity="center_vertical"
@@ -159,3 +173,5 @@
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
+
+</layout>
