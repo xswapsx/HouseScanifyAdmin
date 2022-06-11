@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -180,14 +181,18 @@ public class FilterDialogFragment extends DialogFragment {
 
         });
 
-
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.dialog_filter, container);
+        view = inflater.inflate(R.layout.dialog_filter, container, false);
+        // Set transparent background and no title
+        if (getDialog() != null && getDialog().getWindow() != null) {
+            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.dialog_rounded_bg);
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
         init(view);
         return view;
     }

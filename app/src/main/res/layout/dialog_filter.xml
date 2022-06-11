@@ -6,7 +6,7 @@
     style="@style/DialogAnimation"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorDialogBg"
+    android:background="@drawable/dialog_rounded_bg"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:divider="@color/colorPrimaryDark"
@@ -16,7 +16,7 @@
     android:padding="@dimen/dim_10dp"
     app:cardElevation="@dimen/dim_5dp"
     project:cardCornerRadius="20dp">
-
+    <!--android:background="@color/colorDialogBg"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
