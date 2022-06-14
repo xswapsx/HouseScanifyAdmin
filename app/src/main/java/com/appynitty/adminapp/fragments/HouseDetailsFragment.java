@@ -13,7 +13,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -31,6 +30,7 @@ import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.HouseDetailsImageVM;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,14 +38,15 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
     private static final String TAG = "HouseDetailsFragment";
     private Context context;
     private View view, homeButton;
+    private int itemListCount = 0;
     private RadioGroup rdGroup;
     private RadioButton rdHouse, rdDumpYard, rdLiquid, rdStreet;
-
+    private List<HouseDetailsImageDTO> imageDataList;
     private RecyclerView recyclerHouseImage;
     private LinearLayoutManager layoutManager;
     private HouseDetailsAdapter houseDetailsAdapter;
     private ProgressBar loader;
-    private TextView txtNoData;
+    private TextView txtNoData, tvCount, tvBottomEntryCount;
     private Bundle filterExtras;
     private CardView crdFilter;
     private FilterDialogFragment filterDialog;
@@ -57,32 +58,84 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (view == null) {
-            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_house_details, container, false);
+            /*binding = DataBindingUtil.inflate(inflater, R.layout.fragment_house_details, container, false);
             view = binding.getRoot();
-            binding.setLifecycleOwner(this);
+            binding.setLifecycleOwner(this);*/
+            view = inflater.inflate(R.layout.fragment_house_details, container, false);
             init();
         }
         return view;
     }
 
+
     private void init() {
         context = getActivity();
+        rdGroup = view.findViewById(R.id.rd_group);
         rdHouse = view.findViewById(R.id.rdHouse);
         rdDumpYard = view.findViewById(R.id.rdDumpyard);
         rdLiquid = view.findViewById(R.id.rdLiquid);
         rdStreet = view.findViewById(R.id.rdStreet);
-
+        imageDataList = new ArrayList<>();
         crdFilter = view.findViewById(R.id.card_filter);
-
         homeButton = getActivity().findViewById(R.id.ib_home);
         recyclerHouseImage = view.findViewById(R.id.recycler_House_image);
         loader = view.findViewById(R.id.progress_circular);
         loader.setVisibility(View.GONE);
         txtNoData = view.findViewById(R.id.txt_no_data);
+        tvCount = view.findViewById(R.id.tvItementries);
+        tvBottomEntryCount = view.findViewById(R.id.txt_entries_bottom1);
         txtNoData.setVisibility(View.GONE);
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         houseDetailsImageVM = ViewModelProviders.of(this).get(HouseDetailsImageVM.class);
-        binding.setImagesVM(houseDetailsImageVM);
+//        binding.setImagesVM(houseDetailsImageVM);
+
+        rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rdHouse:
+                        if (rdHouse.isChecked())
+                            Log.e(TAG, "onRadioBtnClicked: checked rdHouse");
+                        houseDetailsImageVM.callHouseApi();
+                        /*houseDetailsImageVM.getHouseQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
+
+                            int imgCount = 0;
+
+                            @Override
+                            public void onChanged(List<HouseDetailsImageDTO> houseDetailsImageDTOS) {
+                                Log.e(TAG, "HosueImageDetails Size: " + houseDetailsImageDTOS.size());
+                                for (HouseDetailsImageDTO house : houseDetailsImageDTOS
+                                ) {
+                                    if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                                        imgCount += 1;
+                                        imageDataList.add(house);
+                                    }
+                                }
+                                itemListCount = imageDataList.size();
+                                Log.e(TAG, "ImgCount: " + imageDataList.size());
+                                setOnRecycler(imageDataList);
+
+                            }
+                        });*/
+                        break;
+                    case R.id.rdDumpyard:
+                        if (rdDumpYard.isChecked())
+                            Log.e(TAG, "onRadioBtnClicked: checked rdDumpyard");
+                        houseDetailsImageVM.callDumpYardApi();
+                        break;
+                    case R.id.rdLiquid:
+                        if (rdLiquid.isChecked())
+                            Log.e(TAG, "onRadioBtnClicked: checked rdLiquid");
+                        houseDetailsImageVM.callLiquidWasteApi();
+                        break;
+                    case R.id.rdStreet:
+                        if (rdStreet.isChecked())
+                            Log.e(TAG, "onRadioBtnClicked: checked rdStreet");
+                        houseDetailsImageVM.callStreetWasteApi();
+                        break;
+                }
+            }
+        });
 
         houseDetailsImageVM.getHouseQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
 
@@ -93,16 +146,50 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
                 Log.e(TAG, "HosueImageDetails Size: " + houseDetailsImageDTOS.size());
                 for (HouseDetailsImageDTO house : houseDetailsImageDTOS
                 ) {
-                    if (!house.getqRCodeImage().matches("/Images/default_not_upload.png"))
+                    if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
                         imgCount += 1;
-
+                        imageDataList.add(house);
+                    }
                 }
-                Log.e(TAG, "ImgCount: " + imgCount);
+                itemListCount = imageDataList.size();
+                Log.e(TAG, "ImgCount: " + imageDataList.size());
+                setOnRecycler(imageDataList);
+
             }
         });
-        setOnClick();
-        setOnRecycler();
 
+        houseDetailsImageVM.getDumpyQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
+            @Override
+            public void onChanged(List<HouseDetailsImageDTO> houseDetailsImageDTOS) {
+                for (HouseDetailsImageDTO dumpYard :
+                        houseDetailsImageDTOS) {
+                    Log.e(TAG, "onChanged: DumpYardId: " + dumpYard.getReferanceId());
+                }
+//                Log.e(TAG, "onChanged: DumpYardId: " + houseDetailsImageDTOS.get(0).getReferanceId());
+            }
+        });
+
+        houseDetailsImageVM.getProgress().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                loader.setVisibility(integer);
+            }
+        });
+
+        houseDetailsImageVM.getImageCount().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer imgCount) {
+                tvCount.setText(getResources().getString(R.string.imageCount, imgCount));
+                tvBottomEntryCount.setText(getResources().getString(R.string.imageCount, imgCount));
+            }
+        });
+
+        setOnClick();
+
+    }
+
+    public void onRadioBtnClicked(View v) {
+        boolean checked = ((RadioButton) v).isChecked();
 
     }
 
@@ -137,10 +224,11 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
         filterDialog.show(getChildFragmentManager(), TAG);
     }
 
-    private void setOnRecycler() {
+    private void setOnRecycler(List<HouseDetailsImageDTO> imageDataList) {
         txtNoData.setVisibility(View.GONE);
+//        tvCount.setText(itemListCount);
         loader.setVisibility(View.GONE);
-        houseDetailsAdapter = new HouseDetailsAdapter(context);
+        houseDetailsAdapter = new HouseDetailsAdapter(context, imageDataList);
         recyclerHouseImage.setLayoutManager(layoutManager);
         recyclerHouseImage.setAdapter(houseDetailsAdapter);
     }

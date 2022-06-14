@@ -67,6 +67,7 @@ public class FilterDialogFragment extends DialogFragment {
     }
 
     private void init(View view) {
+
         mQrEmpList = new ArrayList<>();
         edtSelectFromDate = view.findViewById(R.id.edt_from_date);
         edtSelectToDate = view.findViewById(R.id.edt_to_date);

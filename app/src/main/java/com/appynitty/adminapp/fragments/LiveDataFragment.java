@@ -76,7 +76,8 @@ public class LiveDataFragment extends Fragment {
         Bundle results = activity.getUlbData();
         appId = results.getString("val1");
         ulbName = results.getString("val2");
-        Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
+        Log.e(TAG, "AppID from bundle: " + appId + " ULB: " + ulbName);
+        Log.e(TAG, "AppID from Prefs: " + Prefs.getString(MainUtils.APP_ID, null) + " ULB: " + ulbName);
         Prefs.putString("QR_APP_ID", results.getString("val1"));
         employeeDetailsList = new ArrayList<>();
         context = getActivity();
@@ -168,7 +169,7 @@ public class LiveDataFragment extends Fragment {
                 filterExtras.putString("frmDate", frmDate);
                 filterExtras.putString("toDate", toDate);
                 filterExtras.putString("userId", userId);
-                filterExtras.putString("appId", appId);
+                filterExtras.putString("appId", Prefs.getString(MainUtils.APP_ID, null));
                 ulbDataViewModel.setFilteredData(filterExtras);
             }
         });
