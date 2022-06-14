@@ -30,7 +30,8 @@ public class EmpDRepository {
         Log.e(TAG, "getEmpDList: ");
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
         String userId = Prefs.getString(MainUtils.USER_ID);
-        String empId = Prefs.getString(MainUtils.EMP_ID);
+        /*String empId = Prefs.getString(MainUtils.EMP_ID);*/
+        String empId = "0";
 
         EmpDWebService empDWebService = RetrofitClient.createService(EmpDWebService.class, MainUtils.BASE_URL);
         Call<List<EmpDModelDTO>> empDDTOCall = empDWebService.getEmpDList(MainUtils.CONTENT_TYPE,

@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout >
+
+<data>
+    <variable
+        name="addAndUpdateEmpDetails"
+        type="com.appynitty.adminapp.viewmodels.AddEmpViewModel" />
+</data>
+
 <RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorScreenBg"
     tools:context=".activities.AddEmpActivity">
 
-    <include layout="@layout/custom_toolbar"/>
+    <include layout="@layout/custom_toolbar"
+        android:id="@+id/rl_custom_toolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/custom_toolbar"
+        android:layout_below="@+id/rl_custom_toolbar"
         android:orientation="vertical"
         android:layout_margin="@dimen/dim_10dp">
 
@@ -21,18 +30,17 @@
             android:id="@+id/txt_btn_save"
             android:layout_width="160dp"
             android:layout_height="45dp"
-            android:gravity="center|center_vertical"
-            android:layout_gravity="center"
-            android:text="Save"
-            android:elevation="@dimen/dim_5dp"
-            android:shadowColor="@color/colorPrimary"
-            android:layout_marginVertical="@dimen/dim_15dp"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/txt_size_16sp"
-            android:background="@drawable/solid_rounded_blue_btn"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginVertical="@dimen/dim_15dp"
+            android:background="@drawable/solid_rounded_blue_btn"
+            android:elevation="@dimen/dim_5dp"
+            android:gravity="center|center_vertical"
+            android:shadowColor="@color/colorPrimary"
+            android:text="Save"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/txt_size_16sp" />
 
         <ScrollView
             android:id="@+id/scroll"
@@ -293,6 +301,7 @@
                     android:layout_marginStart="@dimen/dim_40_dp">
 
                     <CheckBox
+                        android:id="@+id/cb_clear_login"
                         android:layout_width="0dp"
                         android:layout_weight="5"
                         android:text="@string/str_chkbox_clear_login"
@@ -306,6 +315,7 @@
                         android:layout_marginStart="@dimen/dim_10dp"
                         android:layout_height="wrap_content"/>
                     <CheckBox
+                        android:id="@+id/cb_isActive"
                         android:layout_width="0dp"
                         android:layout_weight="5"
                         android:buttonTint="@color/colorPrimaryDark"
@@ -327,3 +337,5 @@
     </RelativeLayout>
 
 </RelativeLayout>
+
+</layout>

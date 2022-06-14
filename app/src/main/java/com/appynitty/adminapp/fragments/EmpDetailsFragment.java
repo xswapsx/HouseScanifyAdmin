@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,11 +30,14 @@ import com.appynitty.adminapp.activities.AddEmpActivity;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.EmpDetailsAdapter;
 import com.appynitty.adminapp.databinding.FragmentEmpDetailsBinding;
+import com.appynitty.adminapp.models.AttendanceDTO;
 import com.appynitty.adminapp.models.EmpDModelDTO;
 import com.appynitty.adminapp.utils.MyApplication;
+import com.appynitty.adminapp.utils.MyViewModelFactory;
 import com.appynitty.adminapp.viewmodels.EmpDViewModel;
 import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -81,8 +86,7 @@ public class EmpDetailsFragment extends Fragment {
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
         context = getActivity();
 
-
-
+        empDModelList = new ArrayList<>();
         recyclerEmpDetails = view.findViewById(R.id.recycler_emp_details_frag);
         loader = view.findViewById(R.id.progress_circular);
         txtNoData = view.findViewById(R.id.txt_no_data);
@@ -95,8 +99,58 @@ public class EmpDetailsFragment extends Fragment {
         imgClear.setVisibility(View.GONE);
         loader.setVisibility(View.VISIBLE);
 
-        setRecycler();
+        empDViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(appId)).get(EmpDViewModel.class);
+        empDetailsBinding.setEmpDlist(empDViewModel);
+
+        callApi();
+
+
+        empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
+
         setOnClick();
+    }
+
+    private void callApi() {
+        empDViewModel.getEmpDResponseLiveData().observe(activity, new Observer<List<EmpDModelDTO>>() {
+            @Override
+            public void onChanged(List<EmpDModelDTO> empDModelDTOS) {
+                Log.e(TAG, "onChanged: " + empDModelDTOS);
+                empDModelList.clear();
+
+                if (empDModelList != null && empDModelList.isEmpty()){
+                    empDetailsBinding.recyclerEmpDetailsFrag.setVisibility(View.VISIBLE);
+                    empDetailsBinding.progressCircular.setVisibility(View.GONE);
+                    empDetailsBinding.txtNoData.setVisibility(View.GONE);
+
+                    for (EmpDModelDTO empD : empDModelDTOS){
+                        empDModelList.add(new EmpDModelDTO(empD.getQrEmpName(), empD.getQrEmpMobileNumber(),
+                                empD.getQrEmpAddress(), empD.isActive()));
+                    }
+                    setRecycler(empDModelList);
+                }
+                else {
+                    empDetailsBinding.recyclerEmpDetailsFrag.setVisibility(View.GONE);
+                    empDetailsBinding.progressCircular.setVisibility(View.GONE);
+                    empDetailsBinding.txtNoData.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
     }
 
     private void setOnClick() {
@@ -108,11 +162,23 @@ public class EmpDetailsFragment extends Fragment {
         });
     }
 
-    private void setRecycler() {
+    private void setRecycler(List<EmpDModelDTO> empDModelList) {
         empDetailsBinding.progressCircular.setVisibility(View.GONE);
         empDetailsBinding.txtNoData.setVisibility(View.GONE);
-        adapter = new EmpDetailsAdapter(context);
+        adapter = new EmpDetailsAdapter(context,empDModelList);
         empDetailsBinding.recyclerEmpDetailsFrag.setLayoutManager(layoutManager);
         empDetailsBinding.recyclerEmpDetailsFrag.setAdapter(adapter);
+    }
+
+
+    private void filter(String text) {
+        List<EmpDModelDTO> searchedList = new ArrayList<>();
+
+        for (EmpDModelDTO item : empDModelList) {
+            if (item.getQrEmpName().toLowerCase().contains(text.toLowerCase()) || item.getQrEmpMobileNumber().toLowerCase().contains(text.toLowerCase())) {
+                searchedList.add(item);
+            }
+        }
+        adapter.searchListAdapter(searchedList);
     }
 }
