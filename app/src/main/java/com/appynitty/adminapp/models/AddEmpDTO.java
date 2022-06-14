@@ -12,14 +12,15 @@ public class AddEmpDTO {
     private String isActive;
 
 
-    public AddEmpDTO(String qrEmpName, String qrEmpMobileNumber, String qrEmpAddress, String qrEmpLoginId, String qrEmpPassword, String imoNo, String isActive) {
+    public AddEmpDTO(String qrEmpId, String qrEmpName, String qrEmpMobileNumber, String qrEmpAddress, String qrEmpLoginId, String qrEmpPassword, String imoNo, boolean isActive) {
+        this.qrEmpId = qrEmpId;
         this.qrEmpName = qrEmpName;
         this.qrEmpMobileNumber = qrEmpMobileNumber;
         this.qrEmpAddress = qrEmpAddress;
         this.qrEmpLoginId = qrEmpLoginId;
         this.qrEmpPassword = qrEmpPassword;
         this.imoNo = imoNo;
-        this.isActive = isActive;
+        this.isActive = String.valueOf(isActive);
     }
 
     public AddEmpDTO(){
@@ -88,6 +89,19 @@ public class AddEmpDTO {
 
     public void setIsActive(String isActive) {
         this.isActive = isActive;
+    }
+
+
+    public boolean isEmpUsernameValid() {
+        return getQrEmpLoginId().length() > 4;
+    }
+    public boolean isEmpMobileValid() {
+        return getQrEmpMobileNumber().length() < 10;
+    }
+
+
+    public boolean isEmpPassValid() {
+        return getQrEmpPassword().length() > 4;
     }
 
     @Override

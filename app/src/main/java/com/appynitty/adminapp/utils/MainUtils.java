@@ -1,5 +1,8 @@
 package com.appynitty.adminapp.utils;
 
+import android.content.Context;
+import android.provider.Settings;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,12 +13,13 @@ public class MainUtils {
 
     //Staging Server
 //    public static final String BASE_URL = "http://183.177.126.33:6560";
+//    public static final String BASE_URL = "http://202.65.157.254:5049/";
     public static final String BASE_URL = "http://202.65.157.254:6560";  //Temp url
 
     //Live Server
 //    public static final String BASE_URL = "https://ictsbm.com:30443";
 
-
+    public static Context context;
     public static final String CONTENT_TYPE = "application/json";
     public static final String EMP_TYPE_ADMIN = "A";
 
@@ -58,6 +62,7 @@ public class MainUtils {
     }
 
 
+
     public static String getDate() {
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
@@ -66,6 +71,8 @@ public class MainUtils {
 
         return formattedDate;
     }
+
+
 
     public static String getDateDash() {
         Date c = Calendar.getInstance().getTime();
