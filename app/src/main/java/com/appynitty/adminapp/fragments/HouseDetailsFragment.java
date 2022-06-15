@@ -34,12 +34,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HouseDetailsFragment extends Fragment implements FilterDialog.FilterDialogInterface {
+public class HouseDetailsFragment extends Fragment {
     private static final String TAG = "HouseDetailsFragment";
     private Context context;
     private View view, homeButton;
-    private int itemListCount = 0;
     private RadioGroup rdGroup;
+    private String filterType = "HW";
     private RadioButton rdHouse, rdDumpYard, rdLiquid, rdStreet;
     private List<HouseDetailsImageDTO> imageDataList;
     private RecyclerView recyclerHouseImage;
@@ -96,6 +96,7 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
                     case R.id.rdHouse:
                         if (rdHouse.isChecked())
                             Log.e(TAG, "onRadioBtnClicked: checked rdHouse");
+                        filterType = "HW";
                         houseDetailsImageVM.callHouseApi();
                         /*houseDetailsImageVM.getHouseQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
 
@@ -121,16 +122,19 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
                     case R.id.rdDumpyard:
                         if (rdDumpYard.isChecked())
                             Log.e(TAG, "onRadioBtnClicked: checked rdDumpyard");
+                        filterType = "DY";
                         houseDetailsImageVM.callDumpYardApi();
                         break;
                     case R.id.rdLiquid:
                         if (rdLiquid.isChecked())
                             Log.e(TAG, "onRadioBtnClicked: checked rdLiquid");
+                        filterType = "LW";
                         houseDetailsImageVM.callLiquidWasteApi();
                         break;
                     case R.id.rdStreet:
                         if (rdStreet.isChecked())
                             Log.e(TAG, "onRadioBtnClicked: checked rdStreet");
+                        filterType = "SW";
                         houseDetailsImageVM.callStreetWasteApi();
                         break;
                 }
@@ -139,33 +143,58 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
 
         houseDetailsImageVM.getHouseQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
 
-            int imgCount = 0;
-
             @Override
             public void onChanged(List<HouseDetailsImageDTO> houseDetailsImageDTOS) {
+                imageDataList.clear();
                 Log.e(TAG, "HosueImageDetails Size: " + houseDetailsImageDTOS.size());
                 for (HouseDetailsImageDTO house : houseDetailsImageDTOS
                 ) {
-                    if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
-                        imgCount += 1;
-                        imageDataList.add(house);
-                    }
+                    imageDataList.add(house);
                 }
-                itemListCount = imageDataList.size();
-                Log.e(TAG, "ImgCount: " + imageDataList.size());
                 setOnRecycler(imageDataList);
-
             }
         });
 
         houseDetailsImageVM.getDumpyQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
+            int size = 0;
+
             @Override
-            public void onChanged(List<HouseDetailsImageDTO> houseDetailsImageDTOS) {
+            public void onChanged(List<HouseDetailsImageDTO> dumpYardWasteList) {
                 for (HouseDetailsImageDTO dumpYard :
-                        houseDetailsImageDTOS) {
+                        dumpYardWasteList) {
+                    imageDataList.add(dumpYard);
                     Log.e(TAG, "onChanged: DumpYardId: " + dumpYard.getReferanceId());
                 }
-//                Log.e(TAG, "onChanged: DumpYardId: " + houseDetailsImageDTOS.get(0).getReferanceId());
+                houseDetailsAdapter.dumpYardList(imageDataList);
+                Log.e(TAG, "onChanged: DumpYardId: Size---" + dumpYardWasteList.size());
+            }
+        });
+
+        houseDetailsImageVM.getLiquidQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
+            @Override
+            public void onChanged(List<HouseDetailsImageDTO> liquidWasteList) {
+                for (HouseDetailsImageDTO liquidWaste :
+                        liquidWasteList) {
+                    imageDataList.add(liquidWaste);
+                    Log.e(TAG, "onChanged: liquidId: " + liquidWaste.getReferanceId());
+                }
+                houseDetailsAdapter.getLiquidList(imageDataList);
+
+                Log.e(TAG, "onChanged: LiquidWasteList: Size---" + liquidWasteList.size());
+            }
+        });
+
+        houseDetailsImageVM.getStreetQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
+            @Override
+            public void onChanged(List<HouseDetailsImageDTO> streetWasteList) {
+                for (HouseDetailsImageDTO streetWaste :
+                        streetWasteList) {
+                    imageDataList.add(streetWaste);
+                    Log.e(TAG, "onChanged: streetId: " + streetWaste.getReferanceId());
+                }
+                houseDetailsAdapter.getLiquidList(imageDataList);
+
+                Log.e(TAG, "onChanged: streetWasteList: Size---" + streetWasteList.size());
             }
         });
 
@@ -188,11 +217,6 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
 
     }
 
-    public void onRadioBtnClicked(View v) {
-        boolean checked = ((RadioButton) v).isChecked();
-
-    }
-
     private void setOnClick() {
         crdFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,18 +230,19 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
 
     private void openDialog() {
 
-        filterDialog = new FilterDialogFragment();
+        filterDialog = new FilterDialogFragment("houseDetails");
 
         filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
             @Override
             public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
-                Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
+                Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " userId: " + userId);
                 filterExtras = new Bundle();
                 filterExtras.putString("frmDate", frmDate);
-                filterExtras.putString("toDate", toDate);
+                filterExtras.putString("toDate", frmDate);
                 filterExtras.putString("userId", userId);
+                filterExtras.putString("filterType", filterType);
                 filterExtras.putString("appId", Prefs.getString(MainUtils.APP_ID));
-//                ulbDataViewModel.setFilteredData(filterExtras);
+                houseDetailsImageVM.setFilterData(filterExtras);
             }
         });
 
@@ -229,12 +254,9 @@ public class HouseDetailsFragment extends Fragment implements FilterDialog.Filte
 //        tvCount.setText(itemListCount);
         loader.setVisibility(View.GONE);
         houseDetailsAdapter = new HouseDetailsAdapter(context, imageDataList);
+        houseDetailsAdapter.notifyDataSetChanged();
         recyclerHouseImage.setLayoutManager(layoutManager);
         recyclerHouseImage.setAdapter(houseDetailsAdapter);
     }
 
-    @Override
-    public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
-        Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate);
-    }
 }

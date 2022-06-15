@@ -1,5 +1,6 @@
 package com.appynitty.adminapp.viewmodels;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
@@ -55,6 +56,7 @@ public class HouseDetailsImageVM extends ViewModel {
         houseDetailsImageRepo.getHouseQrImageData(new HouseDetailsImageRepo.IQrImageResponse() {
             @Override
             public void onResponse(MutableLiveData<List<HouseDetailsImageDTO>> QrImageLiveData) {
+                Log.e(TAG, "onResponse: houselist size: " + QrImageLiveData.getValue().size());
                 mProgressLiveData.postValue(View.INVISIBLE);
                 houseQrImagesLiveData.setValue(QrImageLiveData.getValue());
                 for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
@@ -64,7 +66,8 @@ public class HouseDetailsImageVM extends ViewModel {
 
                     }
                 }
-                imageCountLiveData.setValue(sImgCount);
+//                imageCountLiveData.setValue(sImgCount);
+                imageCountLiveData.setValue(QrImageLiveData.getValue().size());
                 Log.e(TAG, "onResponse: ImageCount " + sImgCount);
             }
 
@@ -84,6 +87,7 @@ public class HouseDetailsImageVM extends ViewModel {
                 mProgressLiveData.postValue(View.INVISIBLE);
                 if (QrImageLiveData.getValue().size() == 0) {
                     imageCountLiveData.setValue(0);
+                    dumpyQrImagesLiveData.setValue(QrImageLiveData.getValue());
                 } else {
                     dumpyQrImagesLiveData.setValue(QrImageLiveData.getValue());
                     for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
@@ -98,7 +102,6 @@ public class HouseDetailsImageVM extends ViewModel {
                     imageCountLiveData.setValue(sImgCount);
                     Log.e(TAG, "onResponse: ImageCount " + sImgCount);
                 }
-
 
             }
 
@@ -116,18 +119,24 @@ public class HouseDetailsImageVM extends ViewModel {
             @Override
             public void onResponse(MutableLiveData<List<HouseDetailsImageDTO>> QrImageLiveData) {
                 mProgressLiveData.postValue(View.INVISIBLE);
-                liquidQrImagesLiveData.setValue(QrImageLiveData.getValue());
-                for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
-                ) {
-                    if (house.getqRCodeImage() != null) {
-                        if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
-                            sImgCount += 1;
+                if (QrImageLiveData.getValue().size() == 0) {
+                    imageCountLiveData.setValue(0);
+                    liquidQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                } else {
+                    liquidQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                    for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
+                    ) {
+                        if (house.getqRCodeImage() != null) {
+                            if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                                sImgCount += 1;
 
+                            }
                         }
                     }
+                    imageCountLiveData.setValue(sImgCount);
+                    Log.e(TAG, "onResponse: ImageCount " + sImgCount);
                 }
-                imageCountLiveData.setValue(sImgCount);
-                Log.e(TAG, "onResponse: ImageCount " + sImgCount);
+
             }
 
             @Override
@@ -144,16 +153,22 @@ public class HouseDetailsImageVM extends ViewModel {
             @Override
             public void onResponse(MutableLiveData<List<HouseDetailsImageDTO>> QrImageLiveData) {
                 mProgressLiveData.postValue(View.INVISIBLE);
-                streetQrImagesLiveData.setValue(QrImageLiveData.getValue());
-                for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
-                ) {
-                    if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
-                        sImgCount += 1;
+                if (QrImageLiveData.getValue().size() == 0) {
+                    imageCountLiveData.setValue(0);
+                    streetQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                } else {
+                    streetQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                    for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
+                    ) {
+                        if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                            sImgCount += 1;
 
+                        }
                     }
+                    imageCountLiveData.setValue(sImgCount);
+                    Log.e(TAG, "onResponse: ImageCount " + sImgCount);
                 }
-                imageCountLiveData.setValue(sImgCount);
-                Log.e(TAG, "onResponse: ImageCount " + sImgCount);
+
             }
 
             @Override
@@ -164,6 +179,143 @@ public class HouseDetailsImageVM extends ViewModel {
         });
     }
 
+    public void setFilterData(Bundle filterData) {
+        Log.e(TAG, "setFilterData: frmDate: " + filterData.get("frmDate")
+                + " toDate: " + filterData.get("toDate")
+                + " appId: " + filterData.get("appId")
+                + "filter Type: " + filterData.get("filterType")
+                + " userId: " + filterData.get("userId"));
+
+        String frmDate = filterData.get("frmDate").toString();
+        String userId = filterData.get("userId").toString();
+        String appId = filterData.get("appId").toString();
+        String filterType = filterData.getString("filterType");
+
+        if (filterType.matches("HW")) {
+            mProgressLiveData.postValue(View.VISIBLE);
+            houseDetailsImageRepo.getFilteredHouseDetails(frmDate, frmDate, appId, userId, new HouseDetailsImageRepo.IQrImageResponse() {
+                @Override
+                public void onResponse(MutableLiveData<List<HouseDetailsImageDTO>> QrImageLiveData) {
+                    /*if (!QrImageLiveData.getValue().isEmpty())
+                        Log.e(TAG, " FilteredHouseDetails: HouseId:- " + QrImageLiveData.getValue().get(0).getReferanceId());*/
+                    Log.e(TAG, "onResponse: houselist size: " + QrImageLiveData.getValue().size());
+                    mProgressLiveData.postValue(View.INVISIBLE);
+                    houseQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                    for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
+                    ) {
+                        if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                            sImgCount += 1;
+
+                        }
+                    }
+//                imageCountLiveData.setValue(sImgCount);
+                    imageCountLiveData.setValue(QrImageLiveData.getValue().size());
+                    Log.e(TAG, "onResponse: ImageCount " + sImgCount);
+                }
+
+                @Override
+                public void onFailure(Throwable s) {
+                    Log.e(TAG, "onFailure: " + s.getMessage());
+                }
+            });
+        } else if (filterType.matches("DY")) {
+            mProgressLiveData.postValue(View.VISIBLE);
+            houseDetailsImageRepo.getFilteredDumpYardDetails(frmDate, frmDate, appId, userId, new HouseDetailsImageRepo.IQrImageResponse() {
+                @Override
+                public void onResponse(MutableLiveData<List<HouseDetailsImageDTO>> QrImageLiveData) {
+                    /*if (!QrImageLiveData.getValue().isEmpty())
+                        Log.e(TAG, "onResponse: FilteredDumpYardDetails" + QrImageLiveData.getValue().get(0).getReferanceId());*/
+                    mProgressLiveData.postValue(View.INVISIBLE);
+                    if (QrImageLiveData.getValue().size() == 0) {
+                        imageCountLiveData.setValue(0);
+                        dumpyQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                    } else {
+                        dumpyQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                        for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
+                        ) {
+                            if (house.getqRCodeImage() != null) {
+                                if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                                    sImgCount += 1;
+
+                                }
+                            }
+                        }
+                        imageCountLiveData.setValue(sImgCount);
+                        Log.e(TAG, "onResponse: ImageCount " + sImgCount);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable s) {
+                    Log.e(TAG, "onFailure: " + s.getMessage());
+                }
+            });
+        } else if (filterType.matches("LW")) {
+            mProgressLiveData.postValue(View.VISIBLE);
+            houseDetailsImageRepo.getFilteredLiquidDetails(frmDate, frmDate, appId, userId, new HouseDetailsImageRepo.IQrImageResponse() {
+
+                @Override
+                public void onResponse(MutableLiveData<List<HouseDetailsImageDTO>> QrImageLiveData) {
+                    /*if (!QrImageLiveData.getValue().isEmpty())
+                        Log.e(TAG, "onResponse: FilteredLiquidDetails" + QrImageLiveData.getValue().get(0).getReferanceId());*/
+                    mProgressLiveData.postValue(View.INVISIBLE);
+                    if (QrImageLiveData.getValue().size() == 0) {
+                        imageCountLiveData.setValue(0);
+                        liquidQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                    } else {
+                        liquidQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                        for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
+                        ) {
+                            if (house.getqRCodeImage() != null) {
+                                if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                                    sImgCount += 1;
+
+                                }
+                            }
+                        }
+                        imageCountLiveData.setValue(sImgCount);
+                        Log.e(TAG, "onResponse: ImageCount " + sImgCount);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable s) {
+                    Log.e(TAG, "onFailure: " + s.getMessage());
+                }
+            });
+        } else if (filterType.matches("SW")) {
+            mProgressLiveData.postValue(View.VISIBLE);
+            houseDetailsImageRepo.getFilteredStreetDetails(frmDate, frmDate, appId, userId, new HouseDetailsImageRepo.IQrImageResponse() {
+                @Override
+                public void onResponse(MutableLiveData<List<HouseDetailsImageDTO>> QrImageLiveData) {
+                    /*if (!QrImageLiveData.getValue().isEmpty())
+                        Log.e(TAG, "onResponse: FilteredStreetDetails" + QrImageLiveData.getValue().get(0).getReferanceId());*/
+                    mProgressLiveData.postValue(View.INVISIBLE);
+                    if (QrImageLiveData.getValue().size() == 0) {
+                        imageCountLiveData.setValue(0);
+                        streetQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                    } else {
+                        streetQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                        for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
+                        ) {
+                            if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                                sImgCount += 1;
+
+                            }
+                        }
+                        imageCountLiveData.setValue(sImgCount);
+                        Log.e(TAG, "onResponse: ImageCount " + sImgCount);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable s) {
+                    Log.e(TAG, "onFailure: " + s.getMessage());
+                }
+            });
+        }
+
+    }
 
     public MutableLiveData<List<HouseDetailsImageDTO>> getHouseQrImagesLiveData() {
         return houseQrImagesLiveData;

@@ -2,7 +2,6 @@ package com.appynitty.adminapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +32,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
     public HouseDetailsAdapter(Context context, List<HouseDetailsImageDTO> imageDataList1) {
         this.context = context;
         imageDataList = imageDataList1;
-        Log.e(TAG, "imageDataList: " + imageDataList.toString());
     }
-
 
     @NonNull
     @Override
@@ -50,6 +47,8 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
 
         Glide.with(context)
                 .load(imageBytes)
+                .fitCenter()
+
                 .into(holder.imgPhoto);
 
         holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +106,25 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
     public int getItemCount() {
         return imageDataList.size();
     }
+
+    public void dumpYardList(List<HouseDetailsImageDTO> dumpYardList) {
+        imageDataList.clear();
+        imageDataList = dumpYardList;
+        notifyDataSetChanged();
+    }
+
+    public void getLiquidList(List<HouseDetailsImageDTO> liquidList) {
+        imageDataList.clear();
+        imageDataList = liquidList;
+        notifyDataSetChanged();
+    }
+
+    public void getStreetList(List<HouseDetailsImageDTO> streetList) {
+        imageDataList.clear();
+        imageDataList = streetList;
+        notifyDataSetChanged();
+    }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtDateTime, txtRefId, txtEmpName, txtLatitude, txtLongitude;

@@ -2,6 +2,16 @@ package com.appynitty.adminapp.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -10,19 +20,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.AttendanceAdapter;
@@ -30,15 +27,10 @@ import com.appynitty.adminapp.databinding.FragmentAttendanceBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
 import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.AttendanceDTO;
-import com.appynitty.adminapp.models.EmployeeDetailsDTO;
-import com.appynitty.adminapp.models.SpecificUlbDTO;
-import com.appynitty.adminapp.models.UlbDTO;
-import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.utils.MyViewModelFactory;
 import com.appynitty.adminapp.viewmodels.AttendanceViewModel;
 import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,20 +62,20 @@ public class AttendanceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (view == null){
+        if (view == null) {
 
             attendanceBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_attendance, container, false);
             view = attendanceBinding.getRoot();
             //here data must be an instance of the class MarsDataProvider
             attendanceBinding.setLifecycleOwner(this);
 
-        /*view = inflater.inflate(R.layout.fragment_attendance, container, false);*/
+            /*view = inflater.inflate(R.layout.fragment_attendance, container, false);*/
             init();
         }
         return view;
     }
 
-    private void init(){
+    private void init() {
         /*context = getActivity();*/
         activity = (HomeActivity) getActivity();
         Bundle results = activity.getUlbData();
@@ -106,7 +98,7 @@ public class AttendanceFragment extends Fragment {
         loader.setVisibility(View.VISIBLE);
 
 
-        attendanceViewModel = ViewModelProviders.of(getActivity(),new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
+        attendanceViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
         attendanceBinding.setAttendanceViewModel(attendanceViewModel);
 
         attendanceViewModel.getAttendanceResponseLiveData().observe(activity, new Observer<List<AttendanceDTO>>() {
@@ -116,7 +108,7 @@ public class AttendanceFragment extends Fragment {
 
                 attendanceDTOList.clear();
 
-                if (attendanceDTOList != null && attendanceDTOList.isEmpty()){
+                if (attendanceDTOList != null && attendanceDTOList.isEmpty()) {
                     attendanceBinding.recyclerAttendance.setVisibility(View.VISIBLE);
                     attendanceBinding.progressCircular.setVisibility(View.GONE);
                     attendanceBinding.txtNoData.setVisibility(View.GONE);
@@ -124,10 +116,9 @@ public class AttendanceFragment extends Fragment {
                         attendanceDTOList.add(new AttendanceDTO(emp.getStartDate(), emp.getStartTime(),
                                 emp.getEndDate(), emp.getEndTime(), emp.getUserName(), emp.getHouseCount(),
                                 emp.getLiquidCount(), emp.getStreetCount(), emp.getDumpYardCount()));
-                }
+                    }
                     setRecycler(attendanceDTOList);
-                }
-                else {
+                } else {
                     attendanceBinding.recyclerAttendance.setVisibility(View.GONE);
                     attendanceBinding.progressCircular.setVisibility(View.GONE);
                     attendanceBinding.txtNoData.setVisibility(View.VISIBLE);
@@ -186,7 +177,7 @@ public class AttendanceFragment extends Fragment {
 
 
     private void setRecycler(List<AttendanceDTO> attendanceDTOList) {
-         attendanceBinding.txtNoData.setVisibility(View.GONE);
+        attendanceBinding.txtNoData.setVisibility(View.GONE);
         attendanceBinding.progressCircular.setVisibility(View.GONE);
         adapter = new AttendanceAdapter(context, attendanceDTOList);
         attendanceBinding.recyclerAttendance.setLayoutManager(layoutManager);
@@ -207,7 +198,7 @@ public class AttendanceFragment extends Fragment {
     }
 
     private void openDialog() {
-        filterDialog = new FilterDialogFragment();
+        filterDialog = new FilterDialogFragment("AttendanceFrag");
 
         filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
             @Override

@@ -39,7 +39,7 @@ import java.util.List;
 public class FilterDialogFragment extends DialogFragment {
     private static final String TAG = "FilterDialogFragment";
     private DialogFilterBinding binding;
-    String appId;
+    String callingFrag = "";
     private FilterDialog.FilterDialogInterface filterDialogListener;
     private EditText edtSelectToDate, edtSelectFromDate;
     private Spinner spnrSelectEmployee;
@@ -52,6 +52,10 @@ public class FilterDialogFragment extends DialogFragment {
     private QREmpListAdapter mAdapter;
 
     View view;
+
+    public FilterDialogFragment(String fragIdentity) {
+        callingFrag = fragIdentity;
+    }
 
     public void setFilterDialogListener(FilterDialog.FilterDialogInterface filterDialogListener) {
         this.filterDialogListener = filterDialogListener;
@@ -76,6 +80,10 @@ public class FilterDialogFragment extends DialogFragment {
         txtBtnCancel = view.findViewById(R.id.txt_btn_cancel);
         progressBar = view.findViewById(R.id.progress_filter);
         empType = Prefs.getString(MainUtils.EMP_TYPE);
+
+        if (callingFrag.matches("houseDetails")) {
+            edtSelectToDate.setVisibility(View.GONE);
+        }
 
         spnrSelectEmployee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -151,7 +159,13 @@ public class FilterDialogFragment extends DialogFragment {
                 if (frmDate == null) {
                     DynamicToast.makeWarning(getActivity(), "please select From Date").show();
                 } else if (toDate == null) {
-                    DynamicToast.makeWarning(getActivity(), "please select To Date").show();
+                    if (callingFrag.matches("houseDetails")) {
+                        filterDialogListener.onFilterDialogDismiss(frmDate, toDate, userId);
+                        dismiss();
+                    } else {
+                        DynamicToast.makeWarning(getActivity(), "please select To Date").show();
+                    }
+
                 } else {
                     filterDialogListener.onFilterDialogDismiss(frmDate, toDate, userId);
                     dismiss();

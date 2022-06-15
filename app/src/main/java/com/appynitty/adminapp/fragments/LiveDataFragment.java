@@ -159,7 +159,7 @@ public class LiveDataFragment extends Fragment {
     }
 
     private void openDialog() {
-        filterDialog = new FilterDialogFragment();
+        filterDialog = new FilterDialogFragment("liveDataFrag");
 
         filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
             @Override
