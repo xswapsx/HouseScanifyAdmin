@@ -27,10 +27,12 @@ import com.appynitty.adminapp.databinding.FragmentAttendanceBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
 import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.AttendanceDTO;
+import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.utils.MyViewModelFactory;
 import com.appynitty.adminapp.viewmodels.AttendanceViewModel;
 import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;

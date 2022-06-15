@@ -54,7 +54,7 @@ public class AddEmpViewModel extends ViewModel {
 
                 AddEmpDTO addEmpData = new AddEmpDTO(qrEmpId.getValue(), qrEmpName.getValue(),qrEmpMobileNumber.getValue(),
                         qrEmpAddress.getValue(), qrEmpLoginId.getValue(),qrEmpPassword.getValue(),
-                        qrImoNo.getValue(),cbIsActive.booleanValue());
+                        qrImoNo.getValue(),cbIsActive.toString());
                 addEmpMutableLiveData.setValue(addEmpData);
 
                 if (qrEmpName.getValue() != null && qrEmpName.getValue() != null && qrEmpMobileNumber.getValue() != null && qrEmpAddress.getValue() != null
@@ -67,6 +67,7 @@ public class AddEmpViewModel extends ViewModel {
                             if (addEmpResponse !=  null){
                                 addEmpResultMutableData.setValue(addEmpResponse);
                                 Log.e(TAG, "onResponse: " + addEmpResponse.getMessage());
+
                             }
                         }
 
