@@ -105,8 +105,8 @@ public class AttendanceFragment extends Fragment {
             @Override
             public void onChanged(List<AttendanceDTO> attendanceDTOS) {
                 Log.e(TAG, "onChanged: " + attendanceDTOS);
-
                 attendanceDTOList.clear();
+                attendanceBinding.progressCircular.setVisibility(View.VISIBLE);
 
                 if (attendanceDTOList != null && attendanceDTOList.isEmpty()) {
                     attendanceBinding.recyclerAttendance.setVisibility(View.VISIBLE);
@@ -119,6 +119,32 @@ public class AttendanceFragment extends Fragment {
                     }
                     setRecycler(attendanceDTOList);
                 } else {
+                    attendanceBinding.recyclerAttendance.setVisibility(View.GONE);
+                    attendanceBinding.progressCircular.setVisibility(View.GONE);
+                    attendanceBinding.txtNoData.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        attendanceViewModel.getAttendanceFilterMutableLiveData().observe(getActivity(), new Observer<List<AttendanceDTO>>() {
+            @Override
+            public void onChanged(List<AttendanceDTO> attendanceDTOS) {
+                Log.e(TAG, "onChanged: " + attendanceDTOS);
+                attendanceDTOList.clear();
+                attendanceBinding.progressCircular.setVisibility(View.VISIBLE);
+
+                if (attendanceDTOList != null && attendanceDTOList.isEmpty()){
+                    attendanceBinding.recyclerAttendance.setVisibility(View.VISIBLE);
+                    attendanceBinding.progressCircular.setVisibility(View.GONE);
+                    attendanceBinding.txtNoData.setVisibility(View.GONE);
+                    for (AttendanceDTO emp : attendanceDTOS) {
+                        attendanceDTOList.add(new AttendanceDTO(emp.getStartDate(), emp.getStartTime(),
+                                emp.getEndDate(), emp.getEndTime(), emp.getUserName(), emp.getHouseCount(),
+                                emp.getLiquidCount(), emp.getStreetCount(), emp.getDumpYardCount()));
+                    }
+                    setRecycler(attendanceDTOList);
+                }
+                else {
                     attendanceBinding.recyclerAttendance.setVisibility(View.GONE);
                     attendanceBinding.progressCircular.setVisibility(View.GONE);
                     attendanceBinding.txtNoData.setVisibility(View.VISIBLE);
@@ -147,10 +173,26 @@ public class AttendanceFragment extends Fragment {
             }
         });
 
+        /*attendanceViewModel.getAttendanceFilterMutableLiveData().observe(getActivity(), new Observer<SpecificUlbDTO>() {
+            @Override
+            public void onChanged(SpecificUlbDTO specificUlbDTO) {
+                Log.e(TAG, "onChanged: " + specificUlbDTO.getTotalHouse());
+            }
+        });*/
+
+
+
+        attendanceViewModel.getAttendanceResponseLiveData().observe(getActivity(), new Observer<List<AttendanceDTO>>() {
+            @Override
+            public void onChanged(List<AttendanceDTO> attendanceDTOS) {
+                Log.e(TAG, "onChanged: " + attendanceDTOS.get(0));
+            }
+        });
+
         attendanceViewModel.getProgress().observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                attendanceBinding.progressCircular.setVisibility(View.VISIBLE);
+                attendanceBinding.progressCircular.setVisibility(View.GONE);
             }
         });
 
@@ -208,9 +250,8 @@ public class AttendanceFragment extends Fragment {
                 filterExtras.putString("frmDate", frmDate);
                 filterExtras.putString("toDate", toDate);
                 filterExtras.putString("userId", userId);
-                ulbDataViewModel.setFilteredData(filterExtras);
-
-
+                filterExtras.putString("appId", Prefs.getString(MainUtils.APP_ID, null));
+                attendanceViewModel.setFilteredData(filterExtras);
             }
         });
 

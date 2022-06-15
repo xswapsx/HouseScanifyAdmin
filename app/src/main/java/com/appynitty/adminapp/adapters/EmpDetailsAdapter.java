@@ -51,7 +51,7 @@ public class EmpDetailsAdapter extends RecyclerView.Adapter<EmpDetailsAdapter.My
         holder.itemEmpDListBinding.imgEditEmpDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, AddEmpActivity.class).putExtra("empDModel", String.valueOf(empDModelDTO)));
+                context.startActivity(new Intent(context, AddEmpActivity.class)/*.putExtra("qrEmpIdSend",empDModelDTO.getQrEmpId())*/);
             }
         });
 
