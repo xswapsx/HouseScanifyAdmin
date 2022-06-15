@@ -6,9 +6,11 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.appynitty.adminapp.models.AttendanceDTO;
+import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.networking.RetrofitClient;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.webservices.AttendanceWebService;
+import com.appynitty.adminapp.webservices.EmployeeDetailsWebService;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
@@ -54,6 +56,31 @@ public class AttendanceRepository {
                     Log.e(TAG, "onResponse: " + response.body());
                 }
 
+            }
+
+            @Override
+            public void onFailure(Call<List<AttendanceDTO>> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+                iAttendanceResponse.onFailure(t);
+            }
+        });
+    }
+
+    public void getFilteredEmpDetails(String frmDate, String toDate, String appId, String userId, IAttendanceResponse iAttendanceResponse) {
+        String empType = Prefs.getString(MainUtils.EMP_TYPE);
+
+        AttendanceWebService attendanceWebService = RetrofitClient.createService(AttendanceWebService.class, MainUtils.BASE_URL);
+        Call<List<AttendanceDTO>> attendanceDTOCall = attendanceWebService.getFragAttendanceList(MainUtils.CONTENT_TYPE, empType,userId,appId,frmDate,toDate );
+
+        attendanceDTOCall.enqueue(new Callback<List<AttendanceDTO>>() {
+            @Override
+            public void onResponse(Call<List<AttendanceDTO>> call, Response<List<AttendanceDTO>> response) {
+                if (response.code() == 200) {
+                    Log.e(TAG, "onResponse: empDetails:- " + response.body().toString());
+
+                    attendanceListLiveData.setValue(response.body());
+                    iAttendanceResponse.onResponse(attendanceListLiveData);
+                }
             }
 
             @Override

@@ -51,10 +51,11 @@ public class AddEmpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addEmpViewModel = ViewModelProviders.of(this).get(AddEmpViewModel.class);
         binding = ActivityAddEmpBinding.inflate(getLayoutInflater());
         view = binding.getRoot();
         setContentView(view);
+        addEmpViewModel = ViewModelProviders.of(this).get(AddEmpViewModel.class);
+        binding.setAddEmpViewModel(addEmpViewModel);
 
         //custom toolbar added
         binding.rlCustomToolbar.txtTitle.setText("Employee Details");
