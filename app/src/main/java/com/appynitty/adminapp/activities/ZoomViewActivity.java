@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.utils.TouchImageView;
@@ -27,7 +29,9 @@ import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class ZoomViewActivity extends AppCompatActivity {
@@ -161,26 +165,34 @@ public class ZoomViewActivity extends AppCompatActivity {
     }
 
     public void shareImage() {
-//        View content = findViewById(R.id.full_image_view);
-        /*imagePhoto.setDrawingCacheEnabled(true);
-
-        Bitmap bitmap = imagePhoto.getDrawingCache();
-        File root = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES) + "/HouseScanify/");
-        File cachePath = new File(root.getAbsolutePath() + "/image.jpg");
         try {
-            cachePath.createNewFile();
-            FileOutputStream ostream = new FileOutputStream(cachePath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
-            ostream.close();
-        } catch (Exception e) {
+
+            File cachePath = new File(context.getCacheDir(), "images");
+            cachePath.mkdirs(); // don't forget to make the directory
+            FileOutputStream stream = new FileOutputStream(new File(cachePath, "image.png")); // overwrites this image every time
+            Bitmap bitmap = ((BitmapDrawable) imagePhoto.getDrawable()).getBitmap();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/*");
-        share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(cachePath));
-        startActivity(Intent.createChooser(share, "Share via"));
-    }*/
+        File imagePath = new File(context.getCacheDir(), "images");
+        File newFile = new File(imagePath, "image.png");
+        Uri contentUri = FileProvider.getUriForFile(context, "com.appynitty.adminapp.fileprovider", newFile);
 
+        if (contentUri != null) {
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+            shareIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            startActivity(Intent.createChooser(shareIntent, "Choose an app"));
+
+        }
     }
 }
