@@ -27,10 +27,12 @@ import com.appynitty.adminapp.databinding.FragmentAttendanceBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
 import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.AttendanceDTO;
+import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.utils.MyViewModelFactory;
 import com.appynitty.adminapp.viewmodels.AttendanceViewModel;
 import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +135,7 @@ public class AttendanceFragment extends Fragment {
                 attendanceDTOList.clear();
                 attendanceBinding.progressCircular.setVisibility(View.VISIBLE);
 
-                if (attendanceDTOList != null && attendanceDTOList.isEmpty()){
+                if (attendanceDTOList != null && attendanceDTOList.isEmpty()) {
                     attendanceBinding.recyclerAttendance.setVisibility(View.VISIBLE);
                     attendanceBinding.progressCircular.setVisibility(View.GONE);
                     attendanceBinding.txtNoData.setVisibility(View.GONE);
@@ -143,8 +145,7 @@ public class AttendanceFragment extends Fragment {
                                 emp.getLiquidCount(), emp.getStreetCount(), emp.getDumpYardCount()));
                     }
                     setRecycler(attendanceDTOList);
-                }
-                else {
+                } else {
                     attendanceBinding.recyclerAttendance.setVisibility(View.GONE);
                     attendanceBinding.progressCircular.setVisibility(View.GONE);
                     attendanceBinding.txtNoData.setVisibility(View.VISIBLE);
@@ -179,7 +180,6 @@ public class AttendanceFragment extends Fragment {
                 Log.e(TAG, "onChanged: " + specificUlbDTO.getTotalHouse());
             }
         });*/
-
 
 
         attendanceViewModel.getAttendanceResponseLiveData().observe(getActivity(), new Observer<List<AttendanceDTO>>() {

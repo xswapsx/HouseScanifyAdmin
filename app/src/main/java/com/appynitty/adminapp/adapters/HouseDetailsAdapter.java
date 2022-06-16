@@ -2,6 +2,10 @@ package com.appynitty.adminapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +58,10 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
         holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, ZoomViewActivity.class));
+//                Log.e(TAG, "onClick: image:====" + imageDataList.get(position).getqRCodeImage());
+                Intent intent = new Intent(context, ZoomViewActivity.class);
+                intent.putExtra("qrImage", String.valueOf(imageDataList.get(position).getqRCodeImage()));
+                context.startActivity(intent);
             }
         });
 
