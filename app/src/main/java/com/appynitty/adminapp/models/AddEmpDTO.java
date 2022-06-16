@@ -1,30 +1,56 @@
 package com.appynitty.adminapp.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class AddEmpDTO {
 
+    @SerializedName("qrEmpId")
+    @Expose
     private String qrEmpId;
+
+    @SerializedName("qrEmpName")
+    @Expose
     private String qrEmpName;
+
+    @SerializedName("qrEmpLoginId")
+    @Expose
     private String qrEmpLoginId;
+
+    @SerializedName("qrEmpPassword")
+    @Expose
     private String qrEmpPassword;
+
+    @SerializedName("qrEmpMobileNumber")
+    @Expose
     private String qrEmpMobileNumber;
+
+    @SerializedName("qrEmpAddress")
+    @Expose
     private String qrEmpAddress;
+
+    @SerializedName("imoNo")
+    @Expose
     private String imoNo;
+
+    @SerializedName("isActive")
+    @Expose
     private String isActive;
 
 
-    public AddEmpDTO(String qrEmpId, String qrEmpName, String qrEmpMobileNumber, String qrEmpAddress, String qrEmpLoginId, String qrEmpPassword, String imoNo, boolean isActive) {
+    public AddEmpDTO(String qrEmpId, String qrEmpName, String qrEmpLoginId, String qrEmpPassword, String qrEmpMobileNumber, String qrEmpAddress, String imoNo, String isActive) {
+        super();
         this.qrEmpId = qrEmpId;
         this.qrEmpName = qrEmpName;
-        this.qrEmpMobileNumber = qrEmpMobileNumber;
-        this.qrEmpAddress = qrEmpAddress;
         this.qrEmpLoginId = qrEmpLoginId;
         this.qrEmpPassword = qrEmpPassword;
+        this.qrEmpMobileNumber = qrEmpMobileNumber;
+        this.qrEmpAddress = qrEmpAddress;
         this.imoNo = imoNo;
-        this.isActive = String.valueOf(isActive);
+        this.isActive = isActive;
     }
 
-    public AddEmpDTO(){
-
+    public AddEmpDTO() {
     }
 
     public String getQrEmpId() {
@@ -95,9 +121,9 @@ public class AddEmpDTO {
     public boolean isEmpUsernameValid() {
         return getQrEmpLoginId().length() > 4;
     }
-    public boolean isEmpMobileValid() {
-        return getQrEmpMobileNumber().length() < 10;
-    }
+    /*public boolean isEmpMobileValid() {
+        return getQrEmpMobileNumber().length() <= 10;
+    }*/
 
 
     public boolean isEmpPassValid() {
@@ -106,15 +132,45 @@ public class AddEmpDTO {
 
     @Override
     public String toString() {
-        return "AddEmpDTO{" +
-                "qrEmpId='" + qrEmpId + '\'' +
-                ", qrEmpName='" + qrEmpName + '\'' +
-                ", qrEmpLoginId='" + qrEmpLoginId + '\'' +
-                ", qrEmpPassword='" + qrEmpPassword + '\'' +
-                ", qrEmpMobileNumber='" + qrEmpMobileNumber + '\'' +
-                ", qrEmpAddress='" + qrEmpAddress + '\'' +
-                ", imoNo='" + imoNo + '\'' +
-                ", isActive='" + isActive + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(AddEmpDTO.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("qrEmpId");
+        sb.append('=');
+        sb.append(((this.qrEmpId == null)?"<null>":this.qrEmpId));
+        sb.append(',');
+        sb.append("qrEmpName");
+        sb.append('=');
+        sb.append(((this.qrEmpName == null)?"<null>":this.qrEmpName));
+        sb.append(',');
+        sb.append("qrEmpLoginId");
+        sb.append('=');
+        sb.append(((this.qrEmpLoginId == null)?"<null>":this.qrEmpLoginId));
+        sb.append(',');
+        sb.append("qrEmpPassword");
+        sb.append('=');
+        sb.append(((this.qrEmpPassword == null)?"<null>":this.qrEmpPassword));
+        sb.append(',');
+        sb.append("qrEmpMobileNumber");
+        sb.append('=');
+        sb.append(((this.qrEmpMobileNumber == null)?"<null>":this.qrEmpMobileNumber));
+        sb.append(',');
+        sb.append("qrEmpAddress");
+        sb.append('=');
+        sb.append(((this.qrEmpAddress == null)?"<null>":this.qrEmpAddress));
+        sb.append(',');
+        sb.append("imoNo");
+        sb.append('=');
+        sb.append(((this.imoNo == null)?"<null>":this.imoNo));
+        sb.append(',');
+        sb.append("isActive");
+        sb.append('=');
+        sb.append(((this.isActive == null)?"<null>":this.isActive));
+        sb.append(',');
+        if (sb.charAt((sb.length()- 1)) == ',') {
+            sb.setCharAt((sb.length()- 1), ']');
+        } else {
+            sb.append(']');
+        }
+        return sb.toString();
     }
 }

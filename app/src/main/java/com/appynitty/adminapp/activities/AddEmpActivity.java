@@ -79,6 +79,7 @@ public class AddEmpActivity extends AppCompatActivity {
         Log.e(TAG, "Device id: " + androidID);
 
 
+
         addEmpModelDto.setImoNo(androidID);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -86,20 +87,21 @@ public class AddEmpActivity extends AppCompatActivity {
         editor.putString("imiNo",androidID);
         editor.apply();
 
-        //binding.edtEmpLoginNum.setText(androidID);
+
+        binding.edtEmpLoginNum.setText(androidID);
         addEmpViewModel.getAddEmpMutableLiveData().observe(this, new Observer<AddEmpDTO>() {
             @Override
             public void onChanged(AddEmpDTO addEmpDTO) {
-                if (TextUtils.isEmpty(Objects.requireNonNull(addEmpDTO).getQrEmpName())) {
+                /*if (TextUtils.isEmpty(Objects.requireNonNull(addEmpDTO).getQrEmpName())) {
                     binding.edtEmpName.setError("Please enter employee name!");
                     binding.edtEmpName.requestFocus();
                 }else if (TextUtils.isEmpty(Objects.requireNonNull(addEmpDTO).getQrEmpMobileNumber())) {
                     binding.edtEmpMobile.setError("Please enter employee mobile number!");
                     binding.edtEmpMobile.requestFocus();
-                }else if (!addEmpDTO.isEmpMobileValid()) {
+                }*//*else if (!addEmpDTO.isEmpMobileValid()) {
                     binding.edtEmpMobile.setError("please enter valid mobile number");
                     binding.edtEmpMobile.requestFocus();
-                }else if (TextUtils.isEmpty(Objects.requireNonNull(addEmpDTO).getQrEmpAddress())) {
+                }*//*else if (TextUtils.isEmpty(Objects.requireNonNull(addEmpDTO).getQrEmpAddress())) {
                     binding.edtEmpAddress.setError("Please enter employee address!");
                     binding.edtEmpAddress.requestFocus();
                 }else if (TextUtils.isEmpty(Objects.requireNonNull(addEmpDTO).getQrEmpLoginId())) {
@@ -116,12 +118,30 @@ public class AddEmpActivity extends AppCompatActivity {
                     binding.edtEmpPassword.requestFocus();
                 }else if (TextUtils.isEmpty(Objects.requireNonNull(addEmpDTO).getImoNo())) {
                     binding.edtEmpLoginNum.setError("Your device id not found!");
-                    binding.edtEmpLoginNum.requestFocus();
-                }else {
+                    binding.edtEmpLoginNum.requestFocus();*/
+                if (binding.edtEmpName.getText().toString().trim().isEmpty()){
+                    Toast.makeText(context, "Please enter employee name", Toast.LENGTH_SHORT).show();
+
+                }else if (binding.edtEmpMobile.getText().toString().trim().isEmpty()){
+                    Toast.makeText(context, "Please enter employee mobile number", Toast.LENGTH_SHORT).show();
+                }else if (binding.edtEmpMobile.getText().toString().length() <10){
+                    Toast.makeText(context, "Please enter valid employee mobile number", Toast.LENGTH_SHORT).show();
+                }else if (binding.edtEmpAddress.getText().toString().trim().isEmpty()){
+                    Toast.makeText(context, "Please enter employee address", Toast.LENGTH_SHORT).show();
+                }else if (binding.edtEmpUsername.getText().toString().trim().isEmpty()){
+                    Toast.makeText(context, "Please enter employee username", Toast.LENGTH_SHORT).show();
+                }else if (binding.edtEmpUsername.getText().toString().length() < 4){
+                    Toast.makeText(context, "Username must contain at least 4 digits", Toast.LENGTH_SHORT).show();
+                }else if (binding.edtEmpPassword.getText().toString().trim().isEmpty()){
+                    Toast.makeText(context, "Please enter employee password", Toast.LENGTH_SHORT).show();
+                }else if (binding.edtEmpPassword.getText().toString().length() < 4){
+                    Toast.makeText(context, "Password must contain at least 4 digits", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     Log.e(TAG, "onChanged: qrEmpId: " + addEmpDTO.getQrEmpId() + " EmpName: " + addEmpDTO.getQrEmpName()
                             + " EmpMobile: " + addEmpDTO.getQrEmpMobileNumber() + " EmpAddress: " + addEmpDTO.getQrEmpAddress()
                             + " EmpUsername: " + addEmpDTO.getQrEmpLoginId() + " password: " + addEmpDTO.getQrEmpPassword()
-                            + " empDeviceId: " + addEmpDTO.getImoNo() + " EmpIsActiveStatus: " + addEmpDTO.getIsActive()
+                            + " empDeviceId: " + androidID + " EmpIsActiveStatus: " + addEmpDTO.getIsActive()
                     );
                 }
             }
