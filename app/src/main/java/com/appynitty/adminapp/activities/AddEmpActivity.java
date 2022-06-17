@@ -45,6 +45,7 @@ public class AddEmpActivity extends AppCompatActivity {
     private AddEmpDTO addEmpModelDto;
     private AddEmpViewModel addEmpViewModel;
     String empName, empMobile, empAdd, empUsername, empPass, empLoginImei, empId;
+    String empIdAdapter;
     boolean isActiveChecked, isClearChecked;
 
 
@@ -66,6 +67,10 @@ public class AddEmpActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        empIdAdapter = intent.getStringExtra("qrEmpId");
+        Log.e(TAG, "adapter send emp id : " +empIdAdapter);
+
         init();
 
     }
@@ -77,21 +82,18 @@ public class AddEmpActivity extends AppCompatActivity {
         TelephonyManager TelephonyMgr = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         String androidID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.e(TAG, "Device id: " + androidID);
-
-
-
-        addEmpModelDto.setImoNo(androidID);
+        binding.edtEmpLoginNum.setText(androidID);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("imiNo",androidID);
         editor.apply();
 
-
-        binding.edtEmpLoginNum.setText(androidID);
         addEmpViewModel.getAddEmpMutableLiveData().observe(this, new Observer<AddEmpDTO>() {
             @Override
             public void onChanged(AddEmpDTO addEmpDTO) {
+                addEmpDTO.setQrEmpId("");
+                addEmpDTO.setImoNo(androidID);
                 /*if (TextUtils.isEmpty(Objects.requireNonNull(addEmpDTO).getQrEmpName())) {
                     binding.edtEmpName.setError("Please enter employee name!");
                     binding.edtEmpName.requestFocus();
@@ -141,7 +143,7 @@ public class AddEmpActivity extends AppCompatActivity {
                     Log.e(TAG, "onChanged: qrEmpId: " + addEmpDTO.getQrEmpId() + " EmpName: " + addEmpDTO.getQrEmpName()
                             + " EmpMobile: " + addEmpDTO.getQrEmpMobileNumber() + " EmpAddress: " + addEmpDTO.getQrEmpAddress()
                             + " EmpUsername: " + addEmpDTO.getQrEmpLoginId() + " password: " + addEmpDTO.getQrEmpPassword()
-                            + " empDeviceId: " + androidID + " EmpIsActiveStatus: " + addEmpDTO.getIsActive()
+                            + " empDeviceId: " + addEmpDTO.getImoNo() + " EmpIsActiveStatus: " + addEmpDTO.getIsActive()
                     );
                 }
             }
@@ -167,19 +169,23 @@ public class AddEmpActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
 
     private void setOnClick() {
         if (empDModelDTOList != null){
-            binding.txtBtnSave.setText("Updated");
-            binding.txtBtnSave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finish();
-                    Toast.makeText(context, "Employee data updated successfully", Toast.LENGTH_SHORT).show();
-                }
-            });
+            if (empId != null){
+                binding.txtBtnSave.setText("Updated");
+                binding.txtBtnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                        Toast.makeText(context, "Employee data updated successfully", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
 
         if (empDModelDTOList.isEmpty()){

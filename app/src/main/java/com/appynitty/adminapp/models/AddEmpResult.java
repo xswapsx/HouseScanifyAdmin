@@ -24,6 +24,15 @@ public class AddEmpResult {
     @Expose
     private boolean isAttendenceOff;
 
+
+    public AddEmpResult(Integer ID, String status, String message, String messageMar, boolean isAttendenceOff) {
+        this.ID = ID;
+        this.status = status;
+        this.message = message;
+        this.messageMar = messageMar;
+        this.isAttendenceOff = isAttendenceOff;
+    }
+
     public Integer getID() {
         return ID;
     }
@@ -62,5 +71,16 @@ public class AddEmpResult {
 
     public void setAttendenceOff(boolean attendenceOff) {
         isAttendenceOff = attendenceOff;
+    }
+
+    @Override
+    public String toString() {
+        return "AddEmpResult{" +
+                "ID=" + ID +
+                ", status='" + status + '\'' +
+                ", message='" + message + '\'' +
+                ", messageMar='" + messageMar + '\'' +
+                ", isAttendenceOff=" + isAttendenceOff +
+                '}';
     }
 }
