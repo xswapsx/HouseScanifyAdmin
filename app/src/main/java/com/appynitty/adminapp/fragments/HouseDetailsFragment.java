@@ -3,10 +3,13 @@ package com.appynitty.adminapp.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -47,6 +50,7 @@ public class HouseDetailsFragment extends Fragment {
     private HouseDetailsAdapter houseDetailsAdapter;
     private ProgressBar loader;
     private TextView txtNoData, tvCount, tvBottomEntryCount;
+    private EditText etHouseFilter;
     private Bundle filterExtras;
     private CardView crdFilter;
     private FilterDialogFragment filterDialog;
@@ -85,6 +89,7 @@ public class HouseDetailsFragment extends Fragment {
         tvCount = view.findViewById(R.id.tvItementries);
         tvBottomEntryCount = view.findViewById(R.id.txt_entries_bottom1);
         txtNoData.setVisibility(View.GONE);
+        etHouseFilter = view.findViewById(R.id.etHouseFilter);
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         houseDetailsImageVM = ViewModelProviders.of(this).get(HouseDetailsImageVM.class);
 //        binding.setImagesVM(houseDetailsImageVM);
@@ -138,6 +143,24 @@ public class HouseDetailsFragment extends Fragment {
                         houseDetailsImageVM.callStreetWasteApi();
                         break;
                 }
+            }
+        });
+
+        etHouseFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.e(TAG, "beforeTextChanged: before textchanged " + charSequence);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.e(TAG, "onTextChanged: " + charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.e(TAG, "afterTextChanged: " + editable.toString());
+                filter(editable.toString());
             }
         });
 
@@ -248,6 +271,18 @@ public class HouseDetailsFragment extends Fragment {
 
         filterDialog.show(getChildFragmentManager(), TAG);
     }
+
+    private void filter(String text) {
+        List<HouseDetailsImageDTO> filteredList = new ArrayList<>();
+
+        for (HouseDetailsImageDTO item : imageDataList) {
+            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+        houseDetailsAdapter.filterList(filteredList);
+    }
+
 
     private void setOnRecycler(List<HouseDetailsImageDTO> imageDataList) {
         txtNoData.setVisibility(View.GONE);

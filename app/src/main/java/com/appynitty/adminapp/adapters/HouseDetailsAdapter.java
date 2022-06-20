@@ -2,6 +2,7 @@ package com.appynitty.adminapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
     private List<HouseDetailsImageDTO> imageDataList;
     String imageBytes = "";
     private Context context;
+    private int listItemCount = 0;
     boolean isChecked = true;
     public static int imgAccept = 1;
     public static int imgReject = 2;
@@ -128,6 +130,16 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
         notifyDataSetChanged();
     }
 
+    public void filterList(List<HouseDetailsImageDTO> filteredList) {
+        imageDataList = filteredList;
+        notifyDataSetChanged();
+        listItemCount = imageDataList.size();
+        Log.e(TAG, "imageDataList: size" + imageDataList.size());
+    }
+
+    interface OnTextClickListener {
+//        void onTextClick(listItemCount);
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtDateTime, txtRefId, txtEmpName, txtLatitude, txtLongitude;
