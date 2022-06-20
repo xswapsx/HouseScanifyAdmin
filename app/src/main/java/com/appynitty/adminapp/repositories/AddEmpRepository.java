@@ -12,56 +12,70 @@ import com.appynitty.adminapp.models.LoginResult;
 import com.appynitty.adminapp.networking.RetrofitClient;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.webservices.AddEmpWebService;
+import com.google.gson.Gson;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddEmpRepository {
     private static final String TAG = "AddEmpRepository";
-
+    String appId = Prefs.getString(MainUtils.APP_ID, null);
     private static final AddEmpRepository instance = new AddEmpRepository();
-
+    Gson gson = new Gson();
     public static AddEmpRepository getInstance(){
         return instance;
     }
 
-    AddEmpDTO addEmpDTO = new AddEmpDTO();
+    List<AddEmpDTO> addEmpDTO = new ArrayList<>();
 
     public void addEmpRemote(MutableLiveData<AddEmpDTO> addEmpBody, IAddEmpResponse iAddEmpResponse){
         AddEmpWebService empWebService = RetrofitClient.createService(AddEmpWebService.class, MainUtils.BASE_URL);
-        JSONArray mJsonArray = new JSONArray();
+
+        JSONObject empObject = new JSONObject();
+
         try {
-            JSONObject mJsonObject = mJsonArray.getJSONObject(0);
-            addEmpDTO.setQrEmpId(Objects.requireNonNull(mJsonObject.getString(addEmpBody.getValue().getQrEmpId())));
-            addEmpDTO.setQrEmpName(Objects.requireNonNull(mJsonObject.getString(addEmpBody.getValue().getQrEmpName())));
-            addEmpDTO.setQrEmpMobileNumber(Objects.requireNonNull(mJsonObject.getString(addEmpBody.getValue().getQrEmpMobileNumber())));
-            addEmpDTO.setQrEmpAddress(Objects.requireNonNull(mJsonObject.getString(addEmpBody.getValue().getQrEmpAddress())));
-            addEmpDTO.setQrEmpLoginId(Objects.requireNonNull(mJsonObject.getString(addEmpBody.getValue().getQrEmpLoginId())));
-            addEmpDTO.setQrEmpPassword(Objects.requireNonNull(mJsonObject.getString(addEmpBody.getValue().getQrEmpPassword())));
-            addEmpDTO.setImoNo(Objects.requireNonNull(mJsonObject.getString(addEmpBody.getValue().getImoNo())));
-            addEmpDTO.setIsActive(Objects.requireNonNull(mJsonObject.getString(addEmpBody.getValue().getIsActive())));
+
+            empObject.put("qrEmpId", Objects.requireNonNull(addEmpBody.getValue()).getQrEmpId());
+            empObject.put("qrEmpName", addEmpBody.getValue().getQrEmpName());
+            empObject.put("qrEmpMobileNumber", addEmpBody.getValue().getQrEmpMobileNumber());
+            empObject.put("qrEmpAddress", addEmpBody.getValue().getQrEmpAddress());
+            empObject.put("qrEmpLoginId", addEmpBody.getValue().getQrEmpLoginId());
+            empObject.put("qrEmpPassword", addEmpBody.getValue().getQrEmpPassword());
+            empObject.put("imoNo", addEmpBody.getValue().getImoNo());
+            empObject.put("isActive", addEmpBody.getValue().getIsActive());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Log.e(TAG, String.valueOf(mJsonArray));
+        JSONArray jsonArray = new JSONArray();
 
-        /*addEmpDTO.setQrEmpName(Objects.requireNonNull(addEmpBody.getValue()).getQrEmpName().trim());
-        addEmpDTO.setQrEmpMobileNumber(Objects.requireNonNull(addEmpBody.getValue()).getQrEmpMobileNumber().trim());
+        jsonArray.put(empObject);
+
+        Log.e(TAG, "Request Body: " + jsonArray);
+
+
+        /*addEmpDTO.setQrEmpId(Objects.requireNonNull(addEmpBody.getValue().getQrEmpId().trim()));
+        addEmpDTO.setQrEmpName(Objects.requireNonNull(addEmpBody.getValue().getQrEmpName().trim()));
+        addEmpDTO.setQrEmpMobileNumber(Objects.requireNonNull(addEmpBody.getValue().getQrEmpMobileNumber().trim()));
         addEmpDTO.setQrEmpAddress(Objects.requireNonNull(addEmpBody.getValue().getQrEmpAddress().trim()));
         addEmpDTO.setQrEmpLoginId(Objects.requireNonNull(addEmpBody.getValue().getQrEmpLoginId().trim()));
         addEmpDTO.setQrEmpPassword(Objects.requireNonNull(addEmpBody.getValue().getQrEmpPassword().trim()));
-        addEmpDTO.setImoNo(Objects.requireNonNull(addEmpBody.getValue().getImoNo().trim()));*/
-        String appId = MainUtils.PREFS.APP_ID;
-
+        addEmpDTO.setImoNo(Objects.requireNonNull(addEmpBody.getValue().getImoNo().trim()));
+        addEmpDTO.setIsActive(Objects.requireNonNull(addEmpBody.getValue().getIsActive().trim()));*/
 
         Call<AddEmpResult> initiateAddEmp = empWebService.addNewEmpHS(MainUtils.CONTENT_TYPE,appId,addEmpDTO);
 
@@ -86,8 +100,6 @@ public class AddEmpRepository {
 
 
     }
-
-
 
     public interface IAddEmpResponse {
         void onResponse(AddEmpResult addEmpResponse);

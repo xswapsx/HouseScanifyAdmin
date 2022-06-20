@@ -32,5 +32,6 @@
     <string name="str_hint_search_employees_name">Search employee name</string>
     <string name="str_active">Active</string>
     <string name="str_inactive">Inactive</string>
+    <string name="str_entries">Entries %s</string>
 
 </resources>

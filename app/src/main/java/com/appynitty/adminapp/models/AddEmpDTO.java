@@ -38,14 +38,14 @@ public class AddEmpDTO {
     private String isActive;
 
 
-    public AddEmpDTO(String qrEmpId, String qrEmpName, String qrEmpLoginId, String qrEmpPassword, String qrEmpMobileNumber, String qrEmpAddress, String imoNo, String isActive) {
+    public AddEmpDTO(String qrEmpId, String qrEmpName,String qrEmpMobileNumber,String qrEmpAddress, String qrEmpLoginId, String qrEmpPassword, String imoNo, String isActive) {
         super();
         this.qrEmpId = qrEmpId;
         this.qrEmpName = qrEmpName;
-        this.qrEmpLoginId = qrEmpLoginId;
-        this.qrEmpPassword = qrEmpPassword;
         this.qrEmpMobileNumber = qrEmpMobileNumber;
         this.qrEmpAddress = qrEmpAddress;
+        this.qrEmpLoginId = qrEmpLoginId;
+        this.qrEmpPassword = qrEmpPassword;
         this.imoNo = imoNo;
         this.isActive = isActive;
     }

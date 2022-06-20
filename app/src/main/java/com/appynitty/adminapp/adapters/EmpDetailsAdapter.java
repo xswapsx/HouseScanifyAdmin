@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.AddEmpActivity;
+import com.appynitty.adminapp.activities.ZoomViewActivity;
 import com.appynitty.adminapp.databinding.ItemEmpDetailsListBinding;
 import com.appynitty.adminapp.models.AttendanceDTO;
 import com.appynitty.adminapp.models.EmpDModelDTO;
@@ -51,7 +52,14 @@ public class EmpDetailsAdapter extends RecyclerView.Adapter<EmpDetailsAdapter.My
         holder.itemEmpDListBinding.imgEditEmpDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, AddEmpActivity.class)/*.putExtra("qrEmpIdSend",empDModelDTO.getQrEmpId())*/);
+                context.startActivity(new Intent(context, AddEmpActivity.class).putExtra("qrEmpId",empDModelDTOList.get(position).getQrEmpId())
+                        .putExtra("qrEmpName", empDModelDTOList.get(position).getQrEmpName()));
+                /*Intent intent = new Intent(context, AddEmpActivity.class);
+                intent.putExtra("qrEmpId", empDModelDTOList.get(position).getQrEmpId());
+                intent.putExtra("qrEmpName", empDModelDTOList.get(position).getQrEmpName());
+                context.startActivity(intent);*/
+
+                Log.e(TAG, "adapter clicked emp Id:- "+ empDModelDTOList.get(position).getQrEmpId() +"  "+ empDModelDTOList.get(position).getQrEmpName());
             }
         });
 

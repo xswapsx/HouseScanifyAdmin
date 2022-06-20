@@ -16,9 +16,12 @@ import com.appynitty.adminapp.models.LoginResult;
 import com.appynitty.adminapp.models.LoginUserDTO;
 import com.appynitty.adminapp.repositories.AddEmpRepository;
 import com.appynitty.adminapp.repositories.LoginRepository;
+import com.appynitty.adminapp.utils.MainUtils;
+import com.pixplicity.easyprefs.library.Prefs;
 
 public class AddEmpViewModel extends ViewModel {
     private static final String TAG = "AddEmpViewModel";
+    String appId = Prefs.getString(MainUtils.APP_ID, null);
     public MutableLiveData<String> qrEmpId = new MutableLiveData<>(); //liveData with dataBinding
     public MutableLiveData<String> qrEmpName = new MutableLiveData<>(); //liveData with dataBinding
     public MutableLiveData<String> qrEmpMobileNumber = new MutableLiveData<>(); //liveData with dataBinding
@@ -51,7 +54,6 @@ public class AddEmpViewModel extends ViewModel {
             case R.id.txt_btn_save:
                 Log.e(TAG, "save button : ");
 
-
                 AddEmpDTO addEmpData = new AddEmpDTO(qrEmpId.getValue(), qrEmpName.getValue(),qrEmpMobileNumber.getValue(),
                         qrEmpAddress.getValue(), qrEmpLoginId.getValue(),qrEmpPassword.getValue(),
                         qrImoNo.getValue(),cbIsActive.toString());
@@ -67,7 +69,6 @@ public class AddEmpViewModel extends ViewModel {
                             if (addEmpResponse !=  null){
                                 addEmpResultMutableData.setValue(addEmpResponse);
                                 Log.e(TAG, "onResponse: " + addEmpResponse.getMessage());
-
                             }
                         }
 
