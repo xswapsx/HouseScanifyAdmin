@@ -6,20 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.AddEmpActivity;
-import com.appynitty.adminapp.activities.ZoomViewActivity;
 import com.appynitty.adminapp.databinding.ItemEmpDetailsListBinding;
-import com.appynitty.adminapp.models.AttendanceDTO;
 import com.appynitty.adminapp.models.EmpDModelDTO;
-import com.appynitty.adminapp.utils.MainUtils;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
@@ -38,13 +31,13 @@ public class EmpDetailsAdapter extends RecyclerView.Adapter<EmpDetailsAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        ItemEmpDetailsListBinding itemEmpDListBinding = ItemEmpDetailsListBinding.inflate(layoutInflater,parent,false);
+        ItemEmpDetailsListBinding itemEmpDListBinding = ItemEmpDetailsListBinding.inflate(layoutInflater, parent, false);
         return new MyViewHolder(itemEmpDListBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-      final   EmpDModelDTO empDModelDTO = empDModelDTOList.get(position);
+        final EmpDModelDTO empDModelDTO = empDModelDTOList.get(position);
 
         holder.itemEmpDListBinding.setEmpDItem(empDModelDTO);
         holder.itemEmpDListBinding.executePendingBindings();
@@ -52,14 +45,14 @@ public class EmpDetailsAdapter extends RecyclerView.Adapter<EmpDetailsAdapter.My
         holder.itemEmpDListBinding.imgEditEmpDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, AddEmpActivity.class).putExtra("qrEmpId",empDModelDTOList.get(position).getQrEmpId())
+                context.startActivity(new Intent(context, AddEmpActivity.class).putExtra("qrEmpId", empDModelDTOList.get(position).getQrEmpId())
                         .putExtra("qrEmpName", empDModelDTOList.get(position).getQrEmpName()));
                 /*Intent intent = new Intent(context, AddEmpActivity.class);
                 intent.putExtra("qrEmpId", empDModelDTOList.get(position).getQrEmpId());
                 intent.putExtra("qrEmpName", empDModelDTOList.get(position).getQrEmpName());
                 context.startActivity(intent);*/
 
-                Log.e(TAG, "adapter clicked emp Id:- "+ empDModelDTOList.get(position).getQrEmpId() +"  "+ empDModelDTOList.get(position).getQrEmpName());
+                Log.e(TAG, "adapter clicked emp Id:- " + empDModelDTO.getQrEmpId() + "  " + empDModelDTOList.get(position).getQrEmpName());
             }
         });
 

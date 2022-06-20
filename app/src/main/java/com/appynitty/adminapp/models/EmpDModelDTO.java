@@ -78,11 +78,12 @@ public class EmpDModelDTO {
     private String Password = null;
 
 
-    public EmpDModelDTO(String name, String mobilenum, String address, boolean isActive) {
+    public EmpDModelDTO(int qrEmpId, String name, String mobilenum, String address, boolean isActive) {
         this.qrEmpName = name;
         this.qrEmpMobileNumber = mobilenum;
         this.qrEmpAddress = address;
         this.isActive = isActive;
+        this.qrEmpId = qrEmpId;
     }
 
     public int getQrEmpId() {

@@ -3,6 +3,16 @@ package com.appynitty.adminapp.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
@@ -12,25 +22,11 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.AddEmpActivity;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.EmpDetailsAdapter;
 import com.appynitty.adminapp.databinding.FragmentEmpDetailsBinding;
-import com.appynitty.adminapp.models.AttendanceDTO;
 import com.appynitty.adminapp.models.EmpDModelDTO;
 import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.utils.MyViewModelFactory;
@@ -68,7 +64,7 @@ public class EmpDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (view== null){
+        if (view == null) {
             empDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_emp_details, container, false);
             //view =inflater.inflate(R.layout.fragment_emp_details, container, false);
             view = empDetailsBinding.getRoot();
@@ -78,7 +74,7 @@ public class EmpDetailsFragment extends Fragment {
         return view;
     }
 
-    private void init(){
+    private void init() {
         activity = (HomeActivity) getActivity();
         Bundle results = activity.getUlbData();
         appId = results.getString("val1");
@@ -129,21 +125,19 @@ public class EmpDetailsFragment extends Fragment {
         empDViewModel.getEmpDResponseLiveData().observe(activity, new Observer<List<EmpDModelDTO>>() {
             @Override
             public void onChanged(List<EmpDModelDTO> empDModelDTOS) {
-                Log.e(TAG, "onChanged: " + empDModelDTOS);
                 empDModelList.clear();
 
-                if (empDModelList != null && empDModelList.isEmpty()){
+                if (empDModelList != null && empDModelList.isEmpty()) {
                     empDetailsBinding.recyclerEmpDetailsFrag.setVisibility(View.VISIBLE);
                     empDetailsBinding.progressCircular.setVisibility(View.GONE);
                     empDetailsBinding.txtNoData.setVisibility(View.GONE);
 
-                    for (EmpDModelDTO empD : empDModelDTOS){
-                        empDModelList.add(new EmpDModelDTO(empD.getQrEmpName(), empD.getQrEmpMobileNumber(),
+                    for (EmpDModelDTO empD : empDModelDTOS) {
+                        empDModelList.add(new EmpDModelDTO(empD.getQrEmpId(), empD.getQrEmpName(), empD.getQrEmpMobileNumber(),
                                 empD.getQrEmpAddress(), empD.isActive()));
                     }
                     setRecycler(empDModelList);
-                }
-                else {
+                } else {
                     empDetailsBinding.recyclerEmpDetailsFrag.setVisibility(View.GONE);
                     empDetailsBinding.progressCircular.setVisibility(View.GONE);
                     empDetailsBinding.txtNoData.setVisibility(View.VISIBLE);
@@ -165,7 +159,7 @@ public class EmpDetailsFragment extends Fragment {
     private void setRecycler(List<EmpDModelDTO> empDModelList) {
         empDetailsBinding.progressCircular.setVisibility(View.GONE);
         empDetailsBinding.txtNoData.setVisibility(View.GONE);
-        adapter = new EmpDetailsAdapter(context,empDModelList);
+        adapter = new EmpDetailsAdapter(context, empDModelList);
         empDetailsBinding.recyclerEmpDetailsFrag.setLayoutManager(layoutManager);
         empDetailsBinding.recyclerEmpDetailsFrag.setAdapter(adapter);
     }
