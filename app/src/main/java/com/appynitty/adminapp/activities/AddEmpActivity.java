@@ -45,7 +45,7 @@ public class AddEmpActivity extends AppCompatActivity {
     private AddEmpDTO addEmpModelDto;
     private AddEmpViewModel addEmpViewModel;
     String empName, empMobile, empAdd, empUsername, empPass, empLoginImei, empId;
-    String empIdAdapter;
+    String empIdAdapter, empNameAdapter;
     boolean isActiveChecked, isClearChecked;
 
 
@@ -69,7 +69,8 @@ public class AddEmpActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         empIdAdapter = intent.getStringExtra("qrEmpId");
-        Log.e(TAG, "adapter send emp id : " +empIdAdapter);
+        empNameAdapter = intent.getStringExtra("qrEmpName");
+        Log.e(TAG, "adapter send emp id : " +empIdAdapter +""+empNameAdapter);
 
         init();
 
