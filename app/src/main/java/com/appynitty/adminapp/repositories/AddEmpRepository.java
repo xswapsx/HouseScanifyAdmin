@@ -1,14 +1,12 @@
 package com.appynitty.adminapp.repositories;
 
 
-import android.provider.Settings;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.appynitty.adminapp.models.AddEmpDTO;
 import com.appynitty.adminapp.models.AddEmpResult;
-import com.appynitty.adminapp.models.LoginResult;
 import com.appynitty.adminapp.networking.RetrofitClient;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.webservices.AddEmpWebService;
@@ -19,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,23 +24,22 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddEmpRepository {
     private static final String TAG = "AddEmpRepository";
     String appId = Prefs.getString(MainUtils.APP_ID, null);
     private static final AddEmpRepository instance = new AddEmpRepository();
     Gson gson = new Gson();
-    public static AddEmpRepository getInstance(){
+
+    public static AddEmpRepository getInstance() {
         return instance;
     }
 
     List<AddEmpDTO> addEmpDTO = new ArrayList<>();
 
-    public void addEmpRemote(MutableLiveData<AddEmpDTO> addEmpBody, IAddEmpResponse iAddEmpResponse){
+    public void addEmpRemote(MutableLiveData<AddEmpDTO> addEmpBody, IAddEmpResponse iAddEmpResponse) {
         AddEmpWebService empWebService = RetrofitClient.createService(AddEmpWebService.class, MainUtils.BASE_URL);
-
+        addEmpDTO.add(addEmpBody.getValue());
         JSONObject empObject = new JSONObject();
 
         try {
@@ -77,7 +73,7 @@ public class AddEmpRepository {
         addEmpDTO.setImoNo(Objects.requireNonNull(addEmpBody.getValue().getImoNo().trim()));
         addEmpDTO.setIsActive(Objects.requireNonNull(addEmpBody.getValue().getIsActive().trim()));*/
 
-        Call<AddEmpResult> initiateAddEmp = empWebService.addNewEmpHS(MainUtils.CONTENT_TYPE,appId,addEmpDTO);
+        Call<AddEmpResult> initiateAddEmp = empWebService.addNewEmpHS(MainUtils.CONTENT_TYPE, appId, addEmpDTO);
 
         initiateAddEmp.enqueue(new Callback<AddEmpResult>() {
             @Override
