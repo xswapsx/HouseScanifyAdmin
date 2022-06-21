@@ -1,9 +1,15 @@
 package com.appynitty.adminapp.models;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
+import com.appynitty.adminapp.BR;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class EmpDModelDTO {
+import java.io.Serializable;
+
+public class EmpDModelDTO extends BaseObservable implements Serializable {
 
     @SerializedName("qrEmpId")
     @Expose
@@ -78,13 +84,18 @@ public class EmpDModelDTO {
     private String Password = null;
 
 
-    public EmpDModelDTO(int qrEmpId, String name, String mobilenum, String address, boolean isActive) {
+    public EmpDModelDTO(int qrEmpId, String name, String mobilenum, String address, String loginId, String password, String imoNo,
+                        boolean isActive) {
         this.qrEmpName = name;
         this.qrEmpMobileNumber = mobilenum;
         this.qrEmpAddress = address;
         this.isActive = isActive;
         this.qrEmpId = qrEmpId;
+        qrEmpLoginId = loginId;
+        qrEmpPassword = password;
+        this.imoNo = imoNo;
     }
+
 
     public int getQrEmpId() {
         return qrEmpId;
@@ -102,12 +113,14 @@ public class EmpDModelDTO {
         this.appId = appId;
     }
 
+    @Bindable
     public String getQrEmpName() {
         return qrEmpName;
     }
 
     public void setQrEmpName(String qrEmpName) {
         this.qrEmpName = qrEmpName;
+        notifyPropertyChanged(BR.qrEmpName);
     }
 
     public String getQrEmpNameMar() {
@@ -118,29 +131,36 @@ public class EmpDModelDTO {
         this.qrEmpNameMar = qrEmpNameMar;
     }
 
+    @Bindable
     public String getQrEmpPassword() {
         return qrEmpPassword;
     }
 
     public void setQrEmpPassword(String qrEmpPassword) {
         this.qrEmpPassword = qrEmpPassword;
+        notifyPropertyChanged(BR.qrEmpPassword);
     }
 
+    @Bindable
     public String getQrEmpMobileNumber() {
         return qrEmpMobileNumber;
     }
 
     public void setQrEmpMobileNumber(String qrEmpMobileNumber) {
         this.qrEmpMobileNumber = qrEmpMobileNumber;
+        notifyPropertyChanged(BR.qrEmpMobileNumber);
     }
 
+    @Bindable
     public String getQrEmpAddress() {
         return qrEmpAddress;
     }
 
     public void setQrEmpAddress(String qrEmpAddress) {
         this.qrEmpAddress = qrEmpAddress;
+        notifyPropertyChanged(BR.qrEmpAddress);
     }
+
 
     public String getType() {
         return type;
@@ -166,12 +186,14 @@ public class EmpDModelDTO {
         this.userEmployeeNo = userEmployeeNo;
     }
 
+    @Bindable
     public String getImoNo() {
         return imoNo;
     }
 
     public void setImoNo(String imoNo) {
         this.imoNo = imoNo;
+        notifyPropertyChanged(BR.imoNo);
     }
 
     public String getBloodGroup() {
@@ -182,12 +204,14 @@ public class EmpDModelDTO {
         this.bloodGroup = bloodGroup;
     }
 
+    @Bindable
     public boolean isActive() {
         return isActive;
     }
 
     public void setActive(boolean active) {
         isActive = active;
+        notifyPropertyChanged(BR.isActive);
     }
 
     public String getTarget() {
@@ -206,12 +230,14 @@ public class EmpDModelDTO {
         this.lastModifyDate = lastModifyDate;
     }
 
+    @Bindable
     public String getQrEmpLoginId() {
         return qrEmpLoginId;
     }
 
     public void setQrEmpLoginId(String qrEmpLoginId) {
         this.qrEmpLoginId = qrEmpLoginId;
+        notifyPropertyChanged(BR.qrEmpLoginId);
     }
 
     public String getLoginId() {

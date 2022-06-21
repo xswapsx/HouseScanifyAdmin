@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.appynitty.adminapp.models.AddEmpDTO;
 import com.appynitty.adminapp.models.AddEmpResult;
+import com.appynitty.adminapp.models.EmpDModelDTO;
 import com.appynitty.adminapp.networking.RetrofitClient;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.webservices.AddEmpWebService;
@@ -97,9 +98,30 @@ public class AddEmpRepository {
 
     }
 
+    public void updateEmpDetails(EmpDModelDTO empDetails, IAddEmpResponse iAddEmpResponse) {
+        Log.d(TAG, "updateEmpDetails: " + empDetails.toString());
+        List<EmpDModelDTO> empDetails1 = new ArrayList<>();
+        empDetails1.add(empDetails);
+        AddEmpWebService empWebService = RetrofitClient.createService(AddEmpWebService.class, MainUtils.BASE_URL);
+        Call<AddEmpResult> updateEmployeeCall = empWebService.updateEmployeeDetails(MainUtils.CONTENT_TYPE, appId, empDetails1);
+        updateEmployeeCall.enqueue(new Callback<AddEmpResult>() {
+            @Override
+            public void onResponse(Call<AddEmpResult> call, Response<AddEmpResult> response) {
+                Log.d(TAG, "onResponse: " + response.body().getMessage());
+                iAddEmpResponse.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<AddEmpResult> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
     public interface IAddEmpResponse {
         void onResponse(AddEmpResult addEmpResponse);
 
         void onFailure(Throwable t);
     }
+
 }

@@ -134,9 +134,10 @@ public class EmpDetailsFragment extends Fragment {
 
                     for (EmpDModelDTO empD : empDModelDTOS) {
                         empDModelList.add(new EmpDModelDTO(empD.getQrEmpId(), empD.getQrEmpName(), empD.getQrEmpMobileNumber(),
-                                empD.getQrEmpAddress(), empD.isActive()));
+                                empD.getQrEmpAddress(), empD.getQrEmpLoginId(), empD.getQrEmpPassword(), empD.getImoNo(), empD.isActive()));
                     }
                     setRecycler(empDModelList);
+                    Log.e(TAG, "emp details list: " + empDModelList.toString());
                 } else {
                     empDetailsBinding.recyclerEmpDetailsFrag.setVisibility(View.GONE);
                     empDetailsBinding.progressCircular.setVisibility(View.GONE);

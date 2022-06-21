@@ -3,6 +3,7 @@ package com.appynitty.adminapp.webservices;
 
 import com.appynitty.adminapp.models.AddEmpDTO;
 import com.appynitty.adminapp.models.AddEmpResult;
+import com.appynitty.adminapp.models.EmpDModelDTO;
 
 import java.util.List;
 
@@ -16,5 +17,10 @@ public interface AddEmpWebService {
     Call<AddEmpResult> addNewEmpHS(@Header("Content-Type") String content_type,
                                    @Header("appId") String appId,
                                    @Body List<AddEmpDTO> addEmpDTO);
+
+    @POST("api/Supervisor/AddHouseScanifyEmployee")
+    Call<AddEmpResult> updateEmployeeDetails(@Header("Content-Type") String content_type,
+                                             @Header("appId") String appId,
+                                             @Body List<EmpDModelDTO> addEmpDTO);
 
 }

@@ -3,7 +3,6 @@ package com.appynitty.adminapp.viewmodels;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,10 +11,8 @@ import androidx.lifecycle.ViewModel;
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.models.AddEmpDTO;
 import com.appynitty.adminapp.models.AddEmpResult;
-import com.appynitty.adminapp.models.LoginResult;
-import com.appynitty.adminapp.models.LoginUserDTO;
+import com.appynitty.adminapp.models.EmpDModelDTO;
 import com.appynitty.adminapp.repositories.AddEmpRepository;
-import com.appynitty.adminapp.repositories.LoginRepository;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -54,19 +51,19 @@ public class AddEmpViewModel extends ViewModel {
             case R.id.txt_btn_save:
                 Log.e(TAG, "save button : ");
 
-                AddEmpDTO addEmpData = new AddEmpDTO(qrEmpId.getValue(), qrEmpName.getValue(),qrEmpMobileNumber.getValue(),
-                        qrEmpAddress.getValue(), qrEmpLoginId.getValue(),qrEmpPassword.getValue(),
-                        qrImoNo.getValue(),cbIsActive.toString());
+                AddEmpDTO addEmpData = new AddEmpDTO(qrEmpId.getValue(), qrEmpName.getValue(), qrEmpMobileNumber.getValue(),
+                        qrEmpAddress.getValue(), qrEmpLoginId.getValue(), qrEmpPassword.getValue(),
+                        qrImoNo.getValue(), cbIsActive.toString());
                 addEmpMutableLiveData.setValue(addEmpData);
 
                 if (qrEmpName.getValue() != null && qrEmpName.getValue() != null && qrEmpMobileNumber.getValue() != null && qrEmpAddress.getValue() != null
                         && qrEmpLoginId.getValue() != null && qrEmpPassword.getValue() != null
-                        && qrImoNo.getValue() != null ) {
+                        && qrImoNo.getValue() != null) {
                     addEmpRepository.addEmpRemote(addEmpMutableLiveData, new AddEmpRepository.IAddEmpResponse() {
                         @Override
                         public void onResponse(AddEmpResult addEmpResponse) {
                             mProgressMutableData.postValue(View.INVISIBLE);
-                            if (addEmpResponse !=  null){
+                            if (addEmpResponse != null) {
                                 addEmpResultMutableData.setValue(addEmpResponse);
                                 Log.e(TAG, "onResponse: " + addEmpResponse.getMessage());
                             }
@@ -79,7 +76,7 @@ public class AddEmpViewModel extends ViewModel {
                         }
                     });
                 }
-                    addAndUpdateEmp.setValue("Data saved successfully!");
+                addAndUpdateEmp.setValue("Data saved successfully!");
                 break;
             case R.id.cb_clear_login:
                 cbClearLogin = ((CheckBox) view).isChecked();
@@ -102,4 +99,18 @@ public class AddEmpViewModel extends ViewModel {
         return addEmpResultMutableData;
     }
 
+    public void updateEmpDetails(EmpDModelDTO empDetails) {
+        Log.d(TAG, "updateEmpDetails: " + empDetails.toString());
+        addEmpRepository.updateEmpDetails(empDetails, new AddEmpRepository.IAddEmpResponse() {
+            @Override
+            public void onResponse(AddEmpResult addEmpResponse) {
+                Log.e(TAG, "onResponse: " + addEmpResponse.getMessage());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
 }

@@ -33,5 +33,7 @@
     <string name="str_active">Active</string>
     <string name="str_inactive">Inactive</string>
     <string name="str_entries">Entries %s</string>
+    <string name="updateEmpDetails">UPDATE EMPLOYEE DETAILS</string>
+    <string name="addEmp">ADD EMPLOYEE</string>
 
 </resources>

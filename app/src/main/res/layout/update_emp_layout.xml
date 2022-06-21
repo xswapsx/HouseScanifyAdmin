@@ -5,13 +5,13 @@
 
     <data>
 
-        <variable
-            name="addEmpViewModel"
-            type="com.appynitty.adminapp.viewmodels.AddEmpViewModel" />
-
         <!--<variable
+            name="addEmpViewModel"
+            type="com.appynitty.adminapp.viewmodels.AddEmpViewModel" />-->
+
+        <variable
             name="empDetails"
-            type="com.appynitty.adminapp.models.EmpDModelDTO" />-->
+            type="com.appynitty.adminapp.models.EmpDModelDTO" />
     </data>
 
     <RelativeLayout
@@ -32,7 +32,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_btn_save"
+                android:id="@+id/btnEmpUpdate"
                 android:layout_width="160dp"
                 android:layout_height="45dp"
                 android:layout_alignParentBottom="true"
@@ -42,9 +42,8 @@
                 android:background="@drawable/solid_rounded_blue_btn"
                 android:elevation="@dimen/dim_5dp"
                 android:gravity="center|center_vertical"
-                android:onClick="@{(v) -> addEmpViewModel.onClick(v)}"
                 android:shadowColor="@color/colorPrimary"
-                android:text="Save"
+                android:text="Update"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/txt_size_16sp" />
 
@@ -52,7 +51,7 @@
                 android:id="@+id/scroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/txt_btn_save"
+                android:layout_above="@id/btnEmpUpdate"
                 android:fitsSystemWindows="true"
                 android:scrollbars="none">
 
@@ -96,7 +95,6 @@
                                 android:inputType="text"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
-                                android:text="@={addEmpViewModel.qrEmpId}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
@@ -136,7 +134,7 @@
                                 android:inputType="text"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
-                                android:text="@={addEmpViewModel.qrEmpName}"
+                                android:text="@={empDetails.qrEmpName}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
@@ -177,7 +175,7 @@
                                 android:maxLength="10"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
-                                android:text="@={addEmpViewModel.qrEmpMobileNumber}"
+                                android:text="@={empDetails.qrEmpMobileNumber}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
@@ -217,7 +215,7 @@
                                 android:inputType="textPostalAddress"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
-                                android:text="@={addEmpViewModel.qrEmpAddress}"
+                                android:text="@={empDetails.qrEmpAddress}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
@@ -257,7 +255,7 @@
                                 android:inputType="textPostalAddress"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
-                                android:text="@={addEmpViewModel.qrEmpLoginId}"
+                                android:text="@={empDetails.qrEmpLoginId}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
@@ -297,7 +295,7 @@
                                 android:minEms="4"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
-                                android:text="@={addEmpViewModel.qrEmpPassword}"
+                                android:text="@={empDetails.qrEmpPassword}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
                             <!--android:inputType="textPassword"-->
@@ -339,7 +337,7 @@
                                 android:inputType="text"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
-                                android:text="@={addEmpViewModel.qrImoNo}"
+                                android:text="@={empDetails.imoNo}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
@@ -365,7 +363,6 @@
                             android:buttonTint="@color/colorPrimaryDark"
                             android:elevation="@dimen/dim_8dp"
                             android:gravity="center_vertical"
-                            android:onClick="@{(v) -> addEmpViewModel.onClick(v)}"
                             android:padding="@dimen/dim_10dp"
                             android:text="@string/str_chkbox_clear_login"
                             android:textSize="@dimen/txt_size_12sp" />
@@ -378,6 +375,7 @@
                             android:layout_marginStart="@dimen/dim_10dp"
                             android:layout_weight="5"
                             android:buttonTint="@color/colorPrimaryDark"
+                            android:checked="@{empDetails.isActive}"
                             android:elevation="@dimen/dim_8dp"
                             android:gravity="center_vertical"
                             android:padding="@dimen/dim_10dp"
