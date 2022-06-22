@@ -85,7 +85,6 @@ public class AddEmpActivity extends AppCompatActivity {
             updateEmpLayoutBinding.cbClearLogin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    Log.d(TAG, "onCheckedChanged: isChecked? " + b);
                     empDetails.setImoNo(null);
                 }
             });
