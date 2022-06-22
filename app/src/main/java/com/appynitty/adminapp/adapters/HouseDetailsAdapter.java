@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.BuildConfig;
 
@@ -63,7 +64,29 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
             }
         });
 
-        holder.txtImgAccept.setOnClickListener(new View.OnClickListener() {
+        holder.cardImgAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.cardImgAccept.setCardBackgroundColor(context.getResources().getColor(R.color.colorONDutyGreen));
+                holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.white));
+                holder.cardImgReject.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+                holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.black));
+                Toast.makeText(context, "Image approved successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.cardImgReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.cardImgReject.setCardBackgroundColor(context.getResources().getColor(R.color.colorOFFDutyRed));
+                holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.white));
+                holder.cardImgAccept.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+                holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.black));
+                Toast.makeText(context, "Image reject successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /*holder.txtImgAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 holder.txtImgAccept.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.solid_rounded_green_btn));
@@ -83,7 +106,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
                 holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.black));
                 Toast.makeText(context, "Image reject successfully", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         holder.imgShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +168,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
         private TextView txtDateTime, txtRefId, txtEmpName, txtLatitude, txtLongitude;
         private ImageView imgPhoto, imgShare;
         private TextView txtImgAccept, txtImgReject;
+        private CardView cardImgAccept, cardImgReject;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -158,6 +182,8 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
             imgShare = itemView.findViewById(R.id.img_share);
             txtImgAccept = itemView.findViewById(R.id.txt_img_accept);
             txtImgReject = itemView.findViewById(R.id.txt_img_reject);
+            cardImgAccept = itemView.findViewById(R.id.card_img_accept);
+            cardImgReject = itemView.findViewById(R.id.card_img_reject);
         }
     }
 }

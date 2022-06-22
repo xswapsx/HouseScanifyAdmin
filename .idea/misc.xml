@@ -54,6 +54,7 @@
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/dashboard_item_list.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/dialog_emp_list.xml" value="0.2677083333333333" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/dialog_filter.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/emp_details_row_item.xml" value="0.24259259259259258" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_attendance.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_emp_details.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/fragment_house_details.xml" value="0.26875" />
@@ -63,6 +64,7 @@
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_emp_details_list.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_emp_list.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/item_user_rights_list.xml" value="0.26875" />
+        <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/layout/update_emp_layout.xml" value="0.26875" />
         <entry key="..\:/houseScanApp/code/HouseScanifyAdmin/app/src/main/res/menu/home_menu.xml" value="0.26875" />
       </map>
     </option>
