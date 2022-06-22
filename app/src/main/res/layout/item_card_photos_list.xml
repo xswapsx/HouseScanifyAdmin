@@ -221,7 +221,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/rl_card_tool"
             android:scaleType="fitXY"
-            android:src="@drawable/dummy" />
+            android:src="@drawable/default_not_upload" />
 
         <ImageView
             android:id="@+id/img_share"

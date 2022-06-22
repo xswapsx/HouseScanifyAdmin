@@ -30,16 +30,13 @@ public class HouseDetailsImageVM extends ViewModel {
             @Override
             public void onResponse(MutableLiveData<List<HouseDetailsImageDTO>> QrImageLiveData) {
                 mProgressLiveData.postValue(View.INVISIBLE);
-                houseQrImagesLiveData.setValue(QrImageLiveData.getValue());
-                for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
-                ) {
-                    if (house.getqRCodeImage() != null) {
-                        sImgCount += 1;
-
-                    }
+                if (QrImageLiveData.getValue() != null) {
+                    houseQrImagesLiveData.setValue(QrImageLiveData.getValue());
+                    sImgCount = QrImageLiveData.getValue().size();
+                    imageCountLiveData.setValue(sImgCount);
+                    Log.e(TAG, "onResponse: ImageCount " + sImgCount);
                 }
-                imageCountLiveData.setValue(sImgCount);
-                Log.e(TAG, "onResponse: ImageCount " + sImgCount);
+
             }
 
             @Override

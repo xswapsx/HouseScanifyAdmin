@@ -1,7 +1,6 @@
 package com.appynitty.adminapp.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,15 +14,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import com.appynitty.adminapp.R;
-import com.appynitty.adminapp.activities.DashboardActivity;
 import com.appynitty.adminapp.adapters.HouseDetailsAdapter;
 import com.appynitty.adminapp.databinding.FragmentHouseDetailsBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
@@ -46,6 +47,7 @@ public class HouseDetailsFragment extends Fragment {
     private RadioButton rdHouse, rdDumpYard, rdLiquid, rdStreet;
     private List<HouseDetailsImageDTO> imageDataList;
     private RecyclerView recyclerHouseImage;
+    SnapHelper mSnapHelper;
     private LinearLayoutManager layoutManager;
     private HouseDetailsAdapter houseDetailsAdapter;
     private ProgressBar loader;
@@ -83,6 +85,8 @@ public class HouseDetailsFragment extends Fragment {
         crdFilter = view.findViewById(R.id.card_filter);
         homeButton = getActivity().findViewById(R.id.ib_home);
         recyclerHouseImage = view.findViewById(R.id.recycler_House_image);
+        mSnapHelper = new PagerSnapHelper();
+        mSnapHelper.attachToRecyclerView(recyclerHouseImage);
         loader = view.findViewById(R.id.progress_circular);
         loader.setVisibility(View.GONE);
         txtNoData = view.findViewById(R.id.txt_no_data);
@@ -167,14 +171,17 @@ public class HouseDetailsFragment extends Fragment {
         houseDetailsImageVM.getHouseQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
 
             @Override
-            public void onChanged(List<HouseDetailsImageDTO> houseDetailsImageDTOS) {
+            public void onChanged(List<HouseDetailsImageDTO> houseDetailsImageDTOList) {
                 imageDataList.clear();
-                Log.e(TAG, "HosueImageDetails Size: " + houseDetailsImageDTOS.size());
-                for (HouseDetailsImageDTO house : houseDetailsImageDTOS
-                ) {
-                    imageDataList.add(house);
+                if (houseDetailsImageDTOList != null) {
+                    Log.e(TAG, "HosueImageDetails Size: " + houseDetailsImageDTOList.size());
+                    for (HouseDetailsImageDTO house : houseDetailsImageDTOList
+                    ) {
+                        imageDataList.add(house);
+                    }
+                    setOnRecycler(imageDataList);
                 }
-                setOnRecycler(imageDataList);
+
             }
         });
 
@@ -183,41 +190,48 @@ public class HouseDetailsFragment extends Fragment {
 
             @Override
             public void onChanged(List<HouseDetailsImageDTO> dumpYardWasteList) {
-                for (HouseDetailsImageDTO dumpYard :
-                        dumpYardWasteList) {
-                    imageDataList.add(dumpYard);
-                    Log.e(TAG, "onChanged: DumpYardId: " + dumpYard.getReferanceId());
+                if (/*dumpYardWasteList != null || */dumpYardWasteList.size() != 0) {
+                    for (HouseDetailsImageDTO dumpYard :
+                            dumpYardWasteList) {
+                        imageDataList.add(dumpYard);
+                        Log.e(TAG, "onChanged: DumpYardId: " + dumpYard.getReferanceId());
+                    }
+                    houseDetailsAdapter.dumpYardList(imageDataList);
+                    Log.e(TAG, "onChanged: DumpYardId: Size---" + dumpYardWasteList.size());
                 }
-                houseDetailsAdapter.dumpYardList(imageDataList);
-                Log.e(TAG, "onChanged: DumpYardId: Size---" + dumpYardWasteList.size());
             }
         });
 
         houseDetailsImageVM.getLiquidQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
             @Override
             public void onChanged(List<HouseDetailsImageDTO> liquidWasteList) {
-                for (HouseDetailsImageDTO liquidWaste :
-                        liquidWasteList) {
-                    imageDataList.add(liquidWaste);
-                    Log.e(TAG, "onChanged: liquidId: " + liquidWaste.getReferanceId());
-                }
-                houseDetailsAdapter.getLiquidList(imageDataList);
 
-                Log.e(TAG, "onChanged: LiquidWasteList: Size---" + liquidWasteList.size());
+                if (liquidWasteList.size() != 0) {
+                    for (HouseDetailsImageDTO liquidWaste :
+                            liquidWasteList) {
+                        imageDataList.add(liquidWaste);
+                        Log.e(TAG, "onChanged: liquidId: " + liquidWaste.getReferanceId());
+                    }
+                    houseDetailsAdapter.getLiquidList(imageDataList);
+
+                    Log.e(TAG, "onChanged: LiquidWasteList: Size---" + liquidWasteList.size());
+                }
             }
         });
 
         houseDetailsImageVM.getStreetQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
             @Override
             public void onChanged(List<HouseDetailsImageDTO> streetWasteList) {
-                for (HouseDetailsImageDTO streetWaste :
-                        streetWasteList) {
-                    imageDataList.add(streetWaste);
-                    Log.e(TAG, "onChanged: streetId: " + streetWaste.getReferanceId());
-                }
-                houseDetailsAdapter.getLiquidList(imageDataList);
+                if (streetWasteList.size() != 0) {
+                    for (HouseDetailsImageDTO streetWaste :
+                            streetWasteList) {
+                        imageDataList.add(streetWaste);
+                        Log.e(TAG, "onChanged: streetId: " + streetWaste.getReferanceId());
+                    }
+                    houseDetailsAdapter.getLiquidList(imageDataList);
 
-                Log.e(TAG, "onChanged: streetWasteList: Size---" + streetWasteList.size());
+                    Log.e(TAG, "onChanged: streetWasteList: Size---" + streetWasteList.size());
+                }
             }
         });
 
@@ -237,7 +251,23 @@ public class HouseDetailsFragment extends Fragment {
         });
 
         setOnClick();
+        recyclerHouseImage.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                recyclerView.getLayoutManager().getChildAt(0);
+            }
 
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dx > 0) {
+                    Log.d(TAG, "onScrolled: left<---");
+                } else {
+                    Log.d(TAG, "onScrolled: right--->");
+                }
+            }
+        });
     }
 
     private void setOnClick() {
@@ -248,7 +278,7 @@ public class HouseDetailsFragment extends Fragment {
             }
         });
 
-       /* homeButton.setOnClickListener(View -> startActivity(new Intent(getActivity(), DashboardActivity.class)));*/
+        /* homeButton.setOnClickListener(View -> startActivity(new Intent(getActivity(), DashboardActivity.class)));*/
     }
 
     private void openDialog() {

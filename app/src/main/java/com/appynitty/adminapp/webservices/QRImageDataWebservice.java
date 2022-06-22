@@ -14,7 +14,8 @@ public interface QRImageDataWebservice {
                                                       @Header("FromDate") String frmDate,
                                                       @Header("Todate") String toDate,
                                                       @Header("appId") String appId,
-                                                      @Header("userId") String userId);
+                                                      @Header("userId") String userId,
+                                                      @Header("ReferanceId") String referanceId);
 
 
     @GET("api/Supervisor/DumpYardDetails")

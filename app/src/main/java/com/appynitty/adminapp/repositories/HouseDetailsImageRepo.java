@@ -34,7 +34,8 @@ public class HouseDetailsImageRepo {
     public void getHouseQrImageData(IQrImageResponse listener) {
         appId = Prefs.getString(MainUtils.APP_ID);
         QRImageDataWebservice qrImageDataWebservice = RetrofitClient.createService(QRImageDataWebservice.class, MainUtils.BASE_URL);
-        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getHouseQrImages(MainUtils.CONTENT_TYPE, date, date, appId, "0");
+        String rfId = "Y";
+        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getHouseQrImages(MainUtils.CONTENT_TYPE, date, date, appId, "0", rfId/*"HPSBA1800"*/);
         qrImageDataCall.enqueue(new Callback<List<HouseDetailsImageDTO>>() {
             @Override
             public void onResponse(Call<List<HouseDetailsImageDTO>> call, Response<List<HouseDetailsImageDTO>> response) {
@@ -42,7 +43,8 @@ public class HouseDetailsImageRepo {
                     HouseQrImagesLiveData.setValue(response.body());
                     listener.onResponse(HouseQrImagesLiveData);
                 } else if (response.code() == 500) {
-                    Log.e(TAG, "onResponse: Internal Server Error");
+                    Log.e(TAG, "onResponse: Internal Server Error" + response);
+                    listener.onResponse(HouseQrImagesLiveData);
                 }
             }
 
@@ -127,7 +129,7 @@ public class HouseDetailsImageRepo {
         Log.e(TAG, "getFilteredHouseDetails: frmDate: " + frmDate + ", toDate: " + toDate + ", appId: " + appIdq + ", userId: " + userId);
         appId = Prefs.getString(MainUtils.APP_ID);
         QRImageDataWebservice qrImageDataWebservice = RetrofitClient.createService(QRImageDataWebservice.class, MainUtils.BASE_URL);
-        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getHouseQrImages(MainUtils.CONTENT_TYPE, frmDate, toDate, appId, userId);
+        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getHouseQrImages(MainUtils.CONTENT_TYPE, frmDate, toDate, appId, userId, null);
         qrImageDataCall.enqueue(new Callback<List<HouseDetailsImageDTO>>() {
             @Override
             public void onResponse(Call<List<HouseDetailsImageDTO>> call, Response<List<HouseDetailsImageDTO>> response) {
