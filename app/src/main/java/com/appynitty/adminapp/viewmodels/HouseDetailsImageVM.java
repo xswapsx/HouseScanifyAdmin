@@ -33,7 +33,7 @@ public class HouseDetailsImageVM extends ViewModel {
                 houseQrImagesLiveData.setValue(QrImageLiveData.getValue());
                 for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
                 ) {
-                    if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                    if (house.getqRCodeImage() != null) {
                         sImgCount += 1;
 
                     }
