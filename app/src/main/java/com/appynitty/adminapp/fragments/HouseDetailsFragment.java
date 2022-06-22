@@ -248,7 +248,7 @@ public class HouseDetailsFragment extends Fragment {
             }
         });
 
-        homeButton.setOnClickListener(View -> startActivity(new Intent(getActivity(), DashboardActivity.class)));
+       /* homeButton.setOnClickListener(View -> startActivity(new Intent(getActivity(), DashboardActivity.class)));*/
     }
 
     private void openDialog() {

@@ -135,8 +135,8 @@ public class LiveDataFragment extends Fragment {
             }
         });
 
-        homeButton = getActivity().findViewById(R.id.ib_home);
-        homeButton.setOnClickListener(view -> startActivity(new Intent(getActivity(), DashboardActivity.class)));
+       /* homeButton = getActivity().findViewById(R.id.ib_home);
+        homeButton.setOnClickListener(view -> startActivity(new Intent(getActivity(), DashboardActivity.class)));*/
 
     }
 

@@ -128,6 +128,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        binding.ibHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context, DashboardActivity.class));
+            }
+        });
+
     }
 
     private boolean loadFragment(Fragment fragment) {
