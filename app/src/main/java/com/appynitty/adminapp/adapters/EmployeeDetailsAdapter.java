@@ -1,15 +1,24 @@
 package com.appynitty.adminapp.adapters;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.EmpDetailsRowItemBinding;
+import com.appynitty.adminapp.fragments.HouseDetailsFragment;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
-import com.appynitty.adminapp.models.UlbDTO;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -35,8 +44,21 @@ public class EmployeeDetailsAdapter extends RecyclerView.Adapter<EmployeeDetails
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final EmployeeDetailsDTO empDetails = employeeDetailsList.get(position);
-        holder.binding.setEmpList(empDetails);
+        holder.binding.setEmployee(empDetails);
         holder.binding.executePendingBindings();
+        holder.binding.rowTxtName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, empDetails.getEmpName(), Toast.LENGTH_LONG).show();
+                /*BottomNavigationView bottomNavigationView;
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                bottomNavigationView = activity.findViewById(R.id.bottom_navigation);
+                bottomNavigationView.setSelectedItemId(R.id.nav_house_details);
+                Fragment myFragment = new HouseDetailsFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.container_frame_layout, myFragment).addToBackStack(null).commit();*/
+
+            }
+        });
     }
 
     public void filterList(List<EmployeeDetailsDTO> filteredList) {

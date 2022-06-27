@@ -12,7 +12,7 @@ public interface AttendanceWebService {
     @GET("api/Supervisor/AttendanceGridRow")
     Call<List<AttendanceDTO>> getFragAttendanceList (@Header("Content-Type") String content_type,
                                                      @Header("EmpType") String EmpType,
-                                                     @Header("userId") String userId,
+                                                     @Header("qrEmpId") String userId,
                                                      @Header("appId") String appId,
                                                      @Header("FromDate") String fromDate,
                                                      @Header("Todate") String toDate);

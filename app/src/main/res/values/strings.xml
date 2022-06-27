@@ -35,5 +35,6 @@
     <string name="str_entries">Entries %s</string>
     <string name="updateEmpDetails">UPDATE EMPLOYEE DETAILS</string>
     <string name="addEmp">ADD EMPLOYEE</string>
+    <string name="slct_emp">"Please select an employee:  "</string>
 
 </resources>

@@ -19,6 +19,7 @@ import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.ActivityHomeBinding;
 import com.appynitty.adminapp.fragments.AttendanceFragment;
 import com.appynitty.adminapp.fragments.EmpDetailsFragment;
+import com.appynitty.adminapp.fragments.EmpListFragment;
 import com.appynitty.adminapp.fragments.HouseDetailsFragment;
 import com.appynitty.adminapp.fragments.LiveDataFragment;
 import com.appynitty.adminapp.utils.MainUtils;
@@ -112,7 +113,8 @@ public class HomeActivity extends AppCompatActivity {
                         /* viewPager.setCurrentItem(0);*/
                         break;
                     case R.id.nav_house_details:
-                        fragment = new HouseDetailsFragment();
+//                        fragment = new HouseDetailsFragment();
+                        fragment = new EmpListFragment();
                         /*viewPager.setCurrentItem(1);*/
                         break;
                     case R.id.nav_attendance:
@@ -165,11 +167,11 @@ public class HomeActivity extends AppCompatActivity {
                         context.startActivity(intent);
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.cancel();
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.cancel();
+                    }
+                });
 
         alert = builder.create();
         //Setting the title manually

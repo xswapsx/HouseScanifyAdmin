@@ -1,7 +1,6 @@
 package com.appynitty.adminapp.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.R;
-import com.appynitty.adminapp.activities.DashboardActivity;
 import com.appynitty.adminapp.adapters.HouseDetailsAdapter;
 import com.appynitty.adminapp.databinding.FragmentHouseDetailsBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
@@ -73,6 +71,8 @@ public class HouseDetailsFragment extends Fragment {
 
 
     private void init() {
+        String empId = getArguments().getString(MainUtils.EMP_ID);
+        Log.e(TAG, "init: empId- " + empId);
         context = getActivity();
         rdGroup = view.findViewById(R.id.rd_group);
         rdHouse = view.findViewById(R.id.rdHouse);
@@ -92,6 +92,7 @@ public class HouseDetailsFragment extends Fragment {
         etHouseFilter = view.findViewById(R.id.etHouseFilter);
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         houseDetailsImageVM = ViewModelProviders.of(this).get(HouseDetailsImageVM.class);
+        houseDetailsImageVM.callHouseApi(empId);
 //        binding.setImagesVM(houseDetailsImageVM);
 
         rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -102,7 +103,7 @@ public class HouseDetailsFragment extends Fragment {
                         if (rdHouse.isChecked())
                             Log.e(TAG, "onRadioBtnClicked: checked rdHouse");
                         filterType = "HW";
-                        houseDetailsImageVM.callHouseApi();
+                        houseDetailsImageVM.callHouseApi(empId);
                         /*houseDetailsImageVM.getHouseQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
 
                             int imgCount = 0;
@@ -248,7 +249,7 @@ public class HouseDetailsFragment extends Fragment {
             }
         });
 
-       /* homeButton.setOnClickListener(View -> startActivity(new Intent(getActivity(), DashboardActivity.class)));*/
+        /* homeButton.setOnClickListener(View -> startActivity(new Intent(getActivity(), DashboardActivity.class)));*/
     }
 
     private void openDialog() {

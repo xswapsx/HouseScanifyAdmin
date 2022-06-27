@@ -14,7 +14,8 @@ public interface QRImageDataWebservice {
                                                       @Header("FromDate") String frmDate,
                                                       @Header("Todate") String toDate,
                                                       @Header("appId") String appId,
-                                                      @Header("userId") String userId);
+                                                      @Header("userId") String userId,
+                                                      @Header("ReferanceId") String refId);
 
 
     @GET("api/Supervisor/DumpYardDetails")
@@ -22,7 +23,8 @@ public interface QRImageDataWebservice {
                                                          @Header("FromDate") String frmDate,
                                                          @Header("Todate") String toDate,
                                                          @Header("appId") String appId,
-                                                         @Header("userId") String userId);
+                                                         @Header("userId") String userId,
+                                                         @Header("ReferanceId") String refId);
 
 
     @GET("api/Supervisor/LiquidDetails")
@@ -30,14 +32,16 @@ public interface QRImageDataWebservice {
                                                               @Header("FromDate") String frmDate,
                                                               @Header("Todate") String toDate,
                                                               @Header("appId") String appId,
-                                                              @Header("userId") String userId);
+                                                              @Header("userId") String userId,
+                                                              @Header("ReferanceId") String refId);
 
     @GET("api/Supervisor/StreetDetails")
     Call<List<HouseDetailsImageDTO>> getStreetDetailsQrImages(@Header("Content-Type") String contentType,
                                                               @Header("FromDate") String frmDate,
                                                               @Header("Todate") String toDate,
                                                               @Header("appId") String appId,
-                                                              @Header("userId") String userId);
+                                                              @Header("userId") String userId,
+                                                              @Header("ReferanceId") String refId);
 
 
 }

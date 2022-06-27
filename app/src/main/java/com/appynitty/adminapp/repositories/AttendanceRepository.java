@@ -31,8 +31,8 @@ public class AttendanceRepository {
     public void getListOfAttendance (String appId,IAttendanceResponse iAttendanceResponse){
         Log.e(TAG, "getListOfAttendance: ");
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
-        String userId = "";
-        /*String userId = "0";*/
+//        String userId = "";
+        String userId = "0";
         String fromDate = MainUtils.getLocalDate();
         String toDate = MainUtils.getLocalDate();
         /*String appId = Prefs.getString(MainUtils.APP_ID);*/

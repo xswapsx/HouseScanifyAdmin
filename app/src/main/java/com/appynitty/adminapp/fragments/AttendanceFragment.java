@@ -103,7 +103,21 @@ public class AttendanceFragment extends Fragment {
         attendanceViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(appId)).get(AttendanceViewModel.class);
         attendanceBinding.setAttendanceViewModel(attendanceViewModel);
 
-        attendanceViewModel.getAttendanceResponseLiveData().observe(activity, new Observer<List<AttendanceDTO>>() {
+        attendanceViewModel.mProgressMutableData.observe(activity, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                loader.setVisibility(integer);
+            }
+        });
+
+        attendanceViewModel.getProgress().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                loader.setVisibility(integer);
+            }
+        });
+
+        attendanceViewModel.getAttendanceResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<AttendanceDTO>>() {
             @Override
             public void onChanged(List<AttendanceDTO> attendanceDTOS) {
                 Log.e(TAG, "onChanged: " + attendanceDTOS);
@@ -128,7 +142,7 @@ public class AttendanceFragment extends Fragment {
             }
         });
 
-        attendanceViewModel.getAttendanceFilterMutableLiveData().observe(getActivity(), new Observer<List<AttendanceDTO>>() {
+        attendanceViewModel.getAttendanceFilterMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<AttendanceDTO>>() {
             @Override
             public void onChanged(List<AttendanceDTO> attendanceDTOS) {
                 Log.e(TAG, "onChanged: " + attendanceDTOS);
@@ -182,17 +196,10 @@ public class AttendanceFragment extends Fragment {
         });*/
 
 
-        attendanceViewModel.getAttendanceResponseLiveData().observe(getActivity(), new Observer<List<AttendanceDTO>>() {
+        attendanceViewModel.getAttendanceResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<AttendanceDTO>>() {
             @Override
             public void onChanged(List<AttendanceDTO> attendanceDTOS) {
                 Log.e(TAG, "onChanged: " + attendanceDTOS.get(0));
-            }
-        });
-
-        attendanceViewModel.getProgress().observe(getActivity(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                attendanceBinding.progressCircular.setVisibility(View.GONE);
             }
         });
 

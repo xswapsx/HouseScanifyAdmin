@@ -24,7 +24,7 @@ public class HouseDetailsImageVM extends ViewModel {
     public MutableLiveData<List<HouseDetailsImageDTO>> streetQrImagesLiveData = new MutableLiveData<>();
     public MutableLiveData<List<HouseDetailsImageDTO>> liquidQrImagesLiveData = new MutableLiveData<>();
 
-    public HouseDetailsImageVM() {
+    /*public HouseDetailsImageVM() {
         mProgressLiveData.postValue(View.VISIBLE);
         houseDetailsImageRepo.getHouseQrImageData(new HouseDetailsImageRepo.IQrImageResponse() {
             @Override
@@ -49,11 +49,11 @@ public class HouseDetailsImageVM extends ViewModel {
             }
         });
 
-    }
+    }*/
 
-    public void callHouseApi() {
+    public void callHouseApi(String empId) {
         mProgressLiveData.postValue(View.VISIBLE);
-        houseDetailsImageRepo.getHouseQrImageData(new HouseDetailsImageRepo.IQrImageResponse() {
+        houseDetailsImageRepo.getHouseQrImageData(empId, new HouseDetailsImageRepo.IQrImageResponse() {
             @Override
             public void onResponse(MutableLiveData<List<HouseDetailsImageDTO>> QrImageLiveData) {
                 Log.e(TAG, "onResponse: houselist size: " + QrImageLiveData.getValue().size());

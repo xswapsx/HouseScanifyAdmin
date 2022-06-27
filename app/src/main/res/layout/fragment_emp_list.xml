@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dim_10dp"
+        tools:context=".fragments.EmpListFragment">
+
+        <TextView
+            android:id="@+id/tvHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dim_20dp"
+            android:layout_marginRight="@dimen/dim_20dp"
+            android:text="@string/slct_emp"
+            android:textSize="@dimen/dim_15sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="110sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvHeading"
+            android:layout_marginStart="@dimen/dim_7dp"
+            android:padding="@dimen/dim_5dp"
+            android:text="Name"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/empRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:padding="@dimen/dim_5dp"
+                tools:listitem="@layout/hs_emp_row_item" />
+
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/dim_5dp"
+                android:text="No Data Found"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/txt_size_12sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@color/black"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>
