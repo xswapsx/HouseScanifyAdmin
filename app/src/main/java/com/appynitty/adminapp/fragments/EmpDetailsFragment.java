@@ -68,7 +68,7 @@ public class EmpDetailsFragment extends Fragment {
             empDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_emp_details, container, false);
             //view =inflater.inflate(R.layout.fragment_emp_details, container, false);
             view = empDetailsBinding.getRoot();
-            empDetailsBinding.setLifecycleOwner(this);
+//            empDetailsBinding.setLifecycleOwner(this);
             init();
         }
         return view;

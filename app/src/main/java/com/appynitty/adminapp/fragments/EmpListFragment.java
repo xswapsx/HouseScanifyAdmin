@@ -1,15 +1,21 @@
 package com.appynitty.adminapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.activities.DashboardActivity;
+import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.EmpListRecyclerAdapter;
 import com.appynitty.adminapp.databinding.FragmentEmpListBinding;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
@@ -28,6 +34,9 @@ public class EmpListFragment extends Fragment {
     FragmentEmpListBinding binding;
     private List<EmployeeDetailsDTO> employeeDetailsList;
     public EmployeeDetailsRepository employeeDetailsRepository;
+    AppCompatActivity activity;
+    ImageButton ib;
+
     View view;
 
     public EmpListFragment() {
@@ -56,6 +65,16 @@ public class EmpListFragment extends Fragment {
         employeeDetailsList = new ArrayList<>();
         String appId = Prefs.getString(MainUtils.APP_ID);
         binding.progressBar.setVisibility(View.VISIBLE);
+        activity = (AppCompatActivity) view.getContext();
+        ib = activity.findViewById(R.id.ib_home);
+        ib.setImageResource(R.drawable.ic_home);
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToHomeActivity();
+            }
+        });
+
         employeeDetailsRepository.getEmpDetailsList(appId, new EmployeeDetailsRepository.IEmpDetailsListener() {
 
             @Override
@@ -82,5 +101,15 @@ public class EmpListFragment extends Fragment {
         adapter = new EmpListRecyclerAdapter(getActivity(), employeeDetailsList);
         binding.empRecyclerView.setLayoutManager(layoutManager);
         binding.empRecyclerView.setAdapter(adapter);
+    }
+
+    private void moveToHomeActivity() {
+
+       /* Intent i = new Intent(activity, HomeActivity.class);
+        startActivity(i);
+        activity.overridePendingTransition(0, 0);*/
+        Intent intent = new Intent(getActivity(), DashboardActivity.class);
+        ((HomeActivity) getActivity()).startActivity(intent);
+
     }
 }

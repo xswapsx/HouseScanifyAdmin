@@ -53,7 +53,7 @@ public class EmployeeDetailsRepository {
 
     public void getFilteredEmpDetails(String frmDate, String toDate, String appId, String userId, IEmpDetailsListener iEmpDetailsListener) {
         EmployeeDetailsWebService empDetailsWebService = RetrofitClient.createService(EmployeeDetailsWebService.class, MainUtils.BASE_URL);
-        Call<List<EmployeeDetailsDTO>> empDetailsCall = empDetailsWebService.getEmployeesDetails(MainUtils.CONTENT_TYPE, frmDate, toDate, appId, Integer.parseInt(userId));
+        Call<List<EmployeeDetailsDTO>> empDetailsCall = empDetailsWebService.getEmployeesDetailsUpdated(MainUtils.CONTENT_TYPE, frmDate, toDate, appId, Integer.parseInt(userId));
         empDetailsCall.enqueue(new Callback<List<EmployeeDetailsDTO>>() {
             @Override
             public void onResponse(Call<List<EmployeeDetailsDTO>> call, Response<List<EmployeeDetailsDTO>> response) {

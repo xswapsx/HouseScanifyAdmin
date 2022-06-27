@@ -199,7 +199,7 @@ public class AttendanceFragment extends Fragment {
         attendanceViewModel.getAttendanceResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<AttendanceDTO>>() {
             @Override
             public void onChanged(List<AttendanceDTO> attendanceDTOS) {
-                Log.e(TAG, "onChanged: " + attendanceDTOS.get(0));
+//                Log.e(TAG, "onChanged: " + attendanceDTOS.get(0));
             }
         });
 

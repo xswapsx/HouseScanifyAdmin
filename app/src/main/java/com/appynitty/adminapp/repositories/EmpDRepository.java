@@ -35,7 +35,7 @@ public class EmpDRepository {
 
         EmpDWebService empDWebService = RetrofitClient.createService(EmpDWebService.class, MainUtils.BASE_URL);
         Call<List<EmpDModelDTO>> empDDTOCall = empDWebService.getEmpDList(MainUtils.CONTENT_TYPE,
-                empType,userId,empId,appId);
+                empType,userId,empId,appId,true);
         empDDTOCall.enqueue(new Callback<List<EmpDModelDTO>>() {
             @Override
             public void onResponse(Call<List<EmpDModelDTO>> call, Response<List<EmpDModelDTO>> response) {

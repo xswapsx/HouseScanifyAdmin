@@ -1,6 +1,7 @@
 package com.appynitty.adminapp.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -22,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.HouseDetailsAdapter;
 import com.appynitty.adminapp.databinding.FragmentHouseDetailsBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
@@ -38,6 +42,7 @@ import java.util.List;
 public class HouseDetailsFragment extends Fragment {
     private static final String TAG = "HouseDetailsFragment";
     private Context context;
+    AppCompatActivity activity;
     private View view, homeButton;
     private RadioGroup rdGroup;
     private String filterType = "HW";
@@ -47,6 +52,7 @@ public class HouseDetailsFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private HouseDetailsAdapter houseDetailsAdapter;
     private ProgressBar loader;
+    ImageButton ib;
     private TextView txtNoData, tvCount, tvBottomEntryCount;
     private EditText etHouseFilter;
     private Bundle filterExtras;
@@ -74,6 +80,7 @@ public class HouseDetailsFragment extends Fragment {
         String empId = getArguments().getString(MainUtils.EMP_ID);
         Log.e(TAG, "init: empId- " + empId);
         context = getActivity();
+        activity = (AppCompatActivity) view.getContext();
         rdGroup = view.findViewById(R.id.rd_group);
         rdHouse = view.findViewById(R.id.rdHouse);
         rdDumpYard = view.findViewById(R.id.rdDumpyard);
@@ -81,7 +88,7 @@ public class HouseDetailsFragment extends Fragment {
         rdStreet = view.findViewById(R.id.rdStreet);
         imageDataList = new ArrayList<>();
         crdFilter = view.findViewById(R.id.card_filter);
-        homeButton = getActivity().findViewById(R.id.ib_home);
+//        homeButton = getActivity().findViewById(R.id.ib_home);
         recyclerHouseImage = view.findViewById(R.id.recycler_House_image);
         loader = view.findViewById(R.id.progress_circular);
         loader.setVisibility(View.GONE);
@@ -91,6 +98,17 @@ public class HouseDetailsFragment extends Fragment {
         txtNoData.setVisibility(View.GONE);
         etHouseFilter = view.findViewById(R.id.etHouseFilter);
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+
+        ib = activity.findViewById(R.id.ib_home);
+        ib.setImageResource(R.drawable.ic_back);
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment empListFrag = new EmpListFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.container_frame_layout, empListFrag).addToBackStack(null).commit();
+            }
+        });
+
         houseDetailsImageVM = ViewModelProviders.of(this).get(HouseDetailsImageVM.class);
         houseDetailsImageVM.callHouseApi(empId);
 //        binding.setImagesVM(houseDetailsImageVM);
@@ -189,7 +207,9 @@ public class HouseDetailsFragment extends Fragment {
                     imageDataList.add(dumpYard);
                     Log.e(TAG, "onChanged: DumpYardId: " + dumpYard.getReferanceId());
                 }
-                houseDetailsAdapter.dumpYardList(imageDataList);
+                if (!imageDataList.isEmpty() || imageDataList != null) {
+                    houseDetailsAdapter.dumpYardList(imageDataList);
+                }
                 Log.e(TAG, "onChanged: DumpYardId: Size---" + dumpYardWasteList.size());
             }
         });
@@ -202,7 +222,9 @@ public class HouseDetailsFragment extends Fragment {
                     imageDataList.add(liquidWaste);
                     Log.e(TAG, "onChanged: liquidId: " + liquidWaste.getReferanceId());
                 }
-                houseDetailsAdapter.getLiquidList(imageDataList);
+                if (houseDetailsAdapter!= null) {
+                    houseDetailsAdapter.getLiquidList(imageDataList);
+                }
 
                 Log.e(TAG, "onChanged: LiquidWasteList: Size---" + liquidWasteList.size());
             }
@@ -216,7 +238,11 @@ public class HouseDetailsFragment extends Fragment {
                     imageDataList.add(streetWaste);
                     Log.e(TAG, "onChanged: streetId: " + streetWaste.getReferanceId());
                 }
-                houseDetailsAdapter.getLiquidList(imageDataList);
+                if (houseDetailsAdapter!= null) {
+                    houseDetailsAdapter.getLiquidList(imageDataList);
+                }else{
+                    setOnRecycler(imageDataList);
+                }
 
                 Log.e(TAG, "onChanged: streetWasteList: Size---" + streetWasteList.size());
             }
@@ -293,6 +319,14 @@ public class HouseDetailsFragment extends Fragment {
         houseDetailsAdapter.notifyDataSetChanged();
         recyclerHouseImage.setLayoutManager(layoutManager);
         recyclerHouseImage.setAdapter(houseDetailsAdapter);
+    }
+
+    private void moveToNewActivity() {
+
+        Intent i = new Intent(getActivity(), HomeActivity.class);
+        startActivity(i);
+        activity.overridePendingTransition(0, 0);
+
     }
 
 }
