@@ -3,6 +3,7 @@ package com.appynitty.adminapp.viewmodels;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -59,8 +60,7 @@ public class HouseDetailsImageVM extends ViewModel {
                 Log.e(TAG, "onResponse: houselist size: " + QrImageLiveData.getValue().size());
                 mProgressLiveData.postValue(View.INVISIBLE);
                 houseQrImagesLiveData.setValue(QrImageLiveData.getValue());
-                for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
-                ) {
+                for (HouseDetailsImageDTO house : QrImageLiveData.getValue()) {
                     if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
                         sImgCount += 1;
 

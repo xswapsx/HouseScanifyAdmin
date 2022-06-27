@@ -145,17 +145,52 @@
 
             </LinearLayout>
 
+            <RadioGroup
+                android:id="@+id/rd_group"
+                android:layout_below="@+id/li_search_with_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dim_20dp"
+                android:orientation="horizontal"
+                android:checkedButton="@+id/split_type_equal"
+                android:padding="@dimen/dim_5dp">
+
+                <RadioButton
+                    style="@style/RadioButton"
+                    android:id="@+id/rd_active_ED"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:layout_gravity="end"
+                    android:checked="true"
+                    android:text="@string/str_active"
+                    android:textSize="@dimen/txt_size_12sp" />
+
+                <RadioButton
+                    style="@style/RadioButton"
+                    android:id="@+id/rd_inactive_ED"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dim_30dp"
+                    android:layout_weight="5"
+                    android:layout_gravity="end"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:text="@string/str_inactive"
+                    android:textSize="@dimen/txt_size_12sp" />
+
+            </RadioGroup>
+
             <TextView
                 android:id="@+id/txt_entries"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/li_search_with_filter"
+                android:layout_below="@id/rd_group"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/dim_10dp"
                 android:paddingHorizontal="@dimen/dim_10dp"
                 android:paddingVertical="@dimen/dim_5dp"
-                android:text="@{empDlist.totalEntries + ` Entries`}"
                 android:textColor="@color/colorFentText"
                 android:textSize="@dimen/txt_size_12sp" />
 
