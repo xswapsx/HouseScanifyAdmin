@@ -54,4 +54,5 @@
 
     <color name="color_red_start">#EF6C71</color>
     <color name="color_red_end">#B1464B</color>
+    <color name="pinkDark">#f900ff</color>
 </resources>

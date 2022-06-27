@@ -78,14 +78,33 @@ public class HouseDetailsFragment extends Fragment {
 
     private void init() {
         String empId = getArguments().getString(MainUtils.EMP_ID);
-        Log.e(TAG, "init: empId- " + empId);
+        int houseCount = getArguments().getInt("houseCount");
+        int dumpCount = getArguments().getInt("dumpCount");
+        int liquidCount = getArguments().getInt("liquidCount");
+        int streetCount = getArguments().getInt("streetCount");
+
         context = getActivity();
         activity = (AppCompatActivity) view.getContext();
         rdGroup = view.findViewById(R.id.rd_group);
+
         rdHouse = view.findViewById(R.id.rdHouse);
         rdDumpYard = view.findViewById(R.id.rdDumpyard);
         rdLiquid = view.findViewById(R.id.rdLiquid);
         rdStreet = view.findViewById(R.id.rdStreet);
+
+        if (houseCount > 0)
+            rdHouse.setTextColor(getResources().getColor(R.color.color_green_end));
+
+        if (dumpCount > 0)
+            rdDumpYard.setTextColor(getResources().getColor(R.color.color_green_end));
+
+        if (liquidCount > 0)
+            rdLiquid.setTextColor(getResources().getColor(R.color.color_green_end));
+
+        if (streetCount > 0)
+            rdStreet.setTextColor(getResources().getColor(R.color.color_green_end));
+
+
         imageDataList = new ArrayList<>();
         crdFilter = view.findViewById(R.id.card_filter);
 //        homeButton = getActivity().findViewById(R.id.ib_home);
@@ -222,7 +241,7 @@ public class HouseDetailsFragment extends Fragment {
                     imageDataList.add(liquidWaste);
                     Log.e(TAG, "onChanged: liquidId: " + liquidWaste.getReferanceId());
                 }
-                if (houseDetailsAdapter!= null) {
+                if (houseDetailsAdapter != null) {
                     houseDetailsAdapter.getLiquidList(imageDataList);
                 }
 
@@ -238,9 +257,9 @@ public class HouseDetailsFragment extends Fragment {
                     imageDataList.add(streetWaste);
                     Log.e(TAG, "onChanged: streetId: " + streetWaste.getReferanceId());
                 }
-                if (houseDetailsAdapter!= null) {
+                if (houseDetailsAdapter != null) {
                     houseDetailsAdapter.getLiquidList(imageDataList);
-                }else{
+                } else {
                     setOnRecycler(imageDataList);
                 }
 

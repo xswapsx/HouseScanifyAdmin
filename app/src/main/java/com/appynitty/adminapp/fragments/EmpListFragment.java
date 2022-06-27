@@ -104,12 +104,7 @@ public class EmpListFragment extends Fragment {
     }
 
     private void moveToHomeActivity() {
-
-       /* Intent i = new Intent(activity, HomeActivity.class);
-        startActivity(i);
-        activity.overridePendingTransition(0, 0);*/
         Intent intent = new Intent(getActivity(), DashboardActivity.class);
         ((HomeActivity) getActivity()).startActivity(intent);
-
     }
 }

@@ -44,9 +44,22 @@ public class EmpListRecyclerAdapter extends RecyclerView.Adapter<EmpListRecycler
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         EmpListFragment elf = new EmpListFragment();
+        int houseCount, dumpCount, liquidCount, streetCount, totalCount;
         Bundle args = new Bundle();
         final EmployeeDetailsDTO empDetails = employeeDetailsList.get(position);
+        houseCount = empDetails.getHouseCount();
+        dumpCount = empDetails.getDumpCount();
+        liquidCount = empDetails.getLiquidCount();
+        streetCount = empDetails.getStreetCount();
+        totalCount = houseCount + dumpCount + liquidCount + streetCount;
+        args.putInt("houseCount", houseCount);
+        args.putInt("dumpCount", dumpCount);
+        args.putInt("liquidCount", liquidCount);
+        args.putInt("streetCount", streetCount);
+        args.putInt("totalCount", totalCount);
+
         holder.name.setText(empDetails.getEmpName());
+        holder.totalCount.setText(String.valueOf(totalCount));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +68,9 @@ public class EmpListRecyclerAdapter extends RecyclerView.Adapter<EmpListRecycler
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 Fragment myFragment = new HouseDetailsFragment();
                 myFragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.container_frame_layout, myFragment).addToBackStack(null).commit();
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_frame_layout, myFragment)
+                        .addToBackStack(null).commit();
             }
         });
     }
@@ -66,12 +81,12 @@ public class EmpListRecyclerAdapter extends RecyclerView.Adapter<EmpListRecycler
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
+        TextView name, totalCount;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
             name = view.findViewById(R.id.txt_emp_name);
-
+            totalCount = view.findViewById(R.id.txt_totalScan);
 //            binding.tvName.setText("Swapnil");
         }
     }
