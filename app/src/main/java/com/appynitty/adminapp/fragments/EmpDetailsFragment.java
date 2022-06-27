@@ -9,14 +9,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +31,7 @@ import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.EmpDetailsAdapter;
 import com.appynitty.adminapp.databinding.FragmentEmpDetailsBinding;
 import com.appynitty.adminapp.models.EmpDModelDTO;
+import com.appynitty.adminapp.repositories.EmpDRepository;
 import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.utils.MyViewModelFactory;
 import com.appynitty.adminapp.viewmodels.EmpDViewModel;
@@ -60,6 +64,8 @@ public class EmpDetailsFragment extends Fragment {
     UlbDataViewModel ulbDataViewModel;
     EmpDViewModel empDViewModel;
 
+    EmpDRepository empDRepository;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,6 +87,7 @@ public class EmpDetailsFragment extends Fragment {
         ulbName = results.getString("val2");
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
         context = getActivity();
+        empDRepository = new EmpDRepository();
 
         empDModelList = new ArrayList<>();
         recyclerEmpDetails = view.findViewById(R.id.recycler_emp_details_frag);
@@ -100,7 +107,99 @@ public class EmpDetailsFragment extends Fragment {
 
         callApi();
 
+        empDetailsBinding.rdActiveED.setChecked(true);
+        Log.e(TAG, " reBtnActive call");
+        empDRepository.getEmpDList(true, appId, new EmpDRepository.IEmpDResponse() {
+            @Override
+            public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
+                loader.setVisibility(View.GONE);
+                empDResponse.getValue();
+                Log.e(TAG, "onResponse: " + empDResponse.getValue());
+                setRecycler(empDResponse.getValue());
+                txtEntries.setText(empDResponse.getValue().size() + " " + "Entries");
+            }
 
+            @Override
+            public void onFailure(Throwable t) {
+                loader.setVisibility(View.GONE);
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+
+
+        empDetailsBinding.rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checked) {
+
+                switch (checked){
+                    case R.id.rd_active_ED:
+                        if (empDetailsBinding.rdActiveED.isChecked()){
+                            Log.e(TAG, " reBtnActive call");
+                            empDRepository.getEmpDList(true, appId, new EmpDRepository.IEmpDResponse() {
+                                @Override
+                                public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
+                                    loader.setVisibility(View.GONE);
+                                    empDResponse.getValue();
+                                    Log.e(TAG, "onResponse: " + empDResponse.getValue());
+                                    setRecycler(empDResponse.getValue());
+                                    txtEntries.setText(empDResponse.getValue().size() + " " + "Entries");
+                                }
+
+                                @Override
+                                public void onFailure(Throwable t) {
+                                    loader.setVisibility(View.GONE);
+                                    Log.e(TAG, "onFailure: " + t.getMessage());
+                                }
+                            });
+
+                        }
+                        break;
+                    case R.id.rd_inactive_ED:
+
+                        if (empDetailsBinding.rdInactiveED.isChecked()){
+                            Log.e(TAG, " reBtnInActive call");
+                            empDRepository.getEmpDListIN(false, appId, new EmpDRepository.IEmpDResponse() {
+                                @Override
+                                public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
+                                    loader.setVisibility(View.GONE);
+                                    empDResponse.getValue();
+                                    /*txtEntries.setText(empDResponse.getValue().size());*/
+                                    Log.e(TAG,"onResponse: " + empDResponse.getValue());
+                                    setRecycler(empDResponse.getValue());
+                                    txtEntries.setText(empDResponse.getValue().size() + " "+  "Entries");
+                                }
+
+                                @Override
+                                public void onFailure(Throwable t) {
+                                    loader.setVisibility(View.GONE);
+                                    Log.e(TAG, "onFailure: " + t.getMessage());
+                                }
+                            });
+                        }
+                        break;
+                    default:
+                        empDetailsBinding.rdActiveED.setChecked(true);
+                            Log.e(TAG, " reBtnActive call");
+                        empDRepository.getEmpDList(true, appId, new EmpDRepository.IEmpDResponse() {
+                            @Override
+                            public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
+                                loader.setVisibility(View.GONE);
+                                empDResponse.getValue();
+                                Log.e(TAG, "onResponse: " + empDResponse.getValue());
+                                setRecycler(empDResponse.getValue());
+                                txtEntries.setText(empDResponse.getValue().size() + " " + "Entries");
+                            }
+
+                            @Override
+                            public void onFailure(Throwable t) {
+                                loader.setVisibility(View.GONE);
+                                Log.e(TAG, "onFailure: " + t.getMessage());
+                            }
+                        });
+
+                }
+            }
+        });
         empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -136,7 +235,11 @@ public class EmpDetailsFragment extends Fragment {
                         empDModelList.add(new EmpDModelDTO(empD.getQrEmpId(), empD.getQrEmpName(), empD.getQrEmpMobileNumber(),
                                 empD.getQrEmpAddress(), empD.getQrEmpLoginId(), empD.getQrEmpPassword(), empD.getImoNo(), empD.isActive()));
                     }
+                    txtEntries.setText(empDModelList.size());
+                    Log.e(TAG, "total entries : " + empDModelList.size());
                     setRecycler(empDModelList);
+                    adapter.activeList(empDModelList);
+
                     Log.e(TAG, "emp details list: " + empDModelList.toString());
                 } else {
                     empDetailsBinding.recyclerEmpDetailsFrag.setVisibility(View.GONE);

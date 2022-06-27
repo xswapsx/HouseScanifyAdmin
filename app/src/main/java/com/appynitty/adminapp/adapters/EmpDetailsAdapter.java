@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.activities.AddEmpActivity;
 import com.appynitty.adminapp.databinding.ItemEmpDetailsListBinding;
+import com.appynitty.adminapp.models.AttendanceDTO;
 import com.appynitty.adminapp.models.EmpDModelDTO;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class EmpDetailsAdapter extends RecyclerView.Adapter<EmpDetailsAdapter.My
         this.context = context;
         this.empDModelDTOList = empDModelDTOList;
     }
+
 
     @NonNull
     @Override
@@ -56,6 +58,16 @@ public class EmpDetailsAdapter extends RecyclerView.Adapter<EmpDetailsAdapter.My
             }
         });
 
+    }
+
+    public void inActiveList(List<EmpDModelDTO> inActiveListData) {
+        empDModelDTOList = inActiveListData;
+        notifyDataSetChanged();
+    }
+
+    public void activeList(List<EmpDModelDTO> activeListData) {
+        empDModelDTOList = activeListData;
+        notifyDataSetChanged();
     }
 
     public void searchListAdapter(List<EmpDModelDTO> searchedList) {
