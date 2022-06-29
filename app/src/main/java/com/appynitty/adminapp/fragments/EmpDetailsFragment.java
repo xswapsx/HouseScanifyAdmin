@@ -60,7 +60,7 @@ public class EmpDetailsFragment extends Fragment {
     MyApplication application;
     private String appId, ulbName;
     Bundle filterExtras;
-    List<EmpDModelDTO> empDModelList;
+    List<EmpDModelDTO> empDModelList , activeList, inactiveList;
     UlbDataViewModel ulbDataViewModel;
     EmpDViewModel empDViewModel;
 
@@ -90,6 +90,8 @@ public class EmpDetailsFragment extends Fragment {
         empDRepository = new EmpDRepository();
 
         empDModelList = new ArrayList<>();
+        inactiveList = new ArrayList<>();
+        activeList = new ArrayList<>();
         recyclerEmpDetails = view.findViewById(R.id.recycler_emp_details_frag);
         loader = view.findViewById(R.id.progress_circular);
         txtNoData = view.findViewById(R.id.txt_no_data);
@@ -113,9 +115,9 @@ public class EmpDetailsFragment extends Fragment {
             @Override
             public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
                 loader.setVisibility(View.GONE);
-                empDResponse.getValue();
-                Log.e(TAG, "onResponse: " + empDResponse.getValue());
-                setRecycler(empDResponse.getValue());
+                activeList =  empDResponse.getValue();
+                Log.e(TAG, "onResponse active list : " + activeList);
+                setRecycler(activeList);
                 txtEntries.setText(empDResponse.getValue().size() + " " + "Entries");
             }
 
@@ -139,9 +141,9 @@ public class EmpDetailsFragment extends Fragment {
                                 @Override
                                 public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
                                     loader.setVisibility(View.GONE);
-                                    empDResponse.getValue();
-                                    Log.e(TAG, "onResponse: " + empDResponse.getValue());
-                                    setRecycler(empDResponse.getValue());
+                                    activeList =  empDResponse.getValue();
+                                    Log.e(TAG, "onResponse active list : " + activeList);
+                                    setRecycler(activeList);
                                     txtEntries.setText(empDResponse.getValue().size() + " " + "Entries");
                                 }
 
@@ -162,10 +164,9 @@ public class EmpDetailsFragment extends Fragment {
                                 @Override
                                 public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
                                     loader.setVisibility(View.GONE);
-                                    empDResponse.getValue();
-                                    /*txtEntries.setText(empDResponse.getValue().size());*/
-                                    Log.e(TAG,"onResponse: " + empDResponse.getValue());
-                                    setRecycler(empDResponse.getValue());
+                                    inactiveList =  empDResponse.getValue();
+                                    Log.e(TAG, "onResponse Inactive list : " + inactiveList);
+                                    setRecycler(inactiveList);
                                     txtEntries.setText(empDResponse.getValue().size() + " "+  "Entries");
                                 }
 
@@ -214,6 +215,23 @@ public class EmpDetailsFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 filter(editable.toString());
+            }
+        });
+
+        empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filterActive(editable.toString());
             }
         });
 
@@ -272,11 +290,21 @@ public class EmpDetailsFragment extends Fragment {
     private void filter(String text) {
         List<EmpDModelDTO> searchedList = new ArrayList<>();
 
-        for (EmpDModelDTO item : empDModelList) {
+        for (EmpDModelDTO item : inactiveList) {
             if (item.getQrEmpName().toLowerCase().contains(text.toLowerCase()) || item.getQrEmpMobileNumber().toLowerCase().contains(text.toLowerCase())) {
                 searchedList.add(item);
             }
         }
-        adapter.searchListAdapter(searchedList);
+        adapter.inActiveList(searchedList);
+    }
+    private void filterActive(String text) {
+        List<EmpDModelDTO> searchedList = new ArrayList<>();
+
+        for (EmpDModelDTO item : activeList) {
+            if (item.getQrEmpName().toLowerCase().contains(text.toLowerCase()) || item.getQrEmpMobileNumber().toLowerCase().contains(text.toLowerCase())) {
+                searchedList.add(item);
+            }
+        }
+        adapter.activeList(searchedList);
     }
 }
