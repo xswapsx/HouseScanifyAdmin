@@ -119,7 +119,7 @@
                             android:layout_toEndOf="@id/img_search"
                             android:background="@android:color/transparent"
                             android:gravity="center_vertical"
-                            android:hint="@string/str_search_name_or_id"
+                            android:hint="@string/str_search_by_id"
                             android:singleLine="true"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/txt_size_12sp" />

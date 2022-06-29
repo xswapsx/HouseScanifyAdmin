@@ -61,7 +61,7 @@ public class HouseDetailsImageVM extends ViewModel {
                 mProgressLiveData.postValue(View.INVISIBLE);
                 houseQrImagesLiveData.setValue(QrImageLiveData.getValue());
                 for (HouseDetailsImageDTO house : QrImageLiveData.getValue()) {
-                    if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                    if (!house.getQRCodeImage().matches("/Images/default_not_upload.png")) {
                         sImgCount += 1;
 
                     }
@@ -92,8 +92,8 @@ public class HouseDetailsImageVM extends ViewModel {
                     dumpyQrImagesLiveData.setValue(QrImageLiveData.getValue());
                     for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
                     ) {
-                        if (house.getqRCodeImage() != null) {
-                            if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                        if (house.getQRCodeImage() != null) {
+                            if (!house.getQRCodeImage().matches("/Images/default_not_upload.png")) {
                                 sImgCount += 1;
 
                             }
@@ -126,8 +126,8 @@ public class HouseDetailsImageVM extends ViewModel {
                     liquidQrImagesLiveData.setValue(QrImageLiveData.getValue());
                     for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
                     ) {
-                        if (house.getqRCodeImage() != null) {
-                            if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                        if (house.getQRCodeImage() != null) {
+                            if (!house.getQRCodeImage().matches("/Images/default_not_upload.png")) {
                                 sImgCount += 1;
 
                             }
@@ -160,7 +160,7 @@ public class HouseDetailsImageVM extends ViewModel {
                     streetQrImagesLiveData.setValue(QrImageLiveData.getValue());
                     for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
                     ) {
-                        if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                        if (!house.getQRCodeImage().matches("/Images/default_not_upload.png")) {
                             sImgCount += 1;
 
                         }
@@ -203,7 +203,7 @@ public class HouseDetailsImageVM extends ViewModel {
                     houseQrImagesLiveData.setValue(QrImageLiveData.getValue());
                     for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
                     ) {
-                        if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                        if (!house.getQRCodeImage().matches("/Images/default_not_upload.png")) {
                             sImgCount += 1;
 
                         }
@@ -233,8 +233,8 @@ public class HouseDetailsImageVM extends ViewModel {
                         dumpyQrImagesLiveData.setValue(QrImageLiveData.getValue());
                         for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
                         ) {
-                            if (house.getqRCodeImage() != null) {
-                                if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                            if (house.getQRCodeImage() != null) {
+                                if (!house.getQRCodeImage().matches("/Images/default_not_upload.png")) {
                                     sImgCount += 1;
 
                                 }
@@ -266,8 +266,8 @@ public class HouseDetailsImageVM extends ViewModel {
                         liquidQrImagesLiveData.setValue(QrImageLiveData.getValue());
                         for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
                         ) {
-                            if (house.getqRCodeImage() != null) {
-                                if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                            if (house.getQRCodeImage() != null) {
+                                if (!house.getQRCodeImage().matches("/Images/default_not_upload.png")) {
                                     sImgCount += 1;
 
                                 }
@@ -298,7 +298,7 @@ public class HouseDetailsImageVM extends ViewModel {
                         streetQrImagesLiveData.setValue(QrImageLiveData.getValue());
                         for (HouseDetailsImageDTO house : QrImageLiveData.getValue()
                         ) {
-                            if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
+                            if (!house.getQRCodeImage().matches("/Images/default_not_upload.png")) {
                                 sImgCount += 1;
 
                             }

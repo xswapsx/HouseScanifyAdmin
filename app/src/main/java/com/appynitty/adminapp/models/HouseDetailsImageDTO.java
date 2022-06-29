@@ -5,9 +5,124 @@ import com.google.gson.annotations.SerializedName;
 
 public class HouseDetailsImageDTO {
 
-    private Integer dyId;
+    @SerializedName("houseId")
+    @Expose
+    private Integer houseId;
+    @SerializedName("Lat")
+    @Expose
+    private String lat;
+    @SerializedName("Long")
+    @Expose
+    private String _long;
+    @SerializedName("ReferanceId")
+    @Expose
+    private String referanceId;
+    @SerializedName("Name")
+    @Expose
+    private String name;
+    @SerializedName("QRCodeImage")
+    @Expose
+    private String qRCodeImage;
+    @SerializedName("modifiedDate")
+    @Expose
+    private String modifiedDate;
+    @SerializedName("totalRowCount")
+    @Expose
+    private Integer totalRowCount;
+    @SerializedName("QRStatus")
+    @Expose
+    private Boolean qRStatus;
+    @SerializedName("QRStatusDate")
+    @Expose
+    private Object qRStatusDate;
+
+    public Integer getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Integer houseId) {
+        this.houseId = houseId;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLong() {
+        return _long;
+    }
+
+    public void setLong(String _long) {
+        this._long = _long;
+    }
+
+    public String getReferanceId() {
+        return referanceId;
+    }
+
+    public void setReferanceId(String referanceId) {
+        this.referanceId = referanceId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getQRCodeImage() {
+        return qRCodeImage;
+    }
+
+    public void setQRCodeImage(String qRCodeImage) {
+        this.qRCodeImage = qRCodeImage;
+    }
+
+    public String getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(String modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public Integer getTotalRowCount() {
+        return totalRowCount;
+    }
+
+    public void setTotalRowCount(Integer totalRowCount) {
+        this.totalRowCount = totalRowCount;
+    }
+
+    public Boolean getQRStatus() {
+        return qRStatus;
+    }
+
+    public void setQRStatus(Boolean qRStatus) {
+        this.qRStatus = qRStatus;
+    }
+
+    public Object getQRStatusDate() {
+        return qRStatusDate;
+    }
+
+    public void setQRStatusDate(Object qRStatusDate) {
+        this.qRStatusDate = qRStatusDate;
+    }
+
+    /*private Integer dyId;
     private String dyLat;
     private String dyLong;
+
+    @SerializedName("QRStatus")
+    @Expose
+    private Boolean qRStatus;
 
     @SerializedName("houseId")
     @Expose
@@ -64,6 +179,14 @@ public class HouseDetailsImageDTO {
     @SerializedName("totalRowCount")
     @Expose
     private Integer totalRowCount;
+
+    public Boolean getqRStatus() {
+        return qRStatus;
+    }
+
+    public void setqRStatus(Boolean qRStatus) {
+        this.qRStatus = qRStatus;
+    }
 
     public Integer getDyId() {
         return dyId;
@@ -222,5 +345,5 @@ public class HouseDetailsImageDTO {
                 ", modifiedDate='" + modifiedDate + '\'' +
                 ", totalRowCount=" + totalRowCount +
                 '}';
-    }
+    }*/
 }

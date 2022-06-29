@@ -31,9 +31,13 @@ import com.appynitty.adminapp.databinding.FragmentHouseDetailsBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
 import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.HouseDetailsImageDTO;
+import com.appynitty.adminapp.models.QrImageStatusDTO;
+import com.appynitty.adminapp.repositories.QrImageStatusRepo;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.HouseDetailsImageVM;
+import com.appynitty.adminapp.viewmodels.QrImageStatusViewModel;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +49,7 @@ public class HouseDetailsFragment extends Fragment {
     AppCompatActivity activity;
     private View view, homeButton;
     private RadioGroup rdGroup;
-    private String filterType = "HW";
+    private String filterType = "HW", appId;
     private RadioButton rdHouse, rdDumpYard, rdLiquid, rdStreet;
     private List<HouseDetailsImageDTO> imageDataList;
     private RecyclerView recyclerHouseImage;
@@ -59,6 +63,7 @@ public class HouseDetailsFragment extends Fragment {
     private CardView crdFilter;
     private FilterDialogFragment filterDialog;
     HouseDetailsImageVM houseDetailsImageVM;
+    QrImageStatusViewModel qrImageStatusVM;
     FragmentHouseDetailsBinding binding;
 
 
@@ -78,6 +83,7 @@ public class HouseDetailsFragment extends Fragment {
 
     private void init() {
         String empId = getArguments().getString(MainUtils.EMP_ID);
+        appId = Prefs.getString(MainUtils.APP_ID);
         int houseCount = getArguments().getInt("houseCount");
         int dumpCount = getArguments().getInt("dumpCount");
         int liquidCount = getArguments().getInt("liquidCount");
@@ -130,6 +136,8 @@ public class HouseDetailsFragment extends Fragment {
 
         houseDetailsImageVM = ViewModelProviders.of(this).get(HouseDetailsImageVM.class);
         houseDetailsImageVM.callHouseApi(empId);
+        qrImageStatusVM = ViewModelProviders.of(this).get(QrImageStatusViewModel.class);
+
 //        binding.setImagesVM(houseDetailsImageVM);
 
         rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -187,17 +195,14 @@ public class HouseDetailsFragment extends Fragment {
         etHouseFilter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.e(TAG, "beforeTextChanged: before textchanged " + charSequence);
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.e(TAG, "onTextChanged: " + charSequence);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.e(TAG, "afterTextChanged: " + editable.toString());
                 filter(editable.toString());
             }
         });
@@ -207,11 +212,12 @@ public class HouseDetailsFragment extends Fragment {
             @Override
             public void onChanged(List<HouseDetailsImageDTO> houseDetailsImageDTOS) {
                 imageDataList.clear();
-                Log.e(TAG, "HosueImageDetails Size: " + houseDetailsImageDTOS.size());
+
                 for (HouseDetailsImageDTO house : houseDetailsImageDTOS
                 ) {
                     imageDataList.add(house);
                 }
+                Log.d(TAG, "HosueImageDetails list: " + houseDetailsImageDTOS.get(0));
                 setOnRecycler(imageDataList);
             }
         });
@@ -258,7 +264,7 @@ public class HouseDetailsFragment extends Fragment {
                     Log.e(TAG, "onChanged: streetId: " + streetWaste.getReferanceId());
                 }
                 if (houseDetailsAdapter != null) {
-                    houseDetailsAdapter.getLiquidList(imageDataList);
+                    houseDetailsAdapter.getStreetList(imageDataList);
                 } else {
                     setOnRecycler(imageDataList);
                 }
@@ -322,7 +328,7 @@ public class HouseDetailsFragment extends Fragment {
         List<HouseDetailsImageDTO> filteredList = new ArrayList<>();
 
         for (HouseDetailsImageDTO item : imageDataList) {
-            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+            if (item.getReferanceId().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }
@@ -331,10 +337,36 @@ public class HouseDetailsFragment extends Fragment {
 
 
     private void setOnRecycler(List<HouseDetailsImageDTO> imageDataList) {
+        QrImageStatusRepo imageStatusRepo = QrImageStatusRepo.getInstance();
         txtNoData.setVisibility(View.GONE);
 //        tvCount.setText(itemListCount);
         loader.setVisibility(View.GONE);
-        houseDetailsAdapter = new HouseDetailsAdapter(context, imageDataList);
+        houseDetailsAdapter = new HouseDetailsAdapter(context, imageDataList, new HouseDetailsAdapter.MyClickListener() {
+            @Override
+            public void onItemClicked(String houseId, Boolean status) {
+                Log.e(TAG, "onItemClicked: houseId: " + houseId + ", status: " + status);
+                qrImageStatusVM.initApi(appId, houseId, status);
+                qrImageStatusVM.getQrImageStatusLivedata().observe(getViewLifecycleOwner(), new Observer<List<QrImageStatusDTO>>() {
+                    @Override
+                    public void onChanged(List<QrImageStatusDTO> qrImageStatusDTOS) {
+                        DynamicToast.makeSuccess(context, qrImageStatusDTOS.get(0).getMessage()).show();
+                    }
+                });
+                qrImageStatusVM.getErrorMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        DynamicToast.makeError(context, s).show();
+                    }
+                });
+                qrImageStatusVM.getProgressStatus().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+                    @Override
+                    public void onChanged(Integer integer) {
+                        loader.setVisibility(integer);
+                    }
+                });
+
+            }
+        });
         houseDetailsAdapter.notifyDataSetChanged();
         recyclerHouseImage.setLayoutManager(layoutManager);
         recyclerHouseImage.setAdapter(houseDetailsAdapter);

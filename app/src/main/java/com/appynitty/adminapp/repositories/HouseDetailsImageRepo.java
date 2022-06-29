@@ -41,6 +41,7 @@ public class HouseDetailsImageRepo {
                 if (response.code() == 200) {
                     HouseQrImagesLiveData.setValue(response.body());
                     listener.onResponse(HouseQrImagesLiveData);
+                    Log.e(TAG, "onResponse: in getHouseQrImageData");
                 } else if (response.code() == 500) {
                     Log.e(TAG, "onResponse: Internal Server Error");
                 }
@@ -134,6 +135,7 @@ public class HouseDetailsImageRepo {
                 if (response.code() == 200) {
                     HouseQrImagesLiveData.setValue(response.body());
                     listener.onResponse(HouseQrImagesLiveData);
+//                    Log.e(TAG, "getFilteredHouseDetails: " + response.body().get(response.body().size() - 1).getQRStatus());
                 } else if (response.code() == 500) {
                     Log.e(TAG, "onResponse: Internal Server Error");
                 }

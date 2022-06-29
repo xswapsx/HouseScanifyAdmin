@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -25,6 +24,8 @@ import java.util.List;
 public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapter.MyViewHolder> {
     private static final String TAG = "HouseDetailsAdapter";
     private List<HouseDetailsImageDTO> imageDataList;
+    MyClickListener myClickListener;
+    HouseDetailsImageDTO houseDetailsItem = new HouseDetailsImageDTO();
     String imageBytes = "";
     private Context context;
     private int listItemCount = 0;
@@ -32,9 +33,10 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
     public static int imgAccept = 1;
     public static int imgReject = 2;
 
-    public HouseDetailsAdapter(Context context, List<HouseDetailsImageDTO> imageDataList1) {
+    public HouseDetailsAdapter(Context context, List<HouseDetailsImageDTO> imageDataList1, MyClickListener myClickListener) {
         this.context = context;
         imageDataList = imageDataList1;
+        this.myClickListener = myClickListener;
     }
 
     @NonNull
@@ -45,13 +47,12 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
-        imageBytes = imageDataList.get(position).getqRCodeImage();
+//        houseDetailsItem = imageDataList.get(position);
+//        imageBytes = imageDataList.get(position).getqRCodeImage();
 
         Glide.with(context)
-                .load(imageBytes)
+                .load(imageDataList.get(position).getQRCodeImage())
                 .fitCenter()
-
                 .into(holder.imgPhoto);
 
         holder.imgPhoto.setOnClickListener(new View.OnClickListener() {
@@ -59,10 +60,27 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
             public void onClick(View view) {
 //                Log.e(TAG, "onClick: image:====" + imageDataList.get(position).getqRCodeImage());
                 Intent intent = new Intent(context, ZoomViewActivity.class);
-                intent.putExtra("qrImage", String.valueOf(imageDataList.get(holder.getAdapterPosition()).getqRCodeImage()));
+                intent.putExtra("qrImage", String.valueOf(imageDataList.get(holder.getAdapterPosition()).getQRCodeImage()));
                 context.startActivity(intent);
             }
         });
+
+        if (imageDataList.get(position).getQRStatus() != null) {
+            if (imageDataList.get(position).getQRStatus().equals(true)) {
+                Log.e(TAG, "onBindViewHolder-> QRStatus: " + true);
+                holder.cardImgAccept.setCardBackgroundColor(context.getResources().getColor(R.color.colorONDutyGreen));
+                holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.white));
+                holder.cardImgReject.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+                holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.black));
+
+            } else if (imageDataList.get(position).getQRStatus().equals(false)) {
+                Log.e(TAG, "onBindViewHolder-> QRStatus:" + false);
+                holder.cardImgReject.setCardBackgroundColor(context.getResources().getColor(R.color.colorOFFDutyRed));
+                holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.white));
+                holder.cardImgAccept.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+                holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.black));
+            }
+        }
 
         holder.cardImgAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +89,8 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
                 holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.white));
                 holder.cardImgReject.setCardBackgroundColor(context.getResources().getColor(R.color.white));
                 holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.black));
-                Toast.makeText(context, "Image approved successfully", Toast.LENGTH_SHORT).show();
+                myClickListener.onItemClicked(imageDataList.get(position).getReferanceId(), true);
+                Log.e(TAG, "onClick: " + imageDataList.get(position).getReferanceId());
             }
         });
 
@@ -82,7 +101,8 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
                 holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.white));
                 holder.cardImgAccept.setCardBackgroundColor(context.getResources().getColor(R.color.white));
                 holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.black));
-                Toast.makeText(context, "Image reject successfully", Toast.LENGTH_SHORT).show();
+                myClickListener.onItemClicked(imageDataList.get(position).getReferanceId(), false);
+                Log.e(TAG, "onClick: " + imageDataList.get(position).getReferanceId());
             }
         });
 
@@ -128,7 +148,9 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
         holder.txtDateTime.setText(imageDataList.get(position).getModifiedDate());
         holder.txtEmpName.setText(imageDataList.get(position).getName());
         holder.txtRefId.setText(imageDataList.get(position).getReferanceId());
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -157,18 +179,17 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
         imageDataList = filteredList;
         notifyDataSetChanged();
         listItemCount = imageDataList.size();
-        Log.e(TAG, "imageDataList: size" + imageDataList.size());
     }
 
     interface OnTextClickListener {
 //        void onTextClick(listItemCount);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtDateTime, txtRefId, txtEmpName, txtLatitude, txtLongitude;
-        private ImageView imgPhoto, imgShare;
-        private TextView txtImgAccept, txtImgReject;
-        private CardView cardImgAccept, cardImgReject;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        private final TextView txtDateTime, txtRefId, txtEmpName, txtLatitude, txtLongitude;
+        private final ImageView imgPhoto, imgShare;
+        private final TextView txtImgAccept, txtImgReject;
+        private final CardView cardImgAccept, cardImgReject;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -185,5 +206,9 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
             cardImgAccept = itemView.findViewById(R.id.card_img_accept);
             cardImgReject = itemView.findViewById(R.id.card_img_reject);
         }
+    }
+
+    public interface MyClickListener {
+        void onItemClicked(String houseId, Boolean status);
     }
 }
