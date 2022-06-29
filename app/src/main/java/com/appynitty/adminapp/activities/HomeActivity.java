@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -33,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
     private Context context;
     private BottomNavigationView navigationView;
+    private ImageButton btnHome;
     private FrameLayout frameLayout;
     private LiveDataFragment liveDataFragment;
     private HouseDetailsFragment houseDetailsFragment;
@@ -67,6 +69,13 @@ public class HomeActivity extends AppCompatActivity {
         ulbName = intent.getStringExtra("ulbName");
 //        ulbDataViewModel = ViewModelProviders.of(this).get(UlbDataViewModel.class);
         binding.txtUlbName.setText(ulbName);
+        btnHome = findViewById(R.id.ib_home);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e(TAG, "onClick: Home Clicked!");
+            }
+        });
 
         if (Prefs.getString(MainUtils.EMP_TYPE, null).matches("A")) {
             binding.txtAdminType.setText("ADMIN");

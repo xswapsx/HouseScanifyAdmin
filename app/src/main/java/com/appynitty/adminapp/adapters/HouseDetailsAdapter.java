@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.BuildConfig;
 
@@ -68,27 +69,27 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
         if (imageDataList.get(position).getQRStatus() != null) {
             if (imageDataList.get(position).getQRStatus().equals(true)) {
                 Log.e(TAG, "onBindViewHolder-> QRStatus: " + true);
-                holder.cardImgAccept.setCardBackgroundColor(context.getResources().getColor(R.color.colorONDutyGreen));
-                holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.white));
-                holder.cardImgReject.setCardBackgroundColor(context.getResources().getColor(R.color.white));
-                holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.black));
+                holder.cardImgAccept.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorONDutyGreen));
+                holder.txtImgAccept.setTextColor(ContextCompat.getColor(context, R.color.white));
+                holder.cardImgReject.setCardBackgroundColor(ContextCompat.getColor(context, R.color.white));
+                holder.txtImgReject.setTextColor(ContextCompat.getColor(context, R.color.black));
 
             } else if (imageDataList.get(position).getQRStatus().equals(false)) {
                 Log.e(TAG, "onBindViewHolder-> QRStatus:" + false);
-                holder.cardImgReject.setCardBackgroundColor(context.getResources().getColor(R.color.colorOFFDutyRed));
-                holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.white));
-                holder.cardImgAccept.setCardBackgroundColor(context.getResources().getColor(R.color.white));
-                holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.black));
+                holder.cardImgReject.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorOFFDutyRed));
+                holder.txtImgReject.setTextColor(ContextCompat.getColor(context, R.color.white));
+                holder.cardImgAccept.setCardBackgroundColor(ContextCompat.getColor(context, R.color.white));
+                holder.txtImgAccept.setTextColor(ContextCompat.getColor(context, R.color.black));
             }
         }
 
         holder.cardImgAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.cardImgAccept.setCardBackgroundColor(context.getResources().getColor(R.color.colorONDutyGreen));
-                holder.txtImgAccept.setTextColor(context.getResources().getColor(R.color.white));
-                holder.cardImgReject.setCardBackgroundColor(context.getResources().getColor(R.color.white));
-                holder.txtImgReject.setTextColor(context.getResources().getColor(R.color.black));
+                holder.cardImgAccept.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorONDutyGreen));
+                holder.txtImgAccept.setTextColor(ContextCompat.getColor(context, R.color.white));
+                holder.cardImgReject.setCardBackgroundColor(ContextCompat.getColor(context, R.color.white));
+                holder.txtImgReject.setTextColor(ContextCompat.getColor(context, R.color.black));
                 myClickListener.onItemClicked(imageDataList.get(position).getReferanceId(), true);
                 Log.e(TAG, "onClick: " + imageDataList.get(position).getReferanceId());
             }

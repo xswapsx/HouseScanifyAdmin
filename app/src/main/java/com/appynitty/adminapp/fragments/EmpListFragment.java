@@ -1,5 +1,6 @@
 package com.appynitty.adminapp.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.DashboardActivity;
-import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.EmpListRecyclerAdapter;
 import com.appynitty.adminapp.databinding.FragmentEmpListBinding;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
@@ -35,7 +35,6 @@ public class EmpListFragment extends Fragment {
     private List<EmployeeDetailsDTO> employeeDetailsList;
     public EmployeeDetailsRepository employeeDetailsRepository;
     AppCompatActivity activity;
-    ImageButton ib;
 
     View view;
 
@@ -66,14 +65,6 @@ public class EmpListFragment extends Fragment {
         String appId = Prefs.getString(MainUtils.APP_ID);
         binding.progressBar.setVisibility(View.VISIBLE);
         activity = (AppCompatActivity) view.getContext();
-        ib = activity.findViewById(R.id.ib_home);
-        ib.setImageResource(R.drawable.ic_home);
-        ib.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                moveToHomeActivity();
-            }
-        });
 
         employeeDetailsRepository.getEmpDetailsList(appId, new EmployeeDetailsRepository.IEmpDetailsListener() {
 
@@ -103,8 +94,4 @@ public class EmpListFragment extends Fragment {
         binding.empRecyclerView.setAdapter(adapter);
     }
 
-    private void moveToHomeActivity() {
-        Intent intent = new Intent(getActivity(), DashboardActivity.class);
-        ((HomeActivity) getActivity()).startActivity(intent);
-    }
 }

@@ -217,7 +217,7 @@ public class HouseDetailsFragment extends Fragment {
                 ) {
                     imageDataList.add(house);
                 }
-                Log.d(TAG, "HosueImageDetails list: " + houseDetailsImageDTOS.get(0));
+//                Log.d(TAG, "HosueImageDetails list: " + houseDetailsImageDTOS.get(0));
                 setOnRecycler(imageDataList);
             }
         });
