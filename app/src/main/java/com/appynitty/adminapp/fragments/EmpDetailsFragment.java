@@ -179,7 +179,7 @@ public class EmpDetailsFragment extends Fragment {
                         }
                         break;
                     default:
-                        empDetailsBinding.rdActiveED.setChecked(true);
+                        /*empDetailsBinding.rdActiveED.setChecked(true);
                             Log.e(TAG, " reBtnActive call");
                         empDRepository.getEmpDList(true, appId, new EmpDRepository.IEmpDResponse() {
                             @Override
@@ -196,7 +196,7 @@ public class EmpDetailsFragment extends Fragment {
                                 loader.setVisibility(View.GONE);
                                 Log.e(TAG, "onFailure: " + t.getMessage());
                             }
-                        });
+                        });*/
 
                 }
             }
@@ -214,7 +214,7 @@ public class EmpDetailsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                filter(editable.toString());
+                filterInActive(editable.toString());
             }
         });
 
@@ -286,8 +286,16 @@ public class EmpDetailsFragment extends Fragment {
         empDetailsBinding.recyclerEmpDetailsFrag.setAdapter(adapter);
     }
 
+    /*private void setRecyclerInactive(List<EmpDModelDTO> inactiveList) {
+        empDetailsBinding.progressCircular.setVisibility(View.GONE);
+        empDetailsBinding.txtNoData.setVisibility(View.GONE);
+        adapter = new EmpDetailsAdapter(context, inactiveList);
+        empDetailsBinding.recyclerEmpDetailsFrag.setLayoutManager(layoutManager);
+        empDetailsBinding.recyclerEmpDetailsFrag.setAdapter(adapter);
+    }*/
 
-    private void filter(String text) {
+
+    private void filterInActive(String text) {
         List<EmpDModelDTO> searchedList = new ArrayList<>();
 
         for (EmpDModelDTO item : inactiveList) {
