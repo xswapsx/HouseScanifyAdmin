@@ -97,4 +97,11 @@ public class EmpDViewModel extends ViewModel {
         return empDResponseLiveData;
     }
 
+    public MutableLiveData<List<EmpDModelDTO>> getEmpDResponseLiveDataInActive() {
+        if (empDResponseLiveData == null) {
+            empDResponseLiveData = new MutableLiveData<>();
+        }
+        return empDResponseLiveData;
+    }
+
 }
