@@ -55,6 +55,7 @@ public class EmpDetailsAdapter extends RecyclerView.Adapter<EmpDetailsAdapter.My
                 context.startActivity(intent);
                 Log.e(TAG, "onClick: Emp Info:- " + empDModelDTOList.get(holder.getAdapterPosition()).toString());
                 Log.e(TAG, "adapter clicked emp Id:- " + empDModelDTO.getQrEmpId() + "  " + empDModelDTOList.get(holder.getAdapterPosition()).getQrEmpName());
+
             }
         });
 
