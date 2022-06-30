@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,6 +68,7 @@ public class EmpDetailsFragment extends Fragment {
     EmpDViewModel empDViewModel;
 
     EmpDRepository empDRepository;
+    boolean isSelect = true;
 
 
     @Override
@@ -118,7 +120,6 @@ public class EmpDetailsFragment extends Fragment {
         empDViewModel = ViewModelProviders.of(getActivity(), new MyViewModelFactory(appId)).get(EmpDViewModel.class);
         empDetailsBinding.setEmpDlist(empDViewModel);
 
-        callApi();
 
         empDetailsBinding.rdActiveED.setChecked(true);
         Log.e(TAG, " reBtnActive call");
@@ -136,6 +137,55 @@ public class EmpDetailsFragment extends Fragment {
             public void onFailure(Throwable t) {
                 loader.setVisibility(View.GONE);
                 Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+
+       /* empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+              *//*if (empDetailsBinding.rdGroup.getCheckedRadioButtonId() == R.id.rd_active_ED){
+                  filterActive((String) charSequence);
+              }*//*
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                filterInActive(editable.toString());
+                *//*switch(view.getId()){
+                    case R.id.rd_active_ED:
+                        filterActive(editable.toString());
+                        break;
+                    case R.id.rd_inactive_ED:
+                        filterInActive(editable.toString());
+                        break;
+                }*//*
+            }
+        });*/
+
+
+
+
+        empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                checkList(editable.toString());
             }
         });
 
@@ -190,94 +240,12 @@ public class EmpDetailsFragment extends Fragment {
                         }
                         break;
                     default:
-                        /*empDetailsBinding.rdActiveED.setChecked(true);
-                            Log.e(TAG, " reBtnActive call");
-                        empDRepository.getEmpDList(true, appId, new EmpDRepository.IEmpDResponse() {
-                            @Override
-                            public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
-                                loader.setVisibility(View.GONE);
-                                empDResponse.getValue();
-                                Log.e(TAG, "onResponse: " + empDResponse.getValue());
-                                setRecycler(empDResponse.getValue());
-                                txtEntries.setText(empDResponse.getValue().size() + " " + "Entries");
-                            }
-
-                            @Override
-                            public void onFailure(Throwable t) {
-                                loader.setVisibility(View.GONE);
-                                Log.e(TAG, "onFailure: " + t.getMessage());
-                            }
-                        });*/
 
                 }
-            }
-        });
-        empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                filterInActive(editable.toString());
-            }
-        });
-
-        empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                filterActive(editable.toString());
             }
         });
 
         setOnClick();
-    }
-
-    private void callApi() {
-        empDViewModel.getEmpDResponseLiveData().observe(activity, new Observer<List<EmpDModelDTO>>() {
-            @Override
-            public void onChanged(List<EmpDModelDTO> empDModelDTOS) {
-                empDModelList.clear();
-
-                if (empDModelList != null && empDModelList.isEmpty()) {
-                    empDetailsBinding.recyclerEmpDetailsFrag.setVisibility(View.VISIBLE);
-                    empDetailsBinding.progressCircular.setVisibility(View.GONE);
-                    empDetailsBinding.txtNoData.setVisibility(View.GONE);
-
-                    for (EmpDModelDTO empD : empDModelDTOS) {
-                        empDModelList.add(new EmpDModelDTO(empD.getQrEmpId(), empD.getQrEmpName(), empD.getQrEmpMobileNumber(),
-                                empD.getQrEmpAddress(), empD.getQrEmpLoginId(), empD.getQrEmpPassword(), empD.getImoNo(), empD.isActive()));
-                    }
-                    txtEntries.setText(empDModelList.size());
-                    Log.e(TAG, "total entries : " + empDModelList.size());
-                    setRecycler(empDModelList);
-                    adapter.activeList(empDModelList);
-
-                    Log.e(TAG, "emp details list: " + empDModelList.toString());
-                } else {
-                    empDetailsBinding.recyclerEmpDetailsFrag.setVisibility(View.GONE);
-                    empDetailsBinding.progressCircular.setVisibility(View.GONE);
-                    empDetailsBinding.txtNoData.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
     }
 
     private void setOnClick() {
@@ -297,14 +265,19 @@ public class EmpDetailsFragment extends Fragment {
         empDetailsBinding.recyclerEmpDetailsFrag.setAdapter(adapter);
     }
 
-    /*private void setRecyclerInactive(List<EmpDModelDTO> inactiveList) {
-        empDetailsBinding.progressCircular.setVisibility(View.GONE);
-        empDetailsBinding.txtNoData.setVisibility(View.GONE);
-        adapter = new EmpDetailsAdapter(context, inactiveList);
-        empDetailsBinding.recyclerEmpDetailsFrag.setLayoutManager(layoutManager);
-        empDetailsBinding.recyclerEmpDetailsFrag.setAdapter(adapter);
-    }*/
 
+    private void checkList(String text){
+
+        switch(empDetailsBinding.rdGroup.getCheckedRadioButtonId()){
+        case R.id.rd_active_ED:
+            filterActive(text);
+            break;
+        case R.id.rd_inactive_ED:
+            filterInActive(text);
+            break;
+            default:
+        }
+    }
 
     private void filterInActive(String text) {
         List<EmpDModelDTO> searchedList = new ArrayList<>();
@@ -316,6 +289,8 @@ public class EmpDetailsFragment extends Fragment {
         }
         adapter.inActiveList(searchedList);
     }
+
+
     private void filterActive(String text) {
         List<EmpDModelDTO> searchedList = new ArrayList<>();
 
