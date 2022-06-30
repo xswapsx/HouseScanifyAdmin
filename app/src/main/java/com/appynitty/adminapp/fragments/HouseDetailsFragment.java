@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -49,7 +50,7 @@ public class HouseDetailsFragment extends Fragment {
     private static final String TAG = "HouseDetailsFragment";
     private Context context;
     AppCompatActivity activity;
-    private View view, homeButton;
+    private View view;
     private RadioGroup rdGroup;
     private String filterType = "HW", appId;
     private RadioButton rdHouse, rdDumpYard, rdLiquid, rdStreet;
@@ -103,16 +104,16 @@ public class HouseDetailsFragment extends Fragment {
         rdStreet = view.findViewById(R.id.rdStreet);
 
         if (houseCount > 0)
-            rdHouse.setTextColor(getResources().getColor(R.color.color_green_end));
+            rdHouse.setTextColor(ContextCompat.getColor(context, R.color.color_green_end));
 
         if (dumpCount > 0)
-            rdDumpYard.setTextColor(getResources().getColor(R.color.color_green_end));
+            rdDumpYard.setTextColor(ContextCompat.getColor(context, R.color.color_green_end));
 
         if (liquidCount > 0)
-            rdLiquid.setTextColor(getResources().getColor(R.color.color_green_end));
+            rdLiquid.setTextColor(ContextCompat.getColor(context, R.color.color_green_end));
 
         if (streetCount > 0)
-            rdStreet.setTextColor(getResources().getColor(R.color.color_green_end));
+            rdStreet.setTextColor(ContextCompat.getColor(context, R.color.color_green_end));
 
 
         imageDataList = new ArrayList<>();
@@ -264,11 +265,11 @@ public class HouseDetailsFragment extends Fragment {
         houseDetailsImageVM.getStreetQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
             @Override
             public void onChanged(List<HouseDetailsImageDTO> streetWasteList) {
-                for (HouseDetailsImageDTO streetWaste :
-                        streetWasteList) {
-                    imageDataList.add(streetWaste);
-                    Log.e(TAG, "onChanged: streetId: " + streetWaste.getReferanceId());
-                }
+               /* for (HouseDetailsImageDTO streetWaste :
+                        streetWasteList) {*/
+                imageDataList.addAll(streetWasteList);
+                Log.e(TAG, "onChanged: streetId: " + imageDataList.get(0).getReferanceId());
+//                }
                 if (houseDetailsAdapter != null) {
                     houseDetailsAdapter.getStreetList(imageDataList);
                 } else {

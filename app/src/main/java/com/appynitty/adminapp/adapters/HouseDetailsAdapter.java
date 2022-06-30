@@ -167,7 +167,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
     }
 
     public void getStreetList(List<HouseDetailsImageDTO> streetList) {
-        imageDataList.clear();
+//        imageDataList.clear();
         imageDataList = streetList;
         notifyDataSetChanged();
     }
