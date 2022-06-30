@@ -1,6 +1,7 @@
 package com.appynitty.adminapp.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.activities.DashboardActivity;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.AttendanceAdapter;
 import com.appynitty.adminapp.databinding.FragmentAttendanceBinding;
@@ -47,6 +50,7 @@ public class AttendanceFragment extends Fragment {
     private ProgressBar loader;
     private TextView txtEntries, txtNoData;
     private ImageView imgClear;
+    ImageButton homeButton;  //swaps
     private EditText edtSearchText;
     private RecyclerView recyclerAttendance;
     private AttendanceAdapter adapter;
@@ -84,6 +88,17 @@ public class AttendanceFragment extends Fragment {
         appId = results.getString("val1");
         ulbName = results.getString("val2");
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
+
+        homeButton = getActivity().findViewById(R.id.ib_home);        //swaps
+        homeButton.setImageResource(R.drawable.ic_home);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), DashboardActivity.class);
+                startActivity(i);
+//                activity.finish();
+            }
+        });
 
         context = getActivity();
 

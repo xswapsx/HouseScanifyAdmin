@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -61,7 +60,6 @@ public class UserRightsActivity extends AppCompatActivity {
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(UserRightsActivity.this, "Clicked!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(UserRightsActivity.this, DashboardActivity.class));
             }
         });

@@ -22,7 +22,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.HomeActivity;
@@ -53,6 +55,8 @@ public class HouseDetailsFragment extends Fragment {
     private RadioButton rdHouse, rdDumpYard, rdLiquid, rdStreet;
     private List<HouseDetailsImageDTO> imageDataList;
     private RecyclerView recyclerHouseImage;
+    SnapHelper snapHelper;
+
     private LinearLayoutManager layoutManager;
     private HouseDetailsAdapter houseDetailsAdapter;
     private ProgressBar loader;
@@ -115,6 +119,8 @@ public class HouseDetailsFragment extends Fragment {
         crdFilter = view.findViewById(R.id.card_filter);
 //        homeButton = getActivity().findViewById(R.id.ib_home);
         recyclerHouseImage = view.findViewById(R.id.recycler_House_image);
+        snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerHouseImage);
         loader = view.findViewById(R.id.progress_circular);
         loader.setVisibility(View.GONE);
         txtNoData = view.findViewById(R.id.txt_no_data);

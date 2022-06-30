@@ -1,6 +1,5 @@
 package com.appynitty.adminapp.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +34,7 @@ public class EmpListFragment extends Fragment {
     private List<EmployeeDetailsDTO> employeeDetailsList;
     public EmployeeDetailsRepository employeeDetailsRepository;
     AppCompatActivity activity;
-
+    ImageButton homeButton;
     View view;
 
     public EmpListFragment() {
@@ -65,7 +64,16 @@ public class EmpListFragment extends Fragment {
         String appId = Prefs.getString(MainUtils.APP_ID);
         binding.progressBar.setVisibility(View.VISIBLE);
         activity = (AppCompatActivity) view.getContext();
-
+        homeButton = getActivity().findViewById(R.id.ib_home);
+        homeButton.setImageResource(R.drawable.ic_home);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), DashboardActivity.class);
+                startActivity(i);
+//                activity.finish();
+            }
+        });
         employeeDetailsRepository.getEmpDetailsList(appId, new EmployeeDetailsRepository.IEmpDetailsListener() {
 
             @Override

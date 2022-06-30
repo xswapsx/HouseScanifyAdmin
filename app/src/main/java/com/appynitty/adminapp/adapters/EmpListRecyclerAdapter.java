@@ -70,7 +70,7 @@ public class EmpListRecyclerAdapter extends RecyclerView.Adapter<EmpListRecycler
                 myFragment.setArguments(args);
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container_frame_layout, myFragment)
-                        .addToBackStack(null).commit();
+                        .commit();
             }
         });
     }

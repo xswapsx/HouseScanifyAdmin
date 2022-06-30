@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.DashboardActivity;
@@ -41,11 +43,13 @@ import java.util.List;
 public class LiveDataFragment extends Fragment {
     private static final String TAG = "LiveDataFragment";
     private Context context;
-    private View view, homeButton;
+    private View view;
+    ImageButton homeButton;
     private FragmentLiveDataBinding binding;
     private DialogFilterBinding filterBinding;
     private LinearLayoutManager layoutManager;
     private EmployeeDetailsAdapter adapter;
+    private RecyclerView recyclerView;
     private String appId, ulbName;
     private TextView tvDate;
     private EditText etSearchEmp;
@@ -81,6 +85,16 @@ public class LiveDataFragment extends Fragment {
         Prefs.putString("QR_APP_ID", results.getString("val1"));
         employeeDetailsList = new ArrayList<>();
         context = getActivity();
+        homeButton = getActivity().findViewById(R.id.ib_home);        //swaps
+        homeButton.setImageResource(R.drawable.ic_home);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), DashboardActivity.class);
+                startActivity(i);
+            }
+        });
+        recyclerView = view.findViewById(R.id.empRecyclerView);
 //        filterDialog = new FilterDialogFragment();
         tvDate = view.findViewById(R.id.txt_date);
         etSearchEmp = view.findViewById(R.id.edt_search_text);
@@ -143,8 +157,8 @@ public class LiveDataFragment extends Fragment {
     private void setRecycler(List<EmployeeDetailsDTO> employeeDetailsList) {
         layoutManager = new LinearLayoutManager(context);
         adapter = new EmployeeDetailsAdapter(context, employeeDetailsList);
-        binding.empRecyclerView.setLayoutManager(layoutManager);
-        binding.empRecyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
     private void filter(String text) {

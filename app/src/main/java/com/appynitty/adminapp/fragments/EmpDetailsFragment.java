@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.AddEmpActivity;
+import com.appynitty.adminapp.activities.DashboardActivity;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.EmpDetailsAdapter;
 import com.appynitty.adminapp.databinding.FragmentEmpDetailsBinding;
@@ -53,7 +55,7 @@ public class EmpDetailsFragment extends Fragment {
     private RecyclerView recyclerEmpDetails;
     private EmpDetailsAdapter adapter;
     private CardView crdAddEmp;
-
+    ImageButton homeButton; //s
     //binding part
     private FragmentEmpDetailsBinding empDetailsBinding;
     HomeActivity activity;
@@ -88,7 +90,16 @@ public class EmpDetailsFragment extends Fragment {
         Log.e(TAG, "AppID: " + appId + " ULB: " + ulbName);
         context = getActivity();
         empDRepository = new EmpDRepository();
-
+        homeButton = getActivity().findViewById(R.id.ib_home);        //swaps
+        homeButton.setImageResource(R.drawable.ic_home);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), DashboardActivity.class);
+                startActivity(i);
+//                activity.finish();
+            }
+        });
         empDModelList = new ArrayList<>();
         inactiveList = new ArrayList<>();
         activeList = new ArrayList<>();
