@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.DashboardActivity;
@@ -31,8 +32,8 @@ import com.appynitty.adminapp.dialog.FilterDialog;
 import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
+import com.appynitty.adminapp.repositories.UlbDataRepository;
 import com.appynitty.adminapp.utils.MainUtils;
-import com.appynitty.adminapp.utils.MyViewModelFactory;
 import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -83,6 +84,7 @@ public class LiveDataFragment extends Fragment {
         Log.e(TAG, "AppID from bundle: " + appId + " ULB: " + ulbName);
         Log.e(TAG, "AppID from Prefs: " + Prefs.getString(MainUtils.APP_ID, null) + " ULB: " + ulbName);
         Prefs.putString("QR_APP_ID", results.getString("val1"));
+
         employeeDetailsList = new ArrayList<>();
         context = getActivity();
         homeButton = getActivity().findViewById(R.id.ib_home);        //swaps
@@ -100,9 +102,20 @@ public class LiveDataFragment extends Fragment {
         etSearchEmp = view.findViewById(R.id.edt_search_text);
         btnFilter = view.findViewById(R.id.card_filter);
         tvDate.setText(MainUtils.getDateAndTime());
-        ulbDataViewModel = ViewModelProviders.of(this,
-                new MyViewModelFactory(appId)).get(UlbDataViewModel.class);
+//        ulbDataViewModel = ViewModelProviders.of(this,
+//                new MyViewModelFactory(appId)).get(UlbDataViewModel.class);
+
+        ulbDataViewModel = ViewModelProviders.of(this).get(UlbDataViewModel.class);
+        ulbDataViewModel.init(appId);
         binding.setUlbData(ulbDataViewModel);
+
+        binding.swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ulbDataViewModel.init(appId);
+//                binding.swiperefresh.setRefreshing(false);
+            }
+        });
 
 
         etSearchEmp.addTextChangedListener(new TextWatcher() {
@@ -139,6 +152,13 @@ public class LiveDataFragment extends Fragment {
                             emp.getStreetCount(), emp.getDumpCount()));
                 }
                 setRecycler(employeeDetailsList);
+            }
+        });
+
+        ulbDataViewModel.getmProgressMutableData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean state) {
+                binding.swiperefresh.setRefreshing(state);
             }
         });
 

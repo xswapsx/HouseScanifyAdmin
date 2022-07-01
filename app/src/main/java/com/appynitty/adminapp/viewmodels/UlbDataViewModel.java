@@ -28,6 +28,7 @@ public class UlbDataViewModel extends ViewModel {
     public MutableLiveData<List<EmployeeDetailsDTO>> empDetailsListLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> mProgressMutableData = new MutableLiveData<>();
     public MutableLiveData<Integer> mProgressMutableData1 = new MutableLiveData<>();
+    public MutableLiveData<Boolean> mSwipeStatus = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalHouseLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalHouseUpdatedLiveData = new MutableLiveData<>();
     public MutableLiveData<Integer> TotalHouseUpdated_CurrentDayLiveData = new MutableLiveData<>();
@@ -49,10 +50,8 @@ public class UlbDataViewModel extends ViewModel {
     public MutableLiveData<FilterDTO> FilterLiveData = new MutableLiveData<>();
     public MutableLiveData<Boolean> btnCancelStateLiveData = new MutableLiveData<>();
 
-    public UlbDataViewModel(Object[] mParams) {
-        String appId = (String) mParams[0];
 
-        Log.e(TAG, "UlbDataViewModel: size" + mParams.length);
+    public void init(String appId) {
 
         mProgressMutableData.setValue(View.VISIBLE);
         mProgressMutableData1.setValue(View.VISIBLE);
@@ -92,6 +91,7 @@ public class UlbDataViewModel extends ViewModel {
             @Override
             public void onResponse(MutableLiveData<List<EmployeeDetailsDTO>> empDetailsResponse) {
                 mProgressMutableData1.setValue(View.INVISIBLE);
+                mSwipeStatus.setValue(false);
                 Log.e(TAG, "onResponse: EmpDetails= " + empDetailsResponse.getValue().toString());
                 empDetailsListLiveData.setValue(empDetailsResponse.getValue());
             }
@@ -99,10 +99,10 @@ public class UlbDataViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 mProgressMutableData1.setValue(View.INVISIBLE);
+                mSwipeStatus.setValue(false);
                 Log.e(TAG, "onResponse: EmpDetails= " + t.getMessage());
             }
         });
-
     }
 
     public void onClick(View view) {
@@ -149,6 +149,10 @@ public class UlbDataViewModel extends ViewModel {
             empDetailsListLiveData = new MutableLiveData<>();
         }
         return empDetailsListLiveData;
+    }
+
+    public MutableLiveData<Boolean> getmProgressMutableData() {
+        return mSwipeStatus;
     }
 
     public LiveData<String> getEdtFrmDateState() {

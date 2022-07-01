@@ -85,7 +85,7 @@ public class HouseDetailsImageRepo {
             @Override
             public void onResponse(Call<List<HouseDetailsImageDTO>> call, Response<List<HouseDetailsImageDTO>> response) {
                 if (response.code() == 200) {
-//                    Log.e(TAG, "onResponse: " + response.body().toString());
+                    Log.e(TAG, "onResponse: " + response.body().toString());
                     StreetQrImagesLiveData.setValue(response.body());
                     listener.onResponse(StreetQrImagesLiveData);
                 } else if (response.code() == 500) {

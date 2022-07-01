@@ -2,6 +2,7 @@ package com.appynitty.adminapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,6 +147,9 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
         holder.txtDateTime.setText(imageDataList.get(position).getModifiedDate());
         holder.txtEmpName.setText(imageDataList.get(position).getName());
         holder.txtRefId.setText(imageDataList.get(position).getReferanceId());
+
+        Log.e(TAG, "onBindViewHolder: normal posi: " + position);
+        Log.e(TAG, "onBindViewHolder: adapter posi: " + position);
     }
 
 

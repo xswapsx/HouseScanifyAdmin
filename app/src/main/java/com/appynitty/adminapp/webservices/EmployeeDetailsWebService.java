@@ -17,12 +17,14 @@ public interface EmployeeDetailsWebService {
                                                        @Header("appId") String appId,
                                                        @Header("userId") Integer userId);
 
-@GET("api/Supervisor/HouseScanifyDetailsGridRow")
+    @GET("api/Supervisor/HouseScanifyDetailsGridRow")
     Call<List<EmployeeDetailsDTO>> getEmployeesDetailsUpdated(@Header("Content-Type") String contentType,
-                                                       @Header("FromDate") String fromDate,
-                                                       @Header("Todate") String toDate,
-                                                       @Header("appId") String appId,
-                                                       @Header("qrEmpId") Integer userId);
+                                                              @Header("FromDate") String fromDate,
+                                                              @Header("Todate") String toDate,
+                                                              @Header("appId") String appId,
+                                                              @Header("userId") Integer userId);
+
+//qrEmpId
 
 
 }

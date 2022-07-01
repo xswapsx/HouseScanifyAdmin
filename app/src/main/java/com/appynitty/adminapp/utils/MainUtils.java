@@ -14,8 +14,8 @@ public class MainUtils {
     //Staging Server
 //    public static final String BASE_URL = "http://183.177.126.33:6560";
 //    public static final String BASE_URL = "http://202.65.157.254:5049/";
-//    public static final String BASE_URL = "http://202.65.157.254:6560";  //Temp url
-    public static final String BASE_URL = "http://202.65.157.253:6560";  //Main url
+    public static final String BASE_URL = "http://202.65.157.254:6560";  //Temp url
+//    public static final String BASE_URL = "http://202.65.157.253:6560";  //Main url
 
     //Live Server
 //    public static final String BASE_URL = "https://ictsbm.com:30443";

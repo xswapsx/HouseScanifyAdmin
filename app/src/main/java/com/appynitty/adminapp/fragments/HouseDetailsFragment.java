@@ -156,26 +156,6 @@ public class HouseDetailsFragment extends Fragment {
                             Log.e(TAG, "onRadioBtnClicked: checked rdHouse");
                         filterType = "HW";
                         houseDetailsImageVM.callHouseApi(empId);
-                        /*houseDetailsImageVM.getHouseQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
-
-                            int imgCount = 0;
-
-                            @Override
-                            public void onChanged(List<HouseDetailsImageDTO> houseDetailsImageDTOS) {
-                                Log.e(TAG, "HosueImageDetails Size: " + houseDetailsImageDTOS.size());
-                                for (HouseDetailsImageDTO house : houseDetailsImageDTOS
-                                ) {
-                                    if (!house.getqRCodeImage().matches("/Images/default_not_upload.png")) {
-                                        imgCount += 1;
-                                        imageDataList.add(house);
-                                    }
-                                }
-                                itemListCount = imageDataList.size();
-                                Log.e(TAG, "ImgCount: " + imageDataList.size());
-                                setOnRecycler(imageDataList);
-
-                            }
-                        });*/
                         break;
                     case R.id.rdDumpyard:
                         if (rdDumpYard.isChecked())
@@ -224,7 +204,6 @@ public class HouseDetailsFragment extends Fragment {
                 ) {
                     imageDataList.add(house);
                 }
-//                Log.d(TAG, "HosueImageDetails list: " + houseDetailsImageDTOS.get(0));
                 setOnRecycler(imageDataList);
             }
         });
@@ -265,14 +244,13 @@ public class HouseDetailsFragment extends Fragment {
         houseDetailsImageVM.getStreetQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
             @Override
             public void onChanged(List<HouseDetailsImageDTO> streetWasteList) {
-               /* for (HouseDetailsImageDTO streetWaste :
-                        streetWasteList) {*/
-                imageDataList.addAll(streetWasteList);
-                Log.e(TAG, "onChanged: streetId: " + imageDataList.get(0).getReferanceId());
-//                }
+                imageDataList = streetWasteList;
                 if (houseDetailsAdapter != null) {
                     houseDetailsAdapter.getStreetList(imageDataList);
+                    houseDetailsAdapter.notifyDataSetChanged();
                 } else {
+                    imageDataList.clear();
+                    houseDetailsAdapter.notifyDataSetChanged();
                     setOnRecycler(imageDataList);
                 }
 
@@ -307,7 +285,6 @@ public class HouseDetailsFragment extends Fragment {
             }
         });
 
-        /* homeButton.setOnClickListener(View -> startActivity(new Intent(getActivity(), DashboardActivity.class)));*/
     }
 
     private void openDialog() {
