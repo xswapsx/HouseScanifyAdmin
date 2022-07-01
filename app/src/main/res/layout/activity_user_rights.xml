@@ -2,8 +2,8 @@
 <layout>
 <data>
     <variable
-        name="userRytsViewModel"
-        type="com.appynitty.adminapp.viewmodels.UserRightViewModel" />
+        name="userRole"
+        type="com.appynitty.adminapp.viewmodels.UserRoleViewModel" />
 </data>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -55,6 +55,7 @@
 
                 <RadioButton
                     style="@style/RadioButton"
+                    android:id="@+id/rd_active_user"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
@@ -64,6 +65,7 @@
 
                 <RadioButton
                     style="@style/RadioButton"
+                    android:id="@+id/rd_inactive_user"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dim_5dp"
@@ -119,7 +121,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dim_5dp"
-                            android:layout_toStartOf="@id/img_close"
                             android:layout_toEndOf="@id/img_search"
                             android:background="@android:color/transparent"
                             android:gravity="center_vertical"
@@ -129,16 +130,6 @@
                             android:singleLine="true"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/txt_size_12sp" />
-                        <ImageView
-                            android:id="@+id/img_close"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginStart="@dimen/dim_2dp"
-                            android:src="@drawable/ic_close"
-                            android:visibility="gone"
-                            />
 
                     </RelativeLayout>
 

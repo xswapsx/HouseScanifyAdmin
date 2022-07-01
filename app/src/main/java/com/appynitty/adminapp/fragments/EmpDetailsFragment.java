@@ -105,6 +105,7 @@ public class EmpDetailsFragment extends Fragment {
         empDModelList = new ArrayList<>();
         inactiveList = new ArrayList<>();
         activeList = new ArrayList<>();
+
         recyclerEmpDetails = view.findViewById(R.id.recycler_emp_details_frag);
         loader = view.findViewById(R.id.progress_circular);
         txtNoData = view.findViewById(R.id.txt_no_data);

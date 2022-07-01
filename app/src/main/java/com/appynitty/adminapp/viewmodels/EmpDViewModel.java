@@ -67,25 +67,6 @@ public class EmpDViewModel extends ViewModel {
         }
     }
 
-
-    /*public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
-            case R.id.rd_active_ED:
-                rdBtnActive = (view).callOnClick();
-                Log.e(TAG, "rdActiveON: " + rdBtnActive);
-                break;
-            case R.id.rd_inactive_ED:
-                rdBtnInactive = (view).callOnClick();
-                Log.e(TAG, "rdInactiveON: " + rdBtnInactive);
-                break;
-
-            default:
-                // code block
-        }
-
-    }*/
-
     public LiveData<Integer> getProgress() {
         return mProgressMutableData;
     }
