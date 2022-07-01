@@ -18,7 +18,7 @@
         <RelativeLayout
             android:id="@+id/rl_box"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/box"
             android:padding="@dimen/dim_10dp">
 
@@ -82,8 +82,8 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
 
-            <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/crd_user_rights_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txt_rights"
@@ -93,6 +93,7 @@
                 android:clipToPadding="false"
                 android:divider="@color/colorPrimaryDark"
                 android:dividerHeight="1.0px"
+                android:visibility="gone"
                 app:cardCornerRadius="@dimen/dim_25dp"
                 app:cardElevation="@dimen/dim_10dp">
 

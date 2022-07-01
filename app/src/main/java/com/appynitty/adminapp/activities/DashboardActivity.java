@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -65,8 +66,10 @@ public class DashboardActivity extends AppCompatActivity {
         empType = Prefs.getString(MainUtils.EMP_TYPE);
         if (!empType.isEmpty() && empType.matches("SA")) {
             binding.empType.setText("SUB-ADMIN");
+            binding.crdUserRightsBtn.setVisibility(View.GONE);
         } else {
             binding.empType.setText("ADMIN");
+            binding.crdUserRightsBtn.setVisibility(View.VISIBLE);
         }
 
         refreshLayout = findViewById(R.id.refresh_layout);

@@ -1,6 +1,8 @@
 package com.appynitty.adminapp.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,8 @@ import com.appynitty.adminapp.activities.AddUserDetailsActivity;
 import com.appynitty.adminapp.databinding.ItemUserRightsListBinding;
 import com.appynitty.adminapp.models.EmpDModelDTO;
 import com.appynitty.adminapp.models.UserRoleModelDTO;
+import com.appynitty.adminapp.utils.MainUtils;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
@@ -27,6 +31,7 @@ public class UserRightsAdapter extends RecyclerView.Adapter<UserRightsAdapter.My
     private Context context;
     private static final String TAG = "UserRightsAdapter";
     private List<UserRoleModelDTO> userRoleModelDTOList;
+    private String empType = "";
 
     public UserRightsAdapter(Context context, List<UserRoleModelDTO> userRoleModelDTOList) {
         this.context = context;
@@ -52,14 +57,29 @@ public class UserRightsAdapter extends RecyclerView.Adapter<UserRightsAdapter.My
         holder.userRightsListBinding.imgEditUserRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, AddUserDetailsActivity.class);
-                intent.putExtra("userRoleRightsDetails", userRoleModelDTOList.get(holder.getAdapterPosition()));
 
-                context.startActivity(intent);
-                Log.e(TAG, "onClick: User Role Right Info:- " + userRoleModelDTOList.get(holder.getAdapterPosition()).toString());
-                Log.e(TAG, "adapter clicked User Role Rights  Id:- " + userRoleModelDTO.getEmpId() + "  " + userRoleModelDTOList.get(holder.getAdapterPosition()).getEmpName()
-                        + "  " + userRoleModelDTO.getType());
+                /*empType = Prefs.getString(MainUtils.EMP_TYPE);*/
+                if (userRoleModelDTO.getType().contains("SA") && !userRoleModelDTO.getType().isEmpty()){
+                    Intent intent = new Intent(context, AddUserDetailsActivity.class);
+                    intent.putExtra("userRoleRightsDetails", userRoleModelDTOList.get(holder.getAdapterPosition()));
 
+                    context.startActivity(intent);
+                    Log.e(TAG, "onClick: User Role Right Info:- " + userRoleModelDTOList.get(holder.getAdapterPosition()).toString());
+                    Log.e(TAG, "adapter clicked User Role Rights  Id:- " + userRoleModelDTO.getEmpId() + "  " + userRoleModelDTOList.get(holder.getAdapterPosition()).getEmpName()
+                            + "  " + userRoleModelDTO.getType());
+
+                }else if (userRoleModelDTO.getType().contains("A") && !userRoleModelDTO.getType().isEmpty()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                            .setIcon(android.R.drawable.btn_dialog)
+                            .setMessage("Admin ID Are Not Available To Edit")
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    builder.create().show();
+                }
             }
         });
 

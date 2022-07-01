@@ -139,7 +139,7 @@ public class AttendanceFragment extends Fragment {
                 attendanceDTOList.clear();
                 attendanceBinding.progressCircular.setVisibility(View.VISIBLE);
 
-                if (attendanceDTOList != null && attendanceDTOList.isEmpty()) {
+                if (attendanceDTOList != null) {
                     attendanceBinding.recyclerAttendance.setVisibility(View.VISIBLE);
                     attendanceBinding.progressCircular.setVisibility(View.GONE);
                     attendanceBinding.txtNoData.setVisibility(View.GONE);
@@ -164,7 +164,7 @@ public class AttendanceFragment extends Fragment {
                 attendanceDTOList.clear();
                 attendanceBinding.progressCircular.setVisibility(View.VISIBLE);
 
-                if (attendanceDTOList != null && attendanceDTOList.isEmpty()) {
+                if (attendanceDTOList != null) {
                     attendanceBinding.recyclerAttendance.setVisibility(View.VISIBLE);
                     attendanceBinding.progressCircular.setVisibility(View.GONE);
                     attendanceBinding.txtNoData.setVisibility(View.GONE);

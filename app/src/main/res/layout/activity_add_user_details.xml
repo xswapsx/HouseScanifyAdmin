@@ -172,10 +172,10 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_mobile_number"
                                 android:inputType="phone"
-                                android:text="@{addUserDetailsData.EmpMobileNumber}"
                                 android:maxLength="10"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
+                                android:text="@{addUserDetailsData.EmpMobileNumber}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
@@ -292,10 +292,10 @@
                                 android:layout_marginStart="@dimen/dim_12dp"
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_password"
-                                android:inputType="textPassword"
-                                android:text="@{addUserDetailsData.Password}"
+                                android:inputType="text"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
+                                android:text="@{addUserDetailsData.Password}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
