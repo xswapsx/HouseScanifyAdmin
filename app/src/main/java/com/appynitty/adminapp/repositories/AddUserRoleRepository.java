@@ -66,6 +66,21 @@ public void userRoleRightUpdate(UserRoleModelDTO userRoleDetails,IAddUserRoleRig
     Log.d(TAG, "updateUserRoleDetails: " + userRoleDetails.toString());
     List<UserRoleModelDTO> userRoleDetails1 = new ArrayList<>();
     userRoleDetails1.add(userRoleDetails);
+    AddUserRoleRightWebService addUserRoleRightWebService = RetrofitClient.createService(AddUserRoleRightWebService.class,MainUtils.BASE_URL);
+    Call<AddUserRoleRightResult> initiateUpdateUserRole = addUserRoleRightWebService.updateUserRoleRightHS(MainUtils.CONTENT_TYPE,userRoleDetails1);
+
+    initiateUpdateUserRole.enqueue(new Callback<AddUserRoleRightResult>() {
+        @Override
+        public void onResponse(Call<AddUserRoleRightResult> call, Response<AddUserRoleRightResult> response) {
+            Log.d(TAG, "onResponse: " + response.body().getMessage());
+            iAddUserRoleRightsResponse.onResponse(response.body());
+        }
+
+        @Override
+        public void onFailure(Call<AddUserRoleRightResult> call, Throwable t) {
+            Log.d(TAG, "onFailure: " + t.getMessage());
+        }
+    });
 }
 
 

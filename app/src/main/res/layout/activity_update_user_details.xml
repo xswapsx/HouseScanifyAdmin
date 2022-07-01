@@ -3,6 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="updateUserRoleDetails"
+            type="com.appynitty.adminapp.models.UserRoleModelDTO" />
+
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,7 +28,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_btn_save"
+                android:id="@+id/txt_btn_update"
                 android:layout_width="160dp"
                 android:layout_height="45dp"
                 android:layout_alignParentBottom="true"
@@ -41,7 +48,7 @@
                 android:id="@+id/scroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/txt_btn_save"
+                android:layout_above="@id/txt_btn_update"
                 android:fitsSystemWindows="true"
                 android:scrollbars="none">
 
@@ -50,7 +57,52 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <androidx.cardview.widget.CardView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/card_emp_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginVertical="@dimen/dim_10dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:divider="@color/colorPrimaryDark"
+                        android:dividerHeight="1.0px"
+                        android:outlineProvider="background"
+                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
+                        android:padding="@dimen/dim_10dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/colorWhite"
+                        app:cardCornerRadius="@dimen/dim_25dp"
+                        app:cardElevation="@dimen/dim_5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/edt_emp_id"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/dim_12dp"
+                                android:background="@android:color/transparent"
+                                android:hint="Emp Id"
+                                android:inputType="number"
+                                android:text="@{updateUserRoleDetails.empId}"
+                                android:focusableInTouchMode="false"
+                                android:focusable="false"
+                                android:padding="@dimen/dim_10dp"
+                                android:singleLine="true"
+                                android:textColorHint="@color/colorFentText"
+                                android:textSize="@dimen/txt_size_14sp" />
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -80,6 +132,7 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_employee_name"
                                 android:inputType="text"
+                                android:text="@{updateUserRoleDetails.empName}"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
                                 android:textColorHint="@color/colorFentText"
@@ -122,6 +175,7 @@
                                 android:maxLength="10"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
+                                android:text="@{updateUserRoleDetails.empMobileNumber}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
@@ -159,6 +213,7 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_address"
                                 android:inputType="textPostalAddress"
+                                android:text="@{updateUserRoleDetails.empAddress}"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
                                 android:textColorHint="@color/colorFentText"
@@ -198,6 +253,7 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_username"
                                 android:inputType="textPostalAddress"
+                                android:text="@{updateUserRoleDetails.loginId}"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
                                 android:textColorHint="@color/colorFentText"
@@ -237,6 +293,7 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_password"
                                 android:inputType="textPassword"
+                                android:text="@{updateUserRoleDetails.password}"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
                                 android:textColorHint="@color/colorFentText"
@@ -284,9 +341,10 @@
                                 android:inputType="text"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
+                                android:text="@{updateUserRoleDetails.type}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp"
-                                android:visibility="gone" />
+                                android:visibility="visible" />
 
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/spinner"
@@ -299,6 +357,7 @@
                                 android:hint="@string/str_select_user_role"
                                 android:isScrollContainer="true"
                                 android:padding="@dimen/dim_10dp"
+                                android:visibility="gone"
                                 android:spinnerMode="dropdown"
                                 android:textAlignment="gravity"
                                 android:textColor="@color/colorGray"
@@ -319,14 +378,16 @@
 
                         <CheckBox
                             style="@style/CheckBox"
-                            android:layout_width="0dp"
+                            android:id="@+id/cb_isActive"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="5"
                             android:buttonTint="@color/colorPrimaryDark"
                             android:elevation="@dimen/dim_8dp"
                             android:gravity="center_vertical"
-                            android:padding="@dimen/dim_10dp"
+                            android:paddingVertical="@dimen/dim_5dp"
+                            android:paddingHorizontal="@dimen/dim_10dp"
                             android:text="@string/str_chkbox_is_active"
+                            android:checked="@{updateUserRoleDetails.active}"
                             android:textSize="@dimen/txt_size_14sp" />
 
                     </LinearLayout>
@@ -379,6 +440,7 @@
                                 android:textStyle="bold" />
 
                             <CheckBox
+                                android:id="@+id/cb_select_all"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@+id/txt_select_ulb"

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="addUserDetailsData"
-            type="" />
+            type="com.appynitty.adminapp.viewmodels.AddUserRoleViewModel" />
         
     </data>
 
@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         android:background="@color/colorScreenBg"
         tools:context=".activities.AddUserDetailsActivity">
-        <!--<include layout="@layout/custom_toolbar"/>-->
 
         <include
             android:id="@+id/rl_custom_toolbar"
@@ -58,7 +57,52 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <androidx.cardview.widget.CardView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/card_emp_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginVertical="@dimen/dim_10dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:divider="@color/colorPrimaryDark"
+                        android:dividerHeight="1.0px"
+                        android:outlineProvider="background"
+                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
+                        android:padding="@dimen/dim_10dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/colorWhite"
+                        app:cardCornerRadius="@dimen/dim_25dp"
+                        app:cardElevation="@dimen/dim_5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/edt_emp_id"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/dim_12dp"
+                                android:background="@android:color/transparent"
+                                android:hint="Emp Id"
+                                android:inputType="number"
+                                android:text="@{addUserDetailsData.EmpId}"
+                                android:focusableInTouchMode="false"
+                                android:focusable="false"
+                                android:padding="@dimen/dim_10dp"
+                                android:singleLine="true"
+                                android:textColorHint="@color/colorFentText"
+                                android:textSize="@dimen/txt_size_14sp" />
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -88,6 +132,7 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_employee_name"
                                 android:inputType="text"
+                                android:text="@{addUserDetailsData.EmpName}"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
                                 android:textColorHint="@color/colorFentText"
@@ -127,6 +172,7 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_mobile_number"
                                 android:inputType="phone"
+                                android:text="@{addUserDetailsData.EmpMobileNumber}"
                                 android:maxLength="10"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
@@ -167,6 +213,7 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_address"
                                 android:inputType="textPostalAddress"
+                                android:text="@{addUserDetailsData.EmpAddress}"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
                                 android:textColorHint="@color/colorFentText"
@@ -205,6 +252,7 @@
                                 android:layout_marginStart="@dimen/dim_12dp"
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_username"
+                                android:text="@{addUserDetailsData.LoginId}"
                                 android:inputType="textPostalAddress"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
@@ -245,6 +293,7 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_password"
                                 android:inputType="textPassword"
+                                android:text="@{addUserDetailsData.Password}"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
                                 android:textColorHint="@color/colorFentText"

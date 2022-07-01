@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +31,8 @@ import com.appynitty.adminapp.databinding.ActivityUpdateUserDetailsBinding;
 import com.appynitty.adminapp.models.AddUserRoleRightDTO;
 import com.appynitty.adminapp.models.EmpDModelDTO;
 import com.appynitty.adminapp.models.UserRoleModelDTO;
+import com.appynitty.adminapp.viewmodels.AddEmpViewModel;
+import com.appynitty.adminapp.viewmodels.AddUserRoleViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,6 +53,7 @@ public class AddUserDetailsActivity extends AppCompatActivity {
     private List<UserRoleModelDTO> userRoleModelDTOS;
     private UserRoleModelDTO userRoleRightDetails;
     private AddUserRoleRightDTO  addUserRoleRightDTO;
+    private AddUserRoleViewModel addUserRoleViewModel;
     private View view;
     private Toolbar toolbar;
     private Spinner spinner;
@@ -69,76 +73,62 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAddUserDetailsBinding.inflate(getLayoutInflater());
         updateUserDetailsBinding = ActivityUpdateUserDetailsBinding.inflate(getLayoutInflater());
+        addUserRoleViewModel = ViewModelProviders.of(this).get(AddUserRoleViewModel.class);
 
-       /* Intent intent = getIntent();
-        if (intent.hasExtra("qrEmpDetails")) {
+        Intent intent = getIntent();
+        if (intent.hasExtra("userRoleRightsDetails")) {
             view = updateUserDetailsBinding.getRoot();
             setContentView(view);
-            userRoleRightDetails = (UserRoleModelDTO) getIntent().getSerializableExtra("qrEmpDetails");
-            updateUserDetailsBinding.setEmpDetails(empDetails);
-            activityAddEmpBinding.setLifecycleOwner(this);
+            userRoleRightDetails = (UserRoleModelDTO) getIntent().getSerializableExtra("userRoleRightsDetails");
+            updateUserDetailsBinding.setUpdateUserRoleDetails(userRoleRightDetails);
+            binding.setLifecycleOwner(this);
 
             //custom toolbar added
-            updateEmpLayoutBinding.rlCustomToolbar.txtTitle.setText(R.string.updateEmpDetails);
-            updateEmpLayoutBinding.rlCustomToolbar.imgBack.setOnClickListener(new View.OnClickListener() {
+            updateUserDetailsBinding.rlCustomToolbar.txtTitle.setText("Update User Right");
+            updateUserDetailsBinding.rlCustomToolbar.imgBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     finish();
                 }
             });
 
-            updateEmpLayoutBinding.btnEmpUpdate.setOnClickListener(new View.OnClickListener() {
+            updateUserDetailsBinding.txtBtnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Toast.makeText(AddEmpActivity.this, "Updated!", Toast.LENGTH_SHORT).show();
-                    if (!updateEmpLayoutBinding.cbIsActive.isChecked()) {
-                        empDetails.setActive(false);
+                    if (!updateUserDetailsBinding.cbIsActive.isChecked()) {
+                        userRoleRightDetails.setActive(false);
                     }
-                    addEmpViewModel.updateEmpDetails(empDetails);
+                    addUserRoleViewModel.updateUserRoleDetails(userRoleRightDetails);
                 }
             });
 
-            updateEmpLayoutBinding.cbClearLogin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            updateUserDetailsBinding.cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    empDetails.setImoNo(null);
+
                 }
             });
         } else {
-            view = activityAddEmpBinding.getRoot();
+            view = binding.getRoot();
             setContentView(view);
-            activityAddEmpBinding.setLifecycleOwner(this);
+            binding.setLifecycleOwner(this);
 //            addEmpViewModel = ViewModelProviders.of(this).get(AddEmpViewModel.class);
-            activityAddEmpBinding.setAddEmpViewModel(addEmpViewModel);
+            binding.setAddUserDetailsData(addUserRoleViewModel);
 
             //custom toolbar added
-            activityAddEmpBinding.rlCustomToolbar.txtTitle.setText(R.string.addEmp);
-            activityAddEmpBinding.rlCustomToolbar.imgBack.setOnClickListener(new View.OnClickListener() {
+            binding.rlCustomToolbar.txtTitle.setText("Add User Role Right");
+            binding.rlCustomToolbar.imgBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     finish();
                 }
-            });*/
-
-        init();
+            });
+            init();
+        }
     }
 
     private void init() {
-
-        binding = DataBindingUtil.setContentView(AddUserDetailsActivity.this, R.layout.activity_add_user_details);
-        binding.setLifecycleOwner(this);
-
-        /*binding.toolbar.setTitle("Add User");
-        binding.toolbar.setNavigationIcon(R.drawable.ic_back);
-        setSupportActionBar(toolbar);
-
-        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(AddUserDetailsActivity.this, UserRightsActivity.class));
-            }
-        });*/
-
+        context = this;
         recyclerUlbList = findViewById(R.id.recycler_ulb_chkbox);
         loader = findViewById(R.id.progress_circular);
         txtNoData = findViewById(R.id.txt_no_data);
@@ -156,25 +146,12 @@ public class AddUserDetailsActivity extends AppCompatActivity {
     }
 
     private void setOnClick() {
-        edtSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        binding.txtBtnSave.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            public void onClick(View view) {
 
-                if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    performSearch();
-                    return true;
-                }
-                return false;
             }
         });
-
-        /*edtSearchText.addOnAttachStateChangeListener((View.OnAttachStateChangeListener) searchViewTextWatcher);*/
-
-
-    }
-
-    private void performSearch() {
-
     }
 
     private void setOnRecycler() {
@@ -185,27 +162,5 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         recyclerUlbList.setAdapter(adapter);
 
     }
-
-    TextWatcher searchViewTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if (charSequence.toString().trim().length() == 0) {
-                imgClear.setVisibility(View.GONE);
-            } else {
-                imgClear.setVisibility(View.VISIBLE);
-            }
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
 
 }

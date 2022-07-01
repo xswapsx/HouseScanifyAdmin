@@ -15,41 +15,40 @@
     android:background="@color/colorScreenBg"
     tools:context=".fragments.EmpDetailsFragment">
 
-    <ScrollView
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/dim_10dp"
         android:scrollbars="none"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true">-->
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dim_10dp"
-            android:layout_marginBottom="@dimen/dim_15dp"
-            android:layout_marginTop="@dimen/dim_5dp">
+            android:layout_marginTop="@dimen/dim_5dp"
+            android:layout_marginBottom="@dimen/dim_15dp">
 
             <LinearLayout
                 android:id="@+id/li_search_with_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/dim_5dp">
+                android:layout_marginTop="@dimen/dim_5dp"
+                android:orientation="horizontal">
 
-                <androidx.cardview.widget.CardView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/card_search_empD"
                     android:layout_width="0dp"
-                    android:layout_weight="6"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dim_4dp"
+                    android:layout_marginVertical="@dimen/dim_5dp"
+                    android:layout_weight="6"
                     android:clipChildren="false"
                     android:clipToPadding="false"
-                    android:layout_marginVertical="@dimen/dim_5dp"
-                    android:layout_marginHorizontal="@dimen/dim_4dp"
                     android:divider="@color/colorPrimaryDark"
                     android:dividerHeight="1.0px"
-                    android:outlineSpotShadowColor="@color/colorPrimaryDark"
                     android:outlineProvider="background"
+                    android:outlineSpotShadowColor="@color/colorPrimaryDark"
                     android:padding="@dimen/dim_10dp"
                     app:cardCornerRadius="@dimen/dim_25dp"
                     app:cardElevation="@dimen/dim_4dp">
@@ -84,35 +83,35 @@
                             android:singleLine="true"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/txt_size_12sp" />
+
                         <ImageView
                             android:id="@+id/img_close"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dim_2dp"
                             android:src="@drawable/ic_close"
-                            android:visibility="gone"
-                            />
+                            android:visibility="gone" />
 
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/card_add_empD"
                     android:layout_width="0dp"
-                    android:layout_weight="3"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="@dimen/dim_4dp"
+                    android:layout_marginVertical="@dimen/dim_5dp"
+                    android:layout_weight="3"
                     android:clipChildren="false"
                     android:clipToPadding="false"
-                    android:layout_marginVertical="@dimen/dim_5dp"
-                    android:layout_marginHorizontal="@dimen/dim_4dp"
                     android:divider="@color/colorPrimaryDark"
                     android:dividerHeight="2.0px"
-                    android:outlineSpotShadowColor="@color/colorPrimaryDark"
                     android:outlineProvider="background"
-                    android:layout_gravity="center_vertical"
+                    android:outlineSpotShadowColor="@color/colorPrimaryDark"
                     android:padding="@dimen/dim_10dp"
                     app:cardCornerRadius="@dimen/dim_25dp"
                     app:cardElevation="@dimen/dim_4dp">
@@ -133,11 +132,11 @@
                             android:gravity="center_vertical|center"
                             android:padding="@dimen/dim_2dp"
                             android:singleLine="true"
-                            android:textStyle="bold"
                             android:text="Add EMP"
                             android:textAllCaps="true"
                             android:textColor="@color/colorPrimaryDark"
-                            android:textSize="@dimen/txt_size_12sp" />
+                            android:textSize="@dimen/txt_size_12sp"
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
 
@@ -147,35 +146,34 @@
 
             <RadioGroup
                 android:id="@+id/rd_group"
-                android:layout_below="@+id/li_search_with_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/li_search_with_filter"
                 android:layout_marginHorizontal="@dimen/dim_40_dp"
-                android:gravity="center"
-                android:orientation="horizontal"
                 android:checkedButton="@+id/split_type_equal"
-                android:padding="@dimen/dim_5dp">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <RadioButton
-                    style="@style/RadioButton"
                     android:id="@+id/rd_active_ED"
-                    android:padding="@dimen/dim_10dp"
+                    style="@style/RadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dim_30dp"
                     android:buttonTint="@color/colorPrimaryDark"
                     android:checked="true"
+                    android:padding="@dimen/dim_10dp"
                     android:text="@string/str_active"
                     android:textSize="@dimen/txt_size_12sp" />
 
                 <RadioButton
-                    style="@style/RadioButton"
                     android:id="@+id/rd_inactive_ED"
+                    style="@style/RadioButton"
                     android:layout_width="wrap_content"
-                    android:padding="@dimen/dim_10dp"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/colorPrimaryDark"
                     android:layout_marginStart="@dimen/dim_30dp"
+                    android:buttonTint="@color/colorPrimaryDark"
+                    android:padding="@dimen/dim_10dp"
                     android:text="@string/str_inactive"
                     android:textSize="@dimen/txt_size_12sp" />
 
@@ -188,9 +186,9 @@
                 android:layout_below="@id/rd_group"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
+                android:layout_marginVertical="@dimen/dim_5dp"
                 android:layout_marginEnd="@dimen/dim_10dp"
                 android:paddingHorizontal="@dimen/dim_10dp"
-                android:paddingVertical="@dimen/dim_5dp"
                 android:textColor="@color/colorFentText"
                 android:textSize="@dimen/txt_size_12sp" />
 
@@ -211,26 +209,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/txt_no_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/txt_size_12sp"
-                    android:textColor="@color/colorGray"
                     android:layout_centerInParent="true"
                     android:padding="@dimen/dim_5dp"
-                    android:visibility="visible"
+                    android:text="No Data Found"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/txt_size_12sp"
                     android:textStyle="bold"
-                    android:text="No Data Found"/>
+                    android:visibility="visible" />
 
             </RelativeLayout>
 
         </RelativeLayout>
 
-    </ScrollView>
+   <!-- </ScrollView>-->
 
 </RelativeLayout>
 
