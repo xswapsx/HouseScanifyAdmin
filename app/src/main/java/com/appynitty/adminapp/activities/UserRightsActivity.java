@@ -143,7 +143,7 @@ public class UserRightsActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                //checkList(editable.toString());
+                checkList(editable.toString());
             }
         });
 
@@ -209,7 +209,6 @@ public class UserRightsActivity extends AppCompatActivity {
 
 
         setOnClick();
-        setOnRecycler(userRoleModelDTOList);
 
     }
 
@@ -230,6 +229,42 @@ public class UserRightsActivity extends AppCompatActivity {
         adapter = new UserRightsAdapter(context,userRoleModelDTOList);
         binding.recyclerUserRights.setLayoutManager(layoutManager);
         binding.recyclerUserRights.setAdapter(adapter);
+    }
+
+    private void checkList(String text){
+
+        switch(binding.rdGroup.getCheckedRadioButtonId()){
+            case R.id.rd_active_user:
+                filterActive(text);
+                break;
+            case R.id.rd_inactive_user:
+                filterInActive(text);
+                break;
+            default:
+        }
+    }
+
+    private void filterInActive(String text) {
+        List<UserRoleModelDTO> searchedList = new ArrayList<>();
+
+        for (UserRoleModelDTO item : inactiveUserList) {
+            if (item.getEmpName().toLowerCase().contains(text.toLowerCase()) || item.getEmpMobileNumber().toLowerCase().contains(text.toLowerCase())) {
+                searchedList.add(item);
+            }
+        }
+        adapter.inActiveList(searchedList);
+    }
+
+
+    private void filterActive(String text) {
+        List<UserRoleModelDTO> searchedList = new ArrayList<>();
+
+        for (UserRoleModelDTO item : activeUserList) {
+            if (item.getEmpName().toLowerCase().contains(text.toLowerCase()) || item.getEmpMobileNumber().toLowerCase().contains(text.toLowerCase())) {
+                searchedList.add(item);
+            }
+        }
+        adapter.activeList(searchedList);
     }
 
 

@@ -14,6 +14,6 @@ public interface UserRoleListWebService {
     Call<List<UserRoleModelDTO>> getUserRoleList(@Header("Content-Type") String contentType,
                                                  @Header("EmpType") String emp_type,
                                                  @Header("userId") String userId,
-                                                 @Header("qrEmpId") String qrEmpId,
+                                                 @Header("EmpId") String EmpId,
                                                  @Header("status") Boolean status);
 }
