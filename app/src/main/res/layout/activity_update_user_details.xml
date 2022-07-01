@@ -2,13 +2,6 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
-    <data>
-        <variable
-            name="addUserDetailsData"
-            type="" />
-        
-    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +9,6 @@
         android:background="@color/colorScreenBg"
         tools:context=".activities.AddUserDetailsActivity">
         <!--<include layout="@layout/custom_toolbar"/>-->
-
         <include
             android:id="@+id/rl_custom_toolbar"
             layout="@layout/custom_toolbar" />
@@ -41,7 +33,7 @@
                 android:elevation="@dimen/dim_5dp"
                 android:gravity="center|center_vertical"
                 android:shadowColor="@color/colorPrimary"
-                android:text="Save"
+                android:text="@string/btn_update"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/txt_size_16sp" />
 
