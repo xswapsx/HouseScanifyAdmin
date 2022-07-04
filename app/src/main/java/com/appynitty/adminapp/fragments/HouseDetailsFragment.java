@@ -106,16 +106,16 @@ public class HouseDetailsFragment extends Fragment {
         rdStreet = view.findViewById(R.id.rdStreet);
 
         if (houseCount > 0)
-            rdHouse.setTextColor(ContextCompat.getColor(context, R.color.color_green_end));
+            rdHouse.setTextColor(ContextCompat.getColor(context, R.color.red));
 
         if (dumpCount > 0)
-            rdDumpYard.setTextColor(ContextCompat.getColor(context, R.color.color_green_end));
+            rdDumpYard.setTextColor(ContextCompat.getColor(context, R.color.red));
 
         if (liquidCount > 0)
-            rdLiquid.setTextColor(ContextCompat.getColor(context, R.color.color_green_end));
+            rdLiquid.setTextColor(ContextCompat.getColor(context, R.color.red));
 
         if (streetCount > 0)
-            rdStreet.setTextColor(ContextCompat.getColor(context, R.color.color_green_end));
+            rdStreet.setTextColor(ContextCompat.getColor(context, R.color.red));
 
 
         imageDataList = new ArrayList<>();

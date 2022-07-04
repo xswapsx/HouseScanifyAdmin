@@ -8,20 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appynitty.adminapp.R;
-import com.appynitty.adminapp.activities.AddEmpActivity;
 import com.appynitty.adminapp.activities.AddUserDetailsActivity;
 import com.appynitty.adminapp.databinding.ItemUserRightsListBinding;
-import com.appynitty.adminapp.models.EmpDModelDTO;
 import com.appynitty.adminapp.models.UserRoleModelDTO;
-import com.appynitty.adminapp.utils.MainUtils;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
@@ -41,7 +34,7 @@ public class UserRightsAdapter extends RecyclerView.Adapter<UserRightsAdapter.My
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       // return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_user_rights_list, parent, false));
+        // return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_user_rights_list, parent, false));
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemUserRightsListBinding userRightsListBinding = ItemUserRightsListBinding.inflate(layoutInflater, parent, false);
         return new MyViewHolder(userRightsListBinding);
@@ -59,7 +52,7 @@ public class UserRightsAdapter extends RecyclerView.Adapter<UserRightsAdapter.My
             public void onClick(View view) {
 
                 /*empType = Prefs.getString(MainUtils.EMP_TYPE);*/
-                if (userRoleModelDTO.getType().contains("SA") && !userRoleModelDTO.getType().isEmpty()){
+                if (userRoleModelDTO.getType().contains("SA") && !userRoleModelDTO.getType().isEmpty()) {
                     Intent intent = new Intent(context, AddUserDetailsActivity.class);
                     intent.putExtra("userRoleRightsDetails", userRoleModelDTOList.get(holder.getAdapterPosition()));
 
@@ -68,7 +61,7 @@ public class UserRightsAdapter extends RecyclerView.Adapter<UserRightsAdapter.My
                     Log.e(TAG, "adapter clicked User Role Rights  Id:- " + userRoleModelDTO.getEmpId() + "  " + userRoleModelDTOList.get(holder.getAdapterPosition()).getEmpName()
                             + "  " + userRoleModelDTO.getType());
 
-                }else if (userRoleModelDTO.getType().contains("A") && !userRoleModelDTO.getType().isEmpty()){
+                } else if (userRoleModelDTO.getType().contains("A") && !userRoleModelDTO.getType().isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context)
                             .setIcon(android.R.drawable.btn_dialog)
                             .setMessage("Admin ID Are Not Available To Edit")

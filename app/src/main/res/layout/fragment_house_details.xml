@@ -35,8 +35,7 @@
                     android:layout_weight="2"
                     android:buttonTint="@color/colorPrimaryDark"
                     android:checked="true"
-                    android:text="House"
-                    android:textSize="@dimen/txt_size_10sp" />
+                    android:text="House" /><!--android:textSize="@dimen/txt_size_10sp"-->
 
                 <RadioButton
                     android:id="@+id/rdDumpyard"
@@ -45,8 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2.5"
                     android:buttonTint="@color/colorPrimaryDark"
-                    android:text="Dumpyard"
-                    android:textSize="@dimen/txt_size_10sp" />
+                    android:text="Dumpyard" />
 
                 <RadioButton
                     android:id="@+id/rdLiquid"
@@ -55,8 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:buttonTint="@color/colorPrimaryDark"
-                    android:text="Liquid"
-                    android:textSize="@dimen/txt_size_10sp" />
+                    android:text="Liquid" />
 
                 <RadioButton
                     android:id="@+id/rdStreet"
@@ -65,8 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:buttonTint="@color/colorPrimaryDark"
-                    android:text="Street"
-                    android:textSize="@dimen/txt_size_10sp" />
+                    android:text="Street" />
 
             </RadioGroup>
 
