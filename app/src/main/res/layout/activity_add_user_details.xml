@@ -36,6 +36,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_marginVertical="@dimen/dim_15dp"
+                android:onClick="@{(v) -> addUserDetailsData.onClick(v)}"
                 android:background="@drawable/solid_rounded_blue_btn"
                 android:elevation="@dimen/dim_5dp"
                 android:gravity="center|center_vertical"
