@@ -65,9 +65,10 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_edittext"
                     android:hint="Username"
+                    android:inputType="textCapWords"
                     android:maxLines="1"
-                    android:singleLine="true"
                     android:padding="15dp"
+                    android:singleLine="true"
                     android:text="@={LoginViewModel.UserLoginId}"
                     android:textColor="@color/colorGray" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -92,8 +93,8 @@
                     android:hint="Password"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true"
                     android:padding="15dp"
+                    android:singleLine="true"
                     android:text="@={LoginViewModel.UserPassword}" />
             </com.google.android.material.textfield.TextInputLayout>
 
