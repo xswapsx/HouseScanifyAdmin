@@ -66,6 +66,7 @@
                     android:background="@drawable/rounded_edittext"
                     android:hint="Username"
                     android:maxLines="1"
+                    android:singleLine="true"
                     android:padding="15dp"
                     android:text="@={LoginViewModel.UserLoginId}"
                     android:textColor="@color/colorGray" />
@@ -91,6 +92,7 @@
                     android:hint="Password"
                     android:inputType="textPassword"
                     android:maxLines="1"
+                    android:singleLine="true"
                     android:padding="15dp"
                     android:text="@={LoginViewModel.UserPassword}" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/dim_5dp">
 
-    <CheckBox
-        android:id="@+id/chk_box_ulb_name"
+<layout>
+    <data>
+        <variable
+            name="ulbList"
+            type="com.appynitty.adminapp.models.UlbDTO"/>
+        
+    </data>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="kalmeshwar brahmani nagar parishad"
-        android:buttonTint="@color/colorPrimaryDark"
-        android:checked="false"
-        android:layout_gravity="center"
-        android:padding="@dimen/dim_10dp"
-        android:textSize="@dimen/txt_size_14sp"
-        android:layout_marginTop="@dimen/dim_2dp"
-        style="@style/CheckBox"
-        android:gravity="center_vertical"
-        android:elevation="@dimen/dim_8dp"
-        android:layout_marginHorizontal="@dimen/dim_10dp" />
+        android:layout_marginBottom="@dimen/dim_5dp">
 
-</RelativeLayout>
+        <CheckBox
+            android:id="@+id/chk_box_ulb_name"
+            style="@style/CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/dim_10dp"
+            android:layout_marginTop="@dimen/dim_2dp"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:checked="false"
+            android:elevation="@dimen/dim_8dp"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dim_10dp"
+            android:text="@{ulbList.ulbName}"
+            android:textSize="@dimen/txt_size_14sp" />
+       <!-- <TextView
+            android:id="@+id/txt_app_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@{ulbList.appId}"
+            android:layout_marginHorizontal="@dimen/dim_5dp"
+            android:textColor="@color/colorGray"
+            android:textSize="@dimen/txt_size_12sp"
+            android:textStyle="bold"/>-->
+
+    </RelativeLayout>
+</layout>
