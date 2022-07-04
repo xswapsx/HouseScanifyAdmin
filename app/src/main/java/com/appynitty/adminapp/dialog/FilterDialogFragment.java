@@ -83,6 +83,9 @@ public class FilterDialogFragment extends DialogFragment {
 
         if (callingFrag.matches("houseDetails")) {
             edtSelectToDate.setVisibility(View.GONE);
+        } else if (callingFrag.matches("EmpListFragment")) {
+            edtSelectToDate.setVisibility(View.GONE);
+            spnrSelectEmployee.setVisibility(View.GONE);
         }
 
         spnrSelectEmployee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -164,7 +167,11 @@ public class FilterDialogFragment extends DialogFragment {
                     if (callingFrag.matches("houseDetails")) {
                         filterDialogListener.onFilterDialogDismiss(frmDate, toDate, userId);
                         dismiss();
-                    } else {
+                    }else if (callingFrag.matches("EmpListFragment")){
+                        filterDialogListener.onFilterDialogDismiss(frmDate, toDate, userId);
+                        dismiss();
+                    }
+                    else {
                         DynamicToast.makeWarning(getActivity(), "please select To Date").show();
                     }
 

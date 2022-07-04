@@ -43,7 +43,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_card_photos_list, parent, false));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_house_details, parent, false));
     }
 
     @Override
@@ -105,6 +105,8 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
             }
         });
 
+        holder.txtLatitude.setText(imageDataList.get(holder.getAdapterPosition()).getLat());
+        holder.txtLongitude.setText(imageDataList.get(holder.getAdapterPosition()).getLong());
         /*holder.txtImgAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

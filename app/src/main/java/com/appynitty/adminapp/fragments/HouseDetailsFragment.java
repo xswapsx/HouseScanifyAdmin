@@ -88,12 +88,14 @@ public class HouseDetailsFragment extends Fragment {
 
     private void init() {
         String empId = getArguments().getString(MainUtils.EMP_ID);
+
         appId = Prefs.getString(MainUtils.APP_ID);
         int houseCount = getArguments().getInt("houseCount");
         int dumpCount = getArguments().getInt("dumpCount");
         int liquidCount = getArguments().getInt("liquidCount");
         int streetCount = getArguments().getInt("streetCount");
-
+        String fromDate = getArguments().getString("fromDate");
+        Log.e(TAG, "init: emp-id: " + empId + ", fromDate: " + fromDate);
         context = getActivity();
         activity = (AppCompatActivity) view.getContext();
         rdGroup = view.findViewById(R.id.rd_group);
@@ -142,7 +144,18 @@ public class HouseDetailsFragment extends Fragment {
         });
 
         houseDetailsImageVM = ViewModelProviders.of(this).get(HouseDetailsImageVM.class);
-        houseDetailsImageVM.callHouseApi(empId);
+        if (!fromDate.isEmpty()) {
+            filterExtras = new Bundle();
+            filterExtras.putString("frmDate", fromDate);
+            filterExtras.putString("toDate", fromDate);
+            filterExtras.putString("userId", empId);
+            filterExtras.putString("filterType", filterType);
+            filterExtras.putString("appId", Prefs.getString(MainUtils.APP_ID));
+            houseDetailsImageVM.setFilterData(filterExtras);
+        } else {
+            houseDetailsImageVM.callHouseApi(empId);
+        }
+
         qrImageStatusVM = ViewModelProviders.of(this).get(QrImageStatusViewModel.class);
 
 //        binding.setImagesVM(houseDetailsImageVM);
@@ -294,9 +307,9 @@ public class HouseDetailsFragment extends Fragment {
         filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
             @Override
             public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
-                Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " userId: " + userId);
+                Log.e(TAG, "onFilterDialogDismiss: fromDate: " + frmDate + " userId: " + userId);
                 filterExtras = new Bundle();
-                filterExtras.putString("frmDate", frmDate);
+                filterExtras.putString("fromDate", frmDate);
                 filterExtras.putString("toDate", frmDate);
                 filterExtras.putString("userId", userId);
                 filterExtras.putString("filterType", filterType);

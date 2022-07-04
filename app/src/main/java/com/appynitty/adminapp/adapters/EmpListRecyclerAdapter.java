@@ -24,11 +24,13 @@ import java.util.List;
 public class EmpListRecyclerAdapter extends RecyclerView.Adapter<EmpListRecyclerAdapter.MyViewHolder> {
     private static final String TAG = "EmpListRecyclerAdapter";
     private Context context;
+    String date;
     List<EmployeeDetailsDTO> employeeDetailsList;
 
-    public EmpListRecyclerAdapter(Context context, List<EmployeeDetailsDTO> employeeDetailsList) {
+    public EmpListRecyclerAdapter(Context context, List<EmployeeDetailsDTO> employeeDetailsList, String fromDate) {
         this.context = context;
         this.employeeDetailsList = employeeDetailsList;
+        date = fromDate;
         Log.e(TAG, "EmpListRecyclerAdapter: " + employeeDetailsList.toString());
     }
 
@@ -45,6 +47,7 @@ public class EmpListRecyclerAdapter extends RecyclerView.Adapter<EmpListRecycler
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         EmpListFragment elf = new EmpListFragment();
         int houseCount, dumpCount, liquidCount, streetCount, totalCount;
+
         Bundle args = new Bundle();
         final EmployeeDetailsDTO empDetails = employeeDetailsList.get(position);
         houseCount = empDetails.getHouseCount();
@@ -57,6 +60,7 @@ public class EmpListRecyclerAdapter extends RecyclerView.Adapter<EmpListRecycler
         args.putInt("liquidCount", liquidCount);
         args.putInt("streetCount", streetCount);
         args.putInt("totalCount", totalCount);
+        args.putString("fromDate", date);
 
         holder.name.setText(empDetails.getEmpName());
         holder.totalCount.setText(String.valueOf(totalCount));

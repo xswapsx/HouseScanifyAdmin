@@ -156,7 +156,7 @@
                         android:gravity="start"
                         android:paddingHorizontal="@dimen/dim_5dp"
                         android:paddingVertical="@dimen/dim_2dp"
-                        android:text="Latiture"
+                        android:text="@string/latitude"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/txt_size_12sp" />
 

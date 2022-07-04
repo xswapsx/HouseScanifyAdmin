@@ -198,9 +198,9 @@ public class LiveDataFragment extends Fragment {
         filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
             @Override
             public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
-                Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
+                Log.e(TAG, "onFilterDialogDismiss: fromDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
                 filterExtras = new Bundle();
-                filterExtras.putString("frmDate", frmDate);
+                filterExtras.putString("fromDate", frmDate);
                 filterExtras.putString("toDate", toDate);
                 filterExtras.putString("userId", userId);
                 filterExtras.putString("appId", Prefs.getString(MainUtils.APP_ID, null));

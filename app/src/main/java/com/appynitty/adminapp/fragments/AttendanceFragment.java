@@ -228,7 +228,7 @@ public class AttendanceFragment extends Fragment {
             public void onClick(View view) {
                 openDialog();
                 Bundle extras = new Bundle();
-                extras.putString("frmDate", "07-06-2022");
+                extras.putString("fromDate", "07-06-2022");
                 extras.putString("toDate", "07-06-2022");
                 extras.putString("userId", "3098");
             }
@@ -267,9 +267,9 @@ public class AttendanceFragment extends Fragment {
         filterDialog.setFilterDialogListener(new FilterDialog.FilterDialogInterface() {
             @Override
             public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
-                Log.e(TAG, "onFilterDialogDismiss: frmDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
+                Log.e(TAG, "onFilterDialogDismiss: fromDate: " + frmDate + " toDate: " + toDate + " userId: " + userId);
                 filterExtras = new Bundle();
-                filterExtras.putString("frmDate", frmDate);
+                filterExtras.putString("fromDate", frmDate);
                 filterExtras.putString("toDate", toDate);
                 filterExtras.putString("userId", userId);
                 filterExtras.putString("appId", Prefs.getString(MainUtils.APP_ID, null));

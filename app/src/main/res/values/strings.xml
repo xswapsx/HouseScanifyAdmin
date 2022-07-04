@@ -38,5 +38,6 @@
     <string name="slct_emp">"Please select an employee:  "</string>
     <string name="str_search_by_id">Search by House Id</string>
     <string name="btn_update">Update</string>
+    <string name="latitude">Latitude</string>
 
 </resources>
