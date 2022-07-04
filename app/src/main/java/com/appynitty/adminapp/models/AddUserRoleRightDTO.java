@@ -61,14 +61,14 @@ public class AddUserRoleRightDTO {
      * @param type
      * @param isActive
      */
-    public AddUserRoleRightDTO(String empId, String empName, String loginId, String password, String empMobileNumber, String empAddress, String type, String isActive, String isActiveULB) {
+    public AddUserRoleRightDTO(String empId, String empName,String empMobileNumber,String empAddress, String loginId, String password, String type, String isActive, String isActiveULB) {
         super();
         this.empId = empId;
         this.empName = empName;
-        this.loginId = loginId;
-        this.password = password;
         this.empMobileNumber = empMobileNumber;
         this.empAddress = empAddress;
+        this.loginId = loginId;
+        this.password = password;
         this.type = type;
         this.isActive = isActive;
         this.isActiveULB = isActiveULB;

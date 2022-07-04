@@ -186,6 +186,8 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             }
         });
 
+
+
         addUserRoleViewModel.addUserRoleMutableLiveData().observe(this, new Observer<AddUserRoleRightDTO>() {
             @Override
             public void onChanged(AddUserRoleRightDTO addUserRoleRightDTO) {
