@@ -168,6 +168,12 @@ public class HouseDetailsFragment extends Fragment {
                         if (rdHouse.isChecked())
                             Log.e(TAG, "onRadioBtnClicked: checked rdHouse");
                         filterType = "HW";
+
+                        if (filterExtras != null) {
+                            filterExtras.putString("filterType", filterType);
+                            houseDetailsImageVM.setFilterData(filterExtras);
+                        }
+
                         houseDetailsImageVM.callHouseApi(empId);
                         break;
                     case R.id.rdDumpyard:
@@ -309,7 +315,7 @@ public class HouseDetailsFragment extends Fragment {
             public void onFilterDialogDismiss(String frmDate, String toDate, String userId) {
                 Log.e(TAG, "onFilterDialogDismiss: fromDate: " + frmDate + " userId: " + userId);
                 filterExtras = new Bundle();
-                filterExtras.putString("fromDate", frmDate);
+                filterExtras.putString("frmDate", frmDate);
                 filterExtras.putString("toDate", frmDate);
                 filterExtras.putString("userId", userId);
                 filterExtras.putString("filterType", filterType);
