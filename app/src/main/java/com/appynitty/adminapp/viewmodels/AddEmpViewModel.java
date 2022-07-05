@@ -58,7 +58,7 @@ public class AddEmpViewModel extends ViewModel {
 
                 if (qrEmpName.getValue() != null && qrEmpName.getValue() != null && qrEmpMobileNumber.getValue() != null && qrEmpAddress.getValue() != null
                         && qrEmpLoginId.getValue() != null && qrEmpPassword.getValue() != null
-                        && qrImoNo.getValue() != null) {
+                        && qrImoNo.getValue() != null && cbIsActive.booleanValue()) {
                     addEmpRepository.addEmpRemote(addEmpMutableLiveData, new AddEmpRepository.IAddEmpResponse() {
                         @Override
                         public void onResponse(AddEmpResult addEmpResponse) {
@@ -66,6 +66,7 @@ public class AddEmpViewModel extends ViewModel {
                             if (addEmpResponse != null) {
                                 addEmpResultMutableData.setValue(addEmpResponse);
                                 Log.e(TAG, "onResponse: " + addEmpResponse.getMessage());
+
                             }
                         }
 

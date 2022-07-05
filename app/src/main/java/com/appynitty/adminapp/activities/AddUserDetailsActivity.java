@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -64,7 +65,7 @@ public class AddUserDetailsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Spinner spinner;
     private List<UlbDTO> ulbList;
-
+    private CheckBox cbSelectAll;
     // Initializing a String Array
     String[] userRole = new String[]{
             "Select User Role",
@@ -142,6 +143,7 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         txtNoData = findViewById(R.id.txt_no_data);
         edtSearchText = findViewById(R.id.edt_search_text);
         spinner = findViewById(R.id.spinner);
+        cbSelectAll = findViewById(R.id.check_select_all);
         imgClear = findViewById(R.id.img_close);
         txtEntries = findViewById(R.id.txt_entries);
         layoutManager = new GridLayoutManager(context, 2);
@@ -186,12 +188,39 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             }
         });
 
+        class adapter {
+            ArrayList<DashboardDTO> selected = new ArrayList<DashboardDTO>();
+            ArrayList<DashboardDTO> items = new ArrayList<DashboardDTO>();
 
+            public void selecteAll() {
+                selected.clear();
+                selected.addAll(items);
+                adapter.notifyDataSetChanged();
+            }
+
+            public void clearAll() {
+                selected.clear();
+                adapter.notifyDataSetChanged();
+            }
+
+        }
+        cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()){
+                    b = true;
+                }else {
+                    b = false;
+                }
+            }
+        });
 
         addUserRoleViewModel.addUserRoleMutableLiveData().observe(this, new Observer<AddUserRoleRightDTO>() {
             @Override
             public void onChanged(AddUserRoleRightDTO addUserRoleRightDTO) {
                 addUserRoleRightDTO.setEmpId("");
+                addUserRoleRightDTO.setIsActiveULB("");
+
                 if (binding.edtEmpName.getText().toString().trim().isEmpty()) {
                     Toast.makeText(context, "Please enter employee name", Toast.LENGTH_SHORT).show();
 
@@ -231,7 +260,6 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         });
     }
 
-
     private void setOnRecycler(List<UlbDTO> ulbList) {
         loader.setVisibility(View.GONE);
         txtNoData.setVisibility(View.GONE);
@@ -253,4 +281,7 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         adapter.filterList(filteredList);
     }
 
+    public void setCbSelectAll(CheckBox cbSelectAll) {
+        this.cbSelectAll = cbSelectAll;
+    }
 }

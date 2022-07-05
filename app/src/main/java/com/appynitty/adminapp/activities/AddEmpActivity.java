@@ -54,6 +54,7 @@ public class AddEmpActivity extends AppCompatActivity {
         updateEmpLayoutBinding = UpdateEmpLayoutBinding.inflate(getLayoutInflater());
         addEmpViewModel = ViewModelProviders.of(this).get(AddEmpViewModel.class);
 
+
         Intent intent = getIntent();
         if (intent.hasExtra("qrEmpDetails")) {
             view = updateEmpLayoutBinding.getRoot();
@@ -75,10 +76,13 @@ public class AddEmpActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 //                    Toast.makeText(AddEmpActivity.this, "Updated!", Toast.LENGTH_SHORT).show();
-                    if (!updateEmpLayoutBinding.cbIsActive.isChecked()) {
-                        empDetails.setActive(false);
+                    if (updateEmpLayoutBinding.cbIsActive.isChecked()) {
+                        /*empDetails.setActive(true);*/
+
+                        finish();
                     }
                     addEmpViewModel.updateEmpDetails(empDetails);
+                    finish();
                 }
             });
 
@@ -179,6 +183,8 @@ public class AddEmpActivity extends AppCompatActivity {
                             + " empDeviceId: " + addEmpDTO.getImoNo() + " EmpIsActiveStatus: " + addEmpDTO.getIsActive()
                     );
                 }
+                finish();
+                Toast.makeText(context, "Employee data saved successfully", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -197,13 +203,14 @@ public class AddEmpActivity extends AppCompatActivity {
                     } else if (reqStatus.equals("error")) {
                         DynamicToast.makeError(context, addEmpResult.getMessage()).show();
                     }
+                    finish();
                 } else {
                     DynamicToast.makeError(context, "an error has occurred").show();
                 }
             }
         });
 
-
+        //setOnClick();
     }
 
 

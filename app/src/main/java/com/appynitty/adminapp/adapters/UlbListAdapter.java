@@ -22,6 +22,7 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
     private static final String TAG = "UlbListAdapter";
     private Context context;
     List<UlbDTO> ulbList;
+    public boolean isAllChecked = false;
 
     public UlbListAdapter(Context context, List<UlbDTO> ulbList) {
         this.context = context;
@@ -32,7 +33,6 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       // return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ulb_checkbox, parent, false));
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemUlbCheckboxBinding ulbCheckboxBinding = ItemUlbCheckboxBinding.inflate(layoutInflater,parent, false);
         return new UlbListAdapter.MyViewHolder(ulbCheckboxBinding);
@@ -48,6 +48,10 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
         ulbList = searchList;
         notifyDataSetChanged();
         Log.e(TAG, "search list : "+ ulbList.size());
+    }
+    public void setAllChecked(boolean isAllChecked) {
+        this.isAllChecked = isAllChecked;
+        notifyDataSetChanged();
     }
 
     @Override

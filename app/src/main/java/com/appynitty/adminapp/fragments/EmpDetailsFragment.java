@@ -124,10 +124,12 @@ public class EmpDetailsFragment extends Fragment {
 
         empDetailsBinding.rdActiveED.setChecked(true);
         Log.e(TAG, " reBtnActive call");
+        empDetailsBinding.progressCircular.setVisibility(View.VISIBLE);
         empDRepository.getEmpDList(true, appId, new EmpDRepository.IEmpDResponse() {
             @Override
             public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
-                loader.setVisibility(View.GONE);
+                /*loader.setVisibility(View.GONE);*/
+                empDetailsBinding.progressCircular.setVisibility(View.GONE);
                 activeList =  empDResponse.getValue();
                 Log.e(TAG, "onResponse active list : " + activeList);
                 setRecycler(activeList);
@@ -136,42 +138,11 @@ public class EmpDetailsFragment extends Fragment {
 
             @Override
             public void onFailure(Throwable t) {
-                loader.setVisibility(View.GONE);
+                /*loader.setVisibility(View.GONE);*/
+                empDetailsBinding.progressCircular.setVisibility(View.GONE);
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
-
-       /* empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-              *//*if (empDetailsBinding.rdGroup.getCheckedRadioButtonId() == R.id.rd_active_ED){
-                  filterActive((String) charSequence);
-              }*//*
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                filterInActive(editable.toString());
-                *//*switch(view.getId()){
-                    case R.id.rd_active_ED:
-                        filterActive(editable.toString());
-                        break;
-                    case R.id.rd_inactive_ED:
-                        filterInActive(editable.toString());
-                        break;
-                }*//*
-            }
-        });*/
-
-
-
 
         empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
             @Override
@@ -199,10 +170,12 @@ public class EmpDetailsFragment extends Fragment {
                     case R.id.rd_active_ED:
                         if (empDetailsBinding.rdActiveED.isChecked()){
                             Log.e(TAG, " reBtnActive call");
+                            empDetailsBinding.progressCircular.setVisibility(View.VISIBLE);
                             empDRepository.getEmpDList(true, appId, new EmpDRepository.IEmpDResponse() {
                                 @Override
                                 public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
-                                    loader.setVisibility(View.GONE);
+                                    /*loader.setVisibility(View.GONE);*/
+                                    empDetailsBinding.progressCircular.setVisibility(View.GONE);
                                     activeList =  empDResponse.getValue();
                                     Log.e(TAG, "onResponse active list : " + activeList);
                                     setRecycler(activeList);
@@ -211,7 +184,8 @@ public class EmpDetailsFragment extends Fragment {
 
                                 @Override
                                 public void onFailure(Throwable t) {
-                                    loader.setVisibility(View.GONE);
+                                    /*loader.setVisibility(View.GONE);*/
+                                    empDetailsBinding.progressCircular.setVisibility(View.GONE);
                                     Log.e(TAG, "onFailure: " + t.getMessage());
                                 }
                             });
@@ -222,10 +196,12 @@ public class EmpDetailsFragment extends Fragment {
 
                         if (empDetailsBinding.rdInactiveED.isChecked()){
                             Log.e(TAG, " reBtnInActive call");
+                            empDetailsBinding.progressCircular.setVisibility(View.VISIBLE);
                             empDRepository.getEmpDListIN(false, appId, new EmpDRepository.IEmpDResponse() {
                                 @Override
                                 public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
-                                    loader.setVisibility(View.GONE);
+                                   /* loader.setVisibility(View.GONE);*/
+                                    empDetailsBinding.progressCircular.setVisibility(View.GONE);
                                     inactiveList =  empDResponse.getValue();
                                     Log.e(TAG, "onResponse Inactive list : " + inactiveList);
                                     setRecycler(inactiveList);
@@ -234,7 +210,8 @@ public class EmpDetailsFragment extends Fragment {
 
                                 @Override
                                 public void onFailure(Throwable t) {
-                                    loader.setVisibility(View.GONE);
+                                    /*loader.setVisibility(View.GONE);*/
+                                    empDetailsBinding.progressCircular.setVisibility(View.GONE);
                                     Log.e(TAG, "onFailure: " + t.getMessage());
                                 }
                             });
