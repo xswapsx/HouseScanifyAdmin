@@ -381,6 +381,7 @@
                             android:elevation="@dimen/dim_8dp"
                             android:gravity="center_vertical"
                             android:padding="@dimen/dim_10dp"
+                            android:onClick="@{(v) -> addEmpViewModel.onClick(v)}"
                             android:text="@string/str_chkbox_is_active"
                             android:textSize="@dimen/txt_size_12sp" />
                         <!--android:onClick="@{(v) -> addEmpViewModel.onClick(v)}"-->

@@ -180,18 +180,32 @@ public class HouseDetailsFragment extends Fragment {
                         if (rdDumpYard.isChecked())
                             Log.e(TAG, "onRadioBtnClicked: checked rdDumpyard");
                         filterType = "DY";
+                        if (filterExtras != null) {
+                            filterExtras.putString("filterType", filterType);
+                            houseDetailsImageVM.setFilterData(filterExtras);
+                        }
                         houseDetailsImageVM.callDumpYardApi();
                         break;
                     case R.id.rdLiquid:
                         if (rdLiquid.isChecked())
                             Log.e(TAG, "onRadioBtnClicked: checked rdLiquid");
                         filterType = "LW";
+                        if (filterExtras != null) {
+                            filterExtras.putString("filterType", filterType);
+                            houseDetailsImageVM.setFilterData(filterExtras);
+                        }
                         houseDetailsImageVM.callLiquidWasteApi();
                         break;
                     case R.id.rdStreet:
                         if (rdStreet.isChecked())
                             Log.e(TAG, "onRadioBtnClicked: checked rdStreet");
                         filterType = "SW";
+
+                        if (filterExtras != null) {
+                            filterExtras.putString("filterType", filterType);
+                            houseDetailsImageVM.setFilterData(filterExtras);
+                        }
+
                         houseDetailsImageVM.callStreetWasteApi();
                         break;
                 }
@@ -232,6 +246,10 @@ public class HouseDetailsFragment extends Fragment {
 
             @Override
             public void onChanged(List<HouseDetailsImageDTO> dumpYardWasteList) {
+
+                if (!imageDataList.isEmpty())
+                    imageDataList.clear();
+                
                 for (HouseDetailsImageDTO dumpYard :
                         dumpYardWasteList) {
                     imageDataList.add(dumpYard);
@@ -247,15 +265,25 @@ public class HouseDetailsFragment extends Fragment {
         houseDetailsImageVM.getLiquidQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
             @Override
             public void onChanged(List<HouseDetailsImageDTO> liquidWasteList) {
+                if (!imageDataList.isEmpty())
+                    imageDataList.clear();
+
                 for (HouseDetailsImageDTO liquidWaste :
                         liquidWasteList) {
                     imageDataList.add(liquidWaste);
                     Log.e(TAG, "onChanged: liquidId: " + liquidWaste.getReferanceId());
                 }
-                if (houseDetailsAdapter != null) {
+                /*if (houseDetailsAdapter != null) {
                     houseDetailsAdapter.getLiquidList(imageDataList);
-                }
-
+                    houseDetailsAdapter.notifyDataSetChanged();
+                    recyclerHouseImage.setLayoutManager(layoutManager);
+                    recyclerHouseImage.setAdapter(houseDetailsAdapter);
+                } else {
+                    imageDataList.clear();
+                    houseDetailsAdapter.notifyDataSetChanged();
+                    setOnRecycler(imageDataList);
+                }*/
+                setOnRecycler(imageDataList);
                 Log.e(TAG, "onChanged: LiquidWasteList: Size---" + liquidWasteList.size());
             }
         });
@@ -263,16 +291,15 @@ public class HouseDetailsFragment extends Fragment {
         houseDetailsImageVM.getStreetQrImagesLiveData().observe(getViewLifecycleOwner(), new Observer<List<HouseDetailsImageDTO>>() {
             @Override
             public void onChanged(List<HouseDetailsImageDTO> streetWasteList) {
-                imageDataList = streetWasteList;
-                if (houseDetailsAdapter != null) {
-                    houseDetailsAdapter.getStreetList(imageDataList);
-                    houseDetailsAdapter.notifyDataSetChanged();
-                } else {
+                if (!imageDataList.isEmpty())
                     imageDataList.clear();
-                    houseDetailsAdapter.notifyDataSetChanged();
-                    setOnRecycler(imageDataList);
-                }
 
+                for (HouseDetailsImageDTO streetWaste :
+                        streetWasteList) {
+                    imageDataList.add(streetWaste);
+                    Log.e(TAG, "onChanged: liquidId: " + streetWaste.getReferanceId());
+                }
+                setOnRecycler(imageDataList);
                 Log.e(TAG, "onChanged: streetWasteList: Size---" + streetWasteList.size());
             }
         });

@@ -16,6 +16,8 @@ import com.appynitty.adminapp.repositories.AddEmpRepository;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.List;
+
 public class AddEmpViewModel extends ViewModel {
     private static final String TAG = "AddEmpViewModel";
     String appId = Prefs.getString(MainUtils.APP_ID, null);
@@ -31,7 +33,7 @@ public class AddEmpViewModel extends ViewModel {
     public MutableLiveData<Integer> mProgressMutableData = new MutableLiveData<>();
 
     public MutableLiveData<AddEmpDTO> addEmpMutableLiveData;
-    public MutableLiveData<AddEmpResult> addEmpResultMutableData = new MutableLiveData<>();
+    public MutableLiveData<List<AddEmpResult>> addEmpResultMutableData = new MutableLiveData<>();
     public AddEmpRepository addEmpRepository = new AddEmpRepository();
     private Boolean cbClearLogin = false;
     private Boolean cbIsActive = false;
@@ -61,11 +63,11 @@ public class AddEmpViewModel extends ViewModel {
                         && qrImoNo.getValue() != null) {
                     addEmpRepository.addEmpRemote(addEmpMutableLiveData, new AddEmpRepository.IAddEmpResponse() {
                         @Override
-                        public void onResponse(AddEmpResult addEmpResponse) {
+                        public void onResponse(List<AddEmpResult> addEmpResponse) {
                             mProgressMutableData.postValue(View.INVISIBLE);
                             if (addEmpResponse != null) {
                                 addEmpResultMutableData.setValue(addEmpResponse);
-                                Log.e(TAG, "onResponse: " + addEmpResponse.getMessage());
+                                Log.e(TAG, "onResponse: " + addEmpResponse.get(0).getMessage());
                             }
                         }
 
@@ -95,7 +97,7 @@ public class AddEmpViewModel extends ViewModel {
         return mProgressMutableData;
     }
 
-    public LiveData<AddEmpResult> postAddEmpResponse() {
+    public LiveData<List<AddEmpResult>> postAddEmpResponse() {
         return addEmpResultMutableData;
     }
 
@@ -103,8 +105,9 @@ public class AddEmpViewModel extends ViewModel {
         Log.d(TAG, "updateEmpDetails: " + empDetails.toString());
         addEmpRepository.updateEmpDetails(empDetails, new AddEmpRepository.IAddEmpResponse() {
             @Override
-            public void onResponse(AddEmpResult addEmpResponse) {
-                Log.e(TAG, "onResponse: " + addEmpResponse.getMessage());
+            public void onResponse(List<AddEmpResult> addEmpResponse) {
+                Log.e(TAG, "onResponse: " + addEmpResponse.get(0).getMessage());
+                addEmpResultMutableData.setValue(addEmpResponse);
             }
 
             @Override
@@ -112,5 +115,9 @@ public class AddEmpViewModel extends ViewModel {
                 Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    public MutableLiveData<List<AddEmpResult>> getAddEmpResultMutableData() {
+        return addEmpResultMutableData;
     }
 }

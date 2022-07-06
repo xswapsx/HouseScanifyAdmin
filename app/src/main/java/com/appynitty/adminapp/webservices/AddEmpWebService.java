@@ -19,7 +19,7 @@ public interface AddEmpWebService {
                                    @Body List<AddEmpDTO> addEmpDTO);
 
     @POST("api/Supervisor/AddHouseScanifyEmployee")
-    Call<AddEmpResult> updateEmployeeDetails(@Header("Content-Type") String content_type,
+    Call<List<AddEmpResult>> updateEmployeeDetails(@Header("Content-Type") String content_type,
                                              @Header("appId") String appId,
                                              @Body List<EmpDModelDTO> addEmpDTO);
 

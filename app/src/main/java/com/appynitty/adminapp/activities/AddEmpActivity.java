@@ -67,17 +67,16 @@ public class AddEmpActivity extends AppCompatActivity {
             updateEmpLayoutBinding.rlCustomToolbar.imgBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     finish();
+                    Log.e(TAG, "onClick: back button!");
                 }
             });
 
             updateEmpLayoutBinding.btnEmpUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Toast.makeText(AddEmpActivity.this, "Updated!", Toast.LENGTH_SHORT).show();
-                    if (!updateEmpLayoutBinding.cbIsActive.isChecked()) {
-                        empDetails.setActive(false);
-                    }
+                    empDetails.setActive(updateEmpLayoutBinding.cbIsActive.isChecked());
                     addEmpViewModel.updateEmpDetails(empDetails);
                 }
             });
@@ -88,6 +87,7 @@ public class AddEmpActivity extends AppCompatActivity {
                     empDetails.setImoNo(null);
                 }
             });
+
         } else {
             view = activityAddEmpBinding.getRoot();
             setContentView(view);
@@ -103,9 +103,19 @@ public class AddEmpActivity extends AppCompatActivity {
                     finish();
                 }
             });
+
             init();
         }
 
+        addEmpViewModel.getAddEmpResultMutableData().observe(this, new Observer<List<AddEmpResult>>() {
+            @Override
+            public void onChanged(List<AddEmpResult> addEmpResults) {
+                Log.e(TAG, "onChanged: " + addEmpResults.get(0).getMessage());
+                DynamicToast.makeSuccess(AddEmpActivity.this, addEmpResults.get(0).getMessage()).show();
+//                startActivity(new Intent(AddEmpActivity.this, HomeActivity.class));
+                finish();
+            }
+        });
 
     }
 
@@ -122,6 +132,13 @@ public class AddEmpActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("imiNo", androidID);
         editor.apply();
+
+        activityAddEmpBinding.cbIsActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+            }
+        });
 
         addEmpViewModel.getAddEmpMutableLiveData().observe(this, new Observer<AddEmpDTO>() {
             @Override
@@ -182,7 +199,7 @@ public class AddEmpActivity extends AppCompatActivity {
             }
         });
 
-        addEmpViewModel.postAddEmpResponse().observe(this, new Observer<AddEmpResult>() {
+       /* addEmpViewModel.postAddEmpResponse().observe(this, new Observer<AddEmpResult>() {
             @Override
             public void onChanged(AddEmpResult addEmpResult) {
                 if (addEmpResult != null && addEmpResult.getStatus() != null) {
@@ -190,9 +207,9 @@ public class AddEmpActivity extends AppCompatActivity {
                     reqStatus = addEmpResult.getStatus();
                     if (reqStatus.equals("success")) {
                         DynamicToast.makeSuccess(context, addEmpResult.getMessage()).show();
-                        /*Prefs.putString(MainUtils.EMP_TYPE, loginResult.getEmpType());
+                        *//*Prefs.putString(MainUtils.EMP_TYPE, loginResult.getEmpType());
                         Prefs.putString(MainUtils.USER_ID, loginResult.getUserId().toString());
-                        Prefs.putBoolean(MainUtils.IS_LOGIN, true);*/
+                        Prefs.putBoolean(MainUtils.IS_LOGIN, true);*//*
                         finish();
                     } else if (reqStatus.equals("error")) {
                         DynamicToast.makeError(context, addEmpResult.getMessage()).show();
@@ -201,8 +218,26 @@ public class AddEmpActivity extends AppCompatActivity {
                     DynamicToast.makeError(context, "an error has occurred").show();
                 }
             }
-        });
+        });*/
 
+        addEmpViewModel.postAddEmpResponse().observe(this, new Observer<List<AddEmpResult>>() {
+            @Override
+            public void onChanged(List<AddEmpResult> addEmpResults) {
+                if (addEmpResults != null && addEmpResults.get(0).getStatus() != null) {
+                    Log.e(TAG, "onChanged: status: " + addEmpResults.get(0).getStatus());
+                    reqStatus = addEmpResults.get(0).getStatus();
+                    if (reqStatus.equals("success")) {
+                        DynamicToast.makeSuccess(context, addEmpResults.get(0).getMessage()).show();
+
+                        finish();
+                    } else if (reqStatus.equals("error")) {
+                        DynamicToast.makeError(context, addEmpResults.get(0).getMessage()).show();
+                    }
+                } else {
+                    DynamicToast.makeError(context, "an error has occurred").show();
+                }
+            }
+        });
 
     }
 

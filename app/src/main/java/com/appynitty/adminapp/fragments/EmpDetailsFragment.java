@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,7 +20,6 @@ import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,7 +60,7 @@ public class EmpDetailsFragment extends Fragment {
     MyApplication application;
     private String appId, ulbName;
     Bundle filterExtras;
-    List<EmpDModelDTO> empDModelList , activeList, inactiveList;
+    List<EmpDModelDTO> empDModelList, activeList, inactiveList;
     UlbDataViewModel ulbDataViewModel;
     EmpDViewModel empDViewModel;
 
@@ -128,7 +125,7 @@ public class EmpDetailsFragment extends Fragment {
             @Override
             public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
                 loader.setVisibility(View.GONE);
-                activeList =  empDResponse.getValue();
+                activeList = empDResponse.getValue();
                 Log.e(TAG, "onResponse active list : " + activeList);
                 setRecycler(activeList);
                 txtEntries.setText(empDResponse.getValue().size() + " " + "Entries");
@@ -171,8 +168,6 @@ public class EmpDetailsFragment extends Fragment {
         });*/
 
 
-
-
         empDetailsBinding.edtSearchEmpD.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -195,15 +190,15 @@ public class EmpDetailsFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checked) {
 
-                switch (checked){
+                switch (checked) {
                     case R.id.rd_active_ED:
-                        if (empDetailsBinding.rdActiveED.isChecked()){
+                        if (empDetailsBinding.rdActiveED.isChecked()) {
                             Log.e(TAG, " reBtnActive call");
                             empDRepository.getEmpDList(true, appId, new EmpDRepository.IEmpDResponse() {
                                 @Override
                                 public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
                                     loader.setVisibility(View.GONE);
-                                    activeList =  empDResponse.getValue();
+                                    activeList = empDResponse.getValue();
                                     Log.e(TAG, "onResponse active list : " + activeList);
                                     setRecycler(activeList);
                                     txtEntries.setText(empDResponse.getValue().size() + " " + "Entries");
@@ -220,16 +215,16 @@ public class EmpDetailsFragment extends Fragment {
                         break;
                     case R.id.rd_inactive_ED:
 
-                        if (empDetailsBinding.rdInactiveED.isChecked()){
+                        if (empDetailsBinding.rdInactiveED.isChecked()) {
                             Log.e(TAG, " reBtnInActive call");
                             empDRepository.getEmpDListIN(false, appId, new EmpDRepository.IEmpDResponse() {
                                 @Override
                                 public void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse) {
                                     loader.setVisibility(View.GONE);
-                                    inactiveList =  empDResponse.getValue();
+                                    inactiveList = empDResponse.getValue();
                                     Log.e(TAG, "onResponse Inactive list : " + inactiveList);
                                     setRecycler(inactiveList);
-                                    txtEntries.setText(empDResponse.getValue().size() + " "+  "Entries");
+                                    txtEntries.setText(empDResponse.getValue().size() + " " + "Entries");
                                 }
 
                                 @Override
@@ -267,15 +262,15 @@ public class EmpDetailsFragment extends Fragment {
     }
 
 
-    private void checkList(String text){
+    private void checkList(String text) {
 
-        switch(empDetailsBinding.rdGroup.getCheckedRadioButtonId()){
-        case R.id.rd_active_ED:
-            filterActive(text);
-            break;
-        case R.id.rd_inactive_ED:
-            filterInActive(text);
-            break;
+        switch (empDetailsBinding.rdGroup.getCheckedRadioButtonId()) {
+            case R.id.rd_active_ED:
+                filterActive(text);
+                break;
+            case R.id.rd_inactive_ED:
+                filterInActive(text);
+                break;
             default:
         }
     }
@@ -301,5 +296,12 @@ public class EmpDetailsFragment extends Fragment {
             }
         }
         adapter.activeList(searchedList);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume: called bro!");
+        init();
     }
 }

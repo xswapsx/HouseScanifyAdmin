@@ -80,10 +80,10 @@ public class AddEmpRepository {
             @Override
             public void onResponse(Call<AddEmpResult> call, Response<AddEmpResult> response) {
                 if (response.code() == 200) {
-                    iAddEmpResponse.onResponse(response.body());
+                    iAddEmpResponse.onResponse((List<AddEmpResult>) response.body());
                     Log.e(TAG, "onResponse: " + response.body().getMessage());
                 } else if (response.code() == 500) {
-                    iAddEmpResponse.onResponse(response.body());
+                    iAddEmpResponse.onResponse((List<AddEmpResult>) response.body());
                     Log.e(TAG, "onResponse: " + response.body());
                 }
             }
@@ -104,23 +104,24 @@ public class AddEmpRepository {
         List<EmpDModelDTO> empDetails1 = new ArrayList<>();
         empDetails1.add(empDetails);
         AddEmpWebService empWebService = RetrofitClient.createService(AddEmpWebService.class, MainUtils.BASE_URL);
-        Call<AddEmpResult> updateEmployeeCall = empWebService.updateEmployeeDetails(MainUtils.CONTENT_TYPE, appId, empDetails1);
-        updateEmployeeCall.enqueue(new Callback<AddEmpResult>() {
+        Call<List<AddEmpResult>> updateEmployeeCall = empWebService.updateEmployeeDetails(MainUtils.CONTENT_TYPE, appId, empDetails1);
+        updateEmployeeCall.enqueue(new Callback<List<AddEmpResult>>() {
             @Override
-            public void onResponse(Call<AddEmpResult> call, Response<AddEmpResult> response) {
-                Log.d(TAG, "onResponse: " + response.body().getMessage());
+            public void onResponse(Call<List<AddEmpResult>> call, Response<List<AddEmpResult>> response) {
+                Log.e(TAG, "onResponse: " + response.body().get(0).getMessage());
+
                 iAddEmpResponse.onResponse(response.body());
             }
 
             @Override
-            public void onFailure(Call<AddEmpResult> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
+            public void onFailure(Call<List<AddEmpResult>> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
 
     public interface IAddEmpResponse {
-        void onResponse(AddEmpResult addEmpResponse);
+        void onResponse(List<AddEmpResult> addEmpResponse);
 
         void onFailure(Throwable t);
     }

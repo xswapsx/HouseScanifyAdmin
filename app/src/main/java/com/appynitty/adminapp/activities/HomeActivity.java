@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_emp_details:
                         fragment = new EmpDetailsFragment();
-                        /*viewPager.setCurrentItem(3);*/
+//                        viewPager.setCurrentItem(3);
                         break;
                 }
                 return loadFragment(fragment);

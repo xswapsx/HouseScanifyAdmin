@@ -174,7 +174,7 @@ public class UlbDataViewModel extends ViewModel {
     public void setFilteredData(Bundle bundle) {
         Log.e(TAG, "getFilteredItem: FromDate: " + bundle.get("frmDate") + ", toDate: " + bundle.get("toDate")
                 + ", UserId:" + bundle.get("userId") + ", appId from bundle: " + bundle.get("appId") + ", appId from Prefs: " + appId);
-        String frmDate = bundle.get("frmDate").toString();
+        String frmDate = bundle.get("fromDate").toString();
         String toDate = bundle.get("toDate").toString();
         String userId = bundle.get("userId").toString();
 
