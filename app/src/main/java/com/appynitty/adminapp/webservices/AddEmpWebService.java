@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 
 public interface AddEmpWebService {
     @POST("api/Supervisor/AddHouseScanifyEmployee")
-    Call<AddEmpResult> addNewEmpHS(@Header("Content-Type") String content_type,
+    Call<List<AddEmpResult>> addNewEmpHS(@Header("Content-Type") String content_type,
                                    @Header("appId") String appId,
                                    @Body List<AddEmpDTO> addEmpDTO);
 

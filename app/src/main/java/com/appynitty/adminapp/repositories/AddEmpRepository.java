@@ -14,13 +14,8 @@ import com.appynitty.adminapp.webservices.AddEmpWebService;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,47 +36,15 @@ public class AddEmpRepository {
     public void addEmpRemote(MutableLiveData<AddEmpDTO> addEmpBody, IAddEmpResponse iAddEmpResponse) {
         AddEmpWebService empWebService = RetrofitClient.createService(AddEmpWebService.class, MainUtils.BASE_URL);
         addEmpDTO.add(addEmpBody.getValue());
-        JSONObject empObject = new JSONObject();
 
-        try {
+        Call<List<AddEmpResult>> initiateAddEmp = empWebService.addNewEmpHS(MainUtils.CONTENT_TYPE, appId, addEmpDTO);
 
-            empObject.put("qrEmpId", Objects.requireNonNull(addEmpBody.getValue()).getQrEmpId());
-            empObject.put("qrEmpName", addEmpBody.getValue().getQrEmpName());
-            empObject.put("qrEmpMobileNumber", addEmpBody.getValue().getQrEmpMobileNumber());
-            empObject.put("qrEmpAddress", addEmpBody.getValue().getQrEmpAddress());
-            empObject.put("qrEmpLoginId", addEmpBody.getValue().getQrEmpLoginId());
-            empObject.put("qrEmpPassword", addEmpBody.getValue().getQrEmpPassword());
-            empObject.put("imoNo", addEmpBody.getValue().getImoNo());
-            empObject.put("isActive", addEmpBody.getValue().getIsActive());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JSONArray jsonArray = new JSONArray();
-
-        jsonArray.put(empObject);
-
-        Log.e(TAG, "Request Body: " + jsonArray);
-
-
-        /*addEmpDTO.setQrEmpId(Objects.requireNonNull(addEmpBody.getValue().getQrEmpId().trim()));
-        addEmpDTO.setQrEmpName(Objects.requireNonNull(addEmpBody.getValue().getQrEmpName().trim()));
-        addEmpDTO.setQrEmpMobileNumber(Objects.requireNonNull(addEmpBody.getValue().getQrEmpMobileNumber().trim()));
-        addEmpDTO.setQrEmpAddress(Objects.requireNonNull(addEmpBody.getValue().getQrEmpAddress().trim()));
-        addEmpDTO.setQrEmpLoginId(Objects.requireNonNull(addEmpBody.getValue().getQrEmpLoginId().trim()));
-        addEmpDTO.setQrEmpPassword(Objects.requireNonNull(addEmpBody.getValue().getQrEmpPassword().trim()));
-        addEmpDTO.setImoNo(Objects.requireNonNull(addEmpBody.getValue().getImoNo().trim()));
-        addEmpDTO.setIsActive(Objects.requireNonNull(addEmpBody.getValue().getIsActive().trim()));*/
-
-        Call<AddEmpResult> initiateAddEmp = empWebService.addNewEmpHS(MainUtils.CONTENT_TYPE, appId, addEmpDTO);
-
-        initiateAddEmp.enqueue(new Callback<AddEmpResult>() {
+        initiateAddEmp.enqueue(new Callback<List<AddEmpResult>>() {
             @Override
-            public void onResponse(Call<AddEmpResult> call, Response<AddEmpResult> response) {
+            public void onResponse(Call<List<AddEmpResult>> call, Response<List<AddEmpResult>> response) {
                 if (response.code() == 200) {
                     iAddEmpResponse.onResponse((List<AddEmpResult>) response.body());
-                    Log.e(TAG, "onResponse: " + response.body().getMessage());
+                    Log.e(TAG, "onResponse: " + response.body());
                 } else if (response.code() == 500) {
                     iAddEmpResponse.onResponse((List<AddEmpResult>) response.body());
                     Log.e(TAG, "onResponse: " + response.body());
@@ -89,7 +52,7 @@ public class AddEmpRepository {
             }
 
             @Override
-            public void onFailure(Call<AddEmpResult> call, Throwable t) {
+            public void onFailure(Call<List<AddEmpResult>> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
                 iAddEmpResponse.onFailure(t);
             }

@@ -227,8 +227,7 @@
                             android:layout_height="wrap_content"
                             android:buttonTint="@color/colorPrimaryDark"
                             android:checked="false"
-                            android:onClick="@{(v) -> DashboardViewModel.onClick(v)}"
-                            />
+                            android:onClick="@{(v) -> DashboardViewModel.onClick(v)}" />
 
                     </LinearLayout>
 
@@ -276,8 +275,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view"
                         android:layout_width="match_parent"
-                        tools:listitem="@layout/dashboard_item_list"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/dashboard_item_list" />
 
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

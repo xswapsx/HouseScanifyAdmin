@@ -301,7 +301,6 @@ public class EmpDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onResume: called bro!");
         init();
     }
 }

@@ -68,6 +68,8 @@ public class AddEmpViewModel extends ViewModel {
                             if (addEmpResponse != null) {
                                 addEmpResultMutableData.setValue(addEmpResponse);
                                 Log.e(TAG, "onResponse: " + addEmpResponse.get(0).getMessage());
+                                clearData();
+
                             }
                         }
 
@@ -75,6 +77,7 @@ public class AddEmpViewModel extends ViewModel {
                         public void onFailure(Throwable t) {
                             mProgressMutableData.postValue(View.INVISIBLE);
                             Log.e(TAG, "onFailure: " + t.getMessage());
+                            clearData();
                         }
                     });
                 }
@@ -91,6 +94,17 @@ public class AddEmpViewModel extends ViewModel {
             default:
                 // code block
         }
+    }
+
+    public void clearData() {
+        qrEmpId.setValue("");
+        qrEmpName.setValue("");
+        qrEmpMobileNumber.setValue("");
+        qrEmpAddress.setValue("");
+        qrEmpLoginId.setValue("");
+        qrEmpPassword.setValue("");
+        qrImoNo.setValue("");
+        cbIsActive = false;
     }
 
     public LiveData<Integer> getProgress() {
