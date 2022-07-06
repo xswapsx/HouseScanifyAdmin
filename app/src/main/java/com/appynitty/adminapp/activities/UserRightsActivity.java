@@ -111,6 +111,7 @@ public class UserRightsActivity extends AppCompatActivity {
 
         binding.rdActiveUser.setChecked(true);
         Log.e(TAG, " reBtnActive call");
+        binding.progressCircular.setVisibility(View.VISIBLE);
         userRoleRepository.getUserRoleActiveList(true, new UserRoleRepository.IUserRoleResponse() {
             @Override
             public void onResponse(MutableLiveData<List<UserRoleModelDTO>> userRoleResponse) {
@@ -155,6 +156,7 @@ public class UserRightsActivity extends AppCompatActivity {
                     case R.id.rd_active_user:
                         if (binding.rdActiveUser.isChecked()){
                             Log.e(TAG, " reBtnActive call");
+                            binding.progressCircular.setVisibility(View.VISIBLE);
                             userRoleRepository.getUserRoleActiveList(true, new UserRoleRepository.IUserRoleResponse() {
                                 @Override
                                 public void onResponse(MutableLiveData<List<UserRoleModelDTO>> userRoleResponse) {
@@ -180,7 +182,7 @@ public class UserRightsActivity extends AppCompatActivity {
 
                         if (binding.rdInactiveUser.isChecked()){
                             Log.e(TAG, " reBtnInActive call");
-
+                            binding.progressCircular.setVisibility(View.VISIBLE);
                             userRoleRepository.getUserRoleInactiveList(false, new UserRoleRepository.IUserRoleResponse() {
                                 @Override
                                 public void onResponse(MutableLiveData<List<UserRoleModelDTO>> userRoleResponse) {
@@ -265,6 +267,13 @@ public class UserRightsActivity extends AppCompatActivity {
             }
         }
         adapter.activeList(searchedList);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume: refresh");
+        init();
     }
 
 

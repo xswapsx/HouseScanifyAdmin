@@ -46,7 +46,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AddUserDetailsActivity extends AppCompatActivity {
-
+    String TAG = "AddUserDetailsActivity";
     private Context context;
     private LinearLayoutManager layoutManager;
     private ProgressBar loader;
@@ -103,9 +103,8 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             updateUserDetailsBinding.txtBtnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!updateUserDetailsBinding.cbIsActive.isChecked()) {
-                        userRoleRightDetails.setActive(false);
-                    }
+
+                    userRoleRightDetails.setActive(updateUserDetailsBinding.cbIsActive.isChecked());
                     addUserRoleViewModel.updateUserRoleDetails(userRoleRightDetails);
                 }
             });
@@ -239,12 +238,15 @@ public class AddUserDetailsActivity extends AppCompatActivity {
                 } else if (binding.edtEmpPassword.getText().toString().length() < 4) {
                     Toast.makeText(context, "Password must contain at least 4 digits", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.e(TAG, "onChanged: qrEmpId: " + addUserRoleRightDTO.getEmpId() + " EmpName: " + addUserRoleRightDTO.getEmpName()
+                    Log.e(TAG, "onChanged: EmpId: " + addUserRoleRightDTO.getEmpId() + " EmpName: " + addUserRoleRightDTO.getEmpName()
                             + " EmpMobile: " + addUserRoleRightDTO.getEmpMobileNumber() + " EmpAddress: " + addUserRoleRightDTO.getEmpAddress()
                             + " EmpUsername: " + addUserRoleRightDTO.getLoginId() + " password: " + addUserRoleRightDTO.getPassword()
                             + " EmpIsActiveStatus: " + addUserRoleRightDTO.getIsActive()
                     );
                 }
+
+                finish();
+                Toast.makeText(context, "User role right data saved", Toast.LENGTH_SHORT).show();
             }
         });
 
