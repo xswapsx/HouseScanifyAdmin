@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -57,6 +58,8 @@ public class HouseDetailsFragment extends Fragment {
     private List<HouseDetailsImageDTO> imageDataList;
     private RecyclerView recyclerHouseImage;
     SnapHelper snapHelper;
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
 
     private LinearLayoutManager layoutManager;
     private HouseDetailsAdapter houseDetailsAdapter;
@@ -159,6 +162,25 @@ public class HouseDetailsFragment extends Fragment {
         qrImageStatusVM = ViewModelProviders.of(this).get(QrImageStatusViewModel.class);
 
 //        binding.setImagesVM(houseDetailsImageVM);
+
+        recyclerHouseImage.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                visibleItemCount = layoutManager.getChildCount();
+                totalItemCount = layoutManager.getItemCount();
+                pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        loading = false;
+                        Log.v("...", "Last Item Wow !");
+
+                        loading = true;
+                    }
+                }
+            }
+        });
 
         rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

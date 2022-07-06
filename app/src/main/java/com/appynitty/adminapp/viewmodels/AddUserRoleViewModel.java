@@ -60,9 +60,6 @@ public class AddUserRoleViewModel extends ViewModel {
         return mProgressMutableData;
     }
 
-    public LiveData<AddUserRoleRightResult> postAddUserRoleResponse() {
-        return addUserRoleRightsResultMutableData;
-    }
 
     public AddUserRoleViewModel(){
         getUlbData();
@@ -99,6 +96,32 @@ public class AddUserRoleViewModel extends ViewModel {
         switch (id) {
             case R.id.txt_btn_save:
                 Log.e(TAG, "save button : ");
+
+                AddUserRoleRightDTO addUserRoleData = new AddUserRoleRightDTO(EmpId.getValue(), EmpName.getValue(), EmpMobileNumber.getValue(),
+                        EmpAddress.getValue(), LoginId.getValue(), Password.getValue(),
+                        isActive.getValue(), isActiveULB.getValue(), cbIsActive.toString());
+                addUserRoleRightsMutableLiveData.setValue(addUserRoleData);
+
+                if (EmpId.getValue() != null && EmpName.getValue() != null && EmpMobileNumber.getValue() != null && EmpAddress.getValue() != null
+                        && LoginId.getValue() != null && Password.getValue() != null
+                        && isActive.getValue() != null && isActiveULB.getValue() != null) {
+                    addUserRoleRepository.addUserRoleSave(addUserRoleRightsMutableLiveData, new AddUserRoleRepository.IAddUserRoleRightsResponse() {
+                        @Override
+                        public void onResponse(AddUserRoleRightResult addUserRoleRightResponse) {
+                            mProgressMutableData.postValue(View.INVISIBLE);
+                            if (addUserRoleRightResponse != null) {
+                                addUserRoleRightsResultMutableData.setValue(addUserRoleRightResponse);
+                                Log.e(TAG, "onResponse save: " + addUserRoleRightResponse.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            mProgressMutableData.postValue(View.INVISIBLE);
+                            Log.e(TAG, "onFailure: " + t.getMessage());
+                        }
+                    });
+                }
                 addAndUpdateEmp.setValue("Data saved successfully!");
                 break;
             case R.id.cb_isActive:
