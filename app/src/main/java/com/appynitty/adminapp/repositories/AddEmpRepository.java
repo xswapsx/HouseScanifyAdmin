@@ -35,6 +35,9 @@ public class AddEmpRepository {
 
     public void addEmpRemote(MutableLiveData<AddEmpDTO> addEmpBody, IAddEmpResponse iAddEmpResponse) {
         AddEmpWebService empWebService = RetrofitClient.createService(AddEmpWebService.class, MainUtils.BASE_URL);
+        if (!addEmpDTO.isEmpty())
+            addEmpDTO.clear();
+
         addEmpDTO.add(addEmpBody.getValue());
 
         Call<List<AddEmpResult>> initiateAddEmp = empWebService.addNewEmpHS(MainUtils.CONTENT_TYPE, appId, addEmpDTO);

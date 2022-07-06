@@ -1,7 +1,6 @@
 package com.appynitty.adminapp.utils;
 
 import android.content.Context;
-import android.provider.Settings;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +45,8 @@ public class MainUtils {
 
     public static final String SERVER_DATE_TIME_FORMATE = "MM-dd-yyyy HH:mm:ss";
     public static final String SERVER_DATE_TIME_FORMATE_LOCAL = "yyyy-MM-dd HH:mm:ss.SSS";
-
+    public static final String STATUS_SUCCESS = "success";
+    public static final String STATUS_ERROR = "Error";
 
     public interface PREFS {
         String APP_ID = "appId";
@@ -63,7 +63,6 @@ public class MainUtils {
     }
 
 
-
     public static String getDate() {
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
@@ -72,7 +71,6 @@ public class MainUtils {
 
         return formattedDate;
     }
-
 
 
     public static String getDateDash() {

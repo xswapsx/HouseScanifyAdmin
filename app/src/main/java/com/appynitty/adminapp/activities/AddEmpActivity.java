@@ -23,6 +23,7 @@ import com.appynitty.adminapp.databinding.UpdateEmpLayoutBinding;
 import com.appynitty.adminapp.models.AddEmpDTO;
 import com.appynitty.adminapp.models.AddEmpResult;
 import com.appynitty.adminapp.models.EmpDModelDTO;
+import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.AddEmpViewModel;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class AddEmpActivity extends AppCompatActivity {
     String TAG = "AddEmpActivity";
-    String reqStatus = "";
+    String reqStatus = "", message = "";
     private Context context;
     private ActivityAddEmpBinding activityAddEmpBinding;
     private UpdateEmpLayoutBinding updateEmpLayoutBinding;
@@ -111,9 +112,14 @@ public class AddEmpActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<AddEmpResult> addEmpResults) {
                 Log.e(TAG, "onChanged: " + addEmpResults.get(0).getMessage());
-                DynamicToast.makeSuccess(AddEmpActivity.this, addEmpResults.get(0).getMessage()).show();
-//                startActivity(new Intent(AddEmpActivity.this, HomeActivity.class));
-                finish();
+                message = addEmpResults.get(0).getMessage();
+                reqStatus = addEmpResults.get(0).getStatus();
+                if (reqStatus.matches(MainUtils.STATUS_SUCCESS)) {
+                    DynamicToast.makeSuccess(AddEmpActivity.this, message).show();
+                    finish();
+                } else {
+                    DynamicToast.makeWarning(AddEmpActivity.this, message).show();
+                }
             }
         });
 
