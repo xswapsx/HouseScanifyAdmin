@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.ItemUlbCheckboxBinding;
 import com.appynitty.adminapp.models.UlbDTO;
+import com.google.gson.JsonObject;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -49,6 +51,11 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
         }
         else {
             holder.ulbCheckboxBinding.chkBoxUlbName.setChecked(true);
+            String all_app_id = String.valueOf(ulb.getAppId());
+            System.out.println("All app id :" + all_app_id);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("data",holder.getAdapterPosition());
+            Log.e(TAG,"ulb app id: " +jsonObject);
         }
 
 
