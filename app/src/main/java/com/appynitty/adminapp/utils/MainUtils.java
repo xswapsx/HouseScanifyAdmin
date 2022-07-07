@@ -18,39 +18,28 @@ public class MainUtils {
 
     //Live Server
 //    public static final String BASE_URL = "https://ictsbm.com:30443";
-
-    public static Context context;
     public static final String CONTENT_TYPE = "application/json";
     public static final String EMP_TYPE_ADMIN = "A";
-
     public static final String EMP_TYPE = "EmpType";
     public static final String USER_ID = "userId";
     public static final String APP_ID = "appId";
     public static final String EMP_ID = "qrEmpId";
     public static final String IS_LOGIN = "IsLoggedIn";
-
-    private static final String EMP_SERVER_DATE_FORMATE = "dd-MM-yyyy";
-    private static final String EMP_DATE_FORMAT = "dd/MM/yyyy";
-    private static final String EMP_DATE_FORMAT_DASH = "dd-MM-yyyy";
-
-    private static final String TITLE_DATE_FORMATE = "dd MMM yyyy";
-
-    private static final String SEMI_MONTH_FORMATE = "MMM";
-    private static final String DATE_VALUE_FORMATE = "dd";
     public static final String SERVER_DATE_FORMATE = "MM-dd-yyyy";
     public static final String SERVER_DATE_FORMATE_LOCAL = "yyyy-MM-dd";
-
-    private static final String SERVER_TIME_FORMATE = "hh:mm a";
-    private static final String SERVER_TIME_24HR_FORMATE = "HH:mm";
-
     public static final String SERVER_DATE_TIME_FORMATE = "MM-dd-yyyy HH:mm:ss";
     public static final String SERVER_DATE_TIME_FORMATE_LOCAL = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String STATUS_SUCCESS = "success";
     public static final String STATUS_ERROR = "Error";
-
-    public interface PREFS {
-        String APP_ID = "appId";
-    }
+    private static final String EMP_SERVER_DATE_FORMATE = "dd-MM-yyyy";
+    private static final String EMP_DATE_FORMAT = "dd/MM/yyyy";
+    private static final String EMP_DATE_FORMAT_DASH = "dd-MM-yyyy";
+    private static final String TITLE_DATE_FORMATE = "dd MMM yyyy";
+    private static final String SEMI_MONTH_FORMATE = "MMM";
+    private static final String DATE_VALUE_FORMATE = "dd";
+    private static final String SERVER_TIME_FORMATE = "hh:mm a";
+    private static final String SERVER_TIME_24HR_FORMATE = "HH:mm";
+    public static Context context;
 
     public static String getDateAndTime() {
         Date c = Calendar.getInstance().getTime();
@@ -62,7 +51,6 @@ public class MainUtils {
         return formattedDate;
     }
 
-
     public static String getDate() {
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
@@ -71,7 +59,6 @@ public class MainUtils {
 
         return formattedDate;
     }
-
 
     public static String getDateDash() {
         Date c = Calendar.getInstance().getTime();
@@ -225,6 +212,10 @@ public class MainUtils {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public interface PREFS {
+        String APP_ID = "appId";
     }
 
 

@@ -19,7 +19,7 @@ import retrofit2.Response;
 public class DashboardRepository {
     private static final String TAG = "DashboardRepository";
     private static final DashboardRepository instance = new DashboardRepository();
-    private MutableLiveData<List<DashboardDTO>> ULBListLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<DashboardDTO>> ULBListLiveData = new MutableLiveData<>();
 
     public static DashboardRepository getInstance() {
         return instance;

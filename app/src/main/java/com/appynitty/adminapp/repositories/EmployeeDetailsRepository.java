@@ -20,7 +20,7 @@ public class EmployeeDetailsRepository {
 
     private static final String TAG = "EmployeeDetailRepository";
     private static final EmployeeDetailsRepository instance = new EmployeeDetailsRepository();
-    private MutableLiveData<List<EmployeeDetailsDTO>> empDetailsList = new MutableLiveData<>();
+    private final MutableLiveData<List<EmployeeDetailsDTO>> empDetailsList = new MutableLiveData<>();
 
     public static EmployeeDetailsRepository getInstance() {
         return instance;

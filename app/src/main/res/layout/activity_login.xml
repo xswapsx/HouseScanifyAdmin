@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -7,7 +8,7 @@
             type="com.appynitty.adminapp.viewmodels.LoginViewModel" />
     </data>
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:id="@+id/rl_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,17 +17,17 @@
         <ImageView
             android:id="@+id/img_bg"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/logo_background_height"
+            android:layout_height="@dimen/dim_300dp"
             android:background="@drawable/logo_background"
             android:contentDescription="@string/app_name" />
 
         <ImageView
             android:id="@+id/img_logo"
-            android:layout_width="@dimen/logo_img_height"
-            android:layout_height="@dimen/logo_img_height"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dim_40_dp"
-            android:layout_marginBottom="@dimen/dim_40_dp"
+
             android:contentDescription="@string/app_name"
             android:src="@drawable/app_icon_white" />
 
@@ -34,7 +35,9 @@
             android:id="@+id/rl_login1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/img_bg"
+            android:layout_below="@+id/img_logo"
+            android:layout_marginTop="100dp"
+            android:layout_centerHorizontal="true"
             android:padding="15dp">
 
 

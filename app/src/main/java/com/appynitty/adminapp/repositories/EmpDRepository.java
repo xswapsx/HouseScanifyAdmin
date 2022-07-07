@@ -20,13 +20,13 @@ public class EmpDRepository {
     private static final String TAG = "EmpDRepository";
 
     private static final EmpDRepository instance = new EmpDRepository();
-    private MutableLiveData<List<EmpDModelDTO>> empDLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<EmpDModelDTO>> empDLiveData = new MutableLiveData<>();
 
-    public static EmpDRepository getInstance(){
+    public static EmpDRepository getInstance() {
         return instance;
     }
 
-    public void getEmpDList (Boolean status, String appId, IEmpDResponse iEmpDResponse){
+    public void getEmpDList(Boolean status, String appId, IEmpDResponse iEmpDResponse) {
         Log.e(TAG, "getEmpDList: ");
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
         String userId = Prefs.getString(MainUtils.USER_ID);
@@ -35,19 +35,19 @@ public class EmpDRepository {
 
         EmpDWebService empDWebService = RetrofitClient.createService(EmpDWebService.class, MainUtils.BASE_URL);
         Call<List<EmpDModelDTO>> empDDTOCall = empDWebService.getEmpDList(MainUtils.CONTENT_TYPE,
-                empType,userId,empId,appId,status);
+                empType, userId, empId, appId, status);
         empDDTOCall.enqueue(new Callback<List<EmpDModelDTO>>() {
             @Override
             public void onResponse(Call<List<EmpDModelDTO>> call, Response<List<EmpDModelDTO>> response) {
-                if (response.code() == 200){
-                    if (response.body() != null){
+                if (response.code() == 200) {
+                    if (response.body() != null) {
 
                         empDLiveData.setValue(response.body());
                         iEmpDResponse.onResponse(empDLiveData);
                         Log.e(TAG, "onResponse: " + response.body());
                         Log.e(TAG, "iAttendanceResponse: " + iEmpDResponse);
                     }
-                } else if (response.code() == 500){
+                } else if (response.code() == 500) {
                     Log.e(TAG, "onResponse: " + response.body());
                 }
             }
@@ -61,7 +61,7 @@ public class EmpDRepository {
 
     }
 
-    public void getEmpDListIN (Boolean status, String appId, IEmpDResponse iEmpDResponse){
+    public void getEmpDListIN(Boolean status, String appId, IEmpDResponse iEmpDResponse) {
         Log.e(TAG, "getEmpDList: ");
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
         String userId = Prefs.getString(MainUtils.USER_ID);
@@ -70,19 +70,19 @@ public class EmpDRepository {
 
         EmpDWebService empDWebService = RetrofitClient.createService(EmpDWebService.class, MainUtils.BASE_URL);
         Call<List<EmpDModelDTO>> empDDTOCall = empDWebService.getEmpDList(MainUtils.CONTENT_TYPE,
-                empType,userId,empId,appId,status);
+                empType, userId, empId, appId, status);
         empDDTOCall.enqueue(new Callback<List<EmpDModelDTO>>() {
             @Override
             public void onResponse(Call<List<EmpDModelDTO>> call, Response<List<EmpDModelDTO>> response) {
-                if (response.code() == 200){
-                    if (response.body() != null){
+                if (response.code() == 200) {
+                    if (response.body() != null) {
 
                         empDLiveData.setValue(response.body());
                         iEmpDResponse.onResponse(empDLiveData);
                         Log.e(TAG, "onResponse: " + response.body());
                         Log.e(TAG, "iAttendanceResponse: " + iEmpDResponse);
                     }
-                } else if (response.code() == 500){
+                } else if (response.code() == 500) {
                     Log.e(TAG, "onResponse: " + response.body());
                 }
             }
@@ -96,7 +96,7 @@ public class EmpDRepository {
 
     }
 
-    public interface IEmpDResponse{
+    public interface IEmpDResponse {
         void onResponse(MutableLiveData<List<EmpDModelDTO>> empDResponse);
 
         void onFailure(Throwable t);

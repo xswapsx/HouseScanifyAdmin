@@ -5,12 +5,10 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.appynitty.adminapp.viewmodels.AttendanceViewModel;
-import com.appynitty.adminapp.viewmodels.EmpDViewModel;
-import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
 
 public class MyViewModelFactory extends ViewModelProvider.NewInstanceFactory {
-//    private Application mApplication;
-    private Object[] mParams;
+    //    private Application mApplication;
+    private final Object[] mParams;
 
     public MyViewModelFactory(/*Application application,*/ Object... params) {
 //        mApplication = application;
@@ -22,7 +20,8 @@ public class MyViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         /*if (modelClass == UlbDataViewModel.class) {
             return (T) new UlbDataViewModel(*//*mApplication, *//*mParams);
-        }else*/ if (modelClass == AttendanceViewModel.class){
+        }else*/
+        if (modelClass == AttendanceViewModel.class) {
             return (T) new AttendanceViewModel((String) mParams[0]);
         }/*else if (modelClass == EmpDViewModel.class){
             return (T) new EmpDViewModel((String) mParams[0]);
@@ -31,7 +30,8 @@ public class MyViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new ViewModel2(mApplication, (Integer) mParams[0]);
         } else if (modelClass == ViewModel3.class) {
             return (T) new ViewModel3(mApplication, (Integer) mParams[0], (String) mParams[1]);
-        }*/ else {
+        }*/
+        else {
             return super.create(modelClass);
         }
     }

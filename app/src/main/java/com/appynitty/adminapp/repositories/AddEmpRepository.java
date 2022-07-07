@@ -23,15 +23,14 @@ import retrofit2.Response;
 
 public class AddEmpRepository {
     private static final String TAG = "AddEmpRepository";
-    String appId = Prefs.getString(MainUtils.APP_ID, null);
     private static final AddEmpRepository instance = new AddEmpRepository();
+    String appId = Prefs.getString(MainUtils.APP_ID, null);
     Gson gson = new Gson();
+    List<AddEmpDTO> addEmpDTO = new ArrayList<>();
 
     public static AddEmpRepository getInstance() {
         return instance;
     }
-
-    List<AddEmpDTO> addEmpDTO = new ArrayList<>();
 
     public void addEmpRemote(MutableLiveData<AddEmpDTO> addEmpBody, IAddEmpResponse iAddEmpResponse) {
         AddEmpWebService empWebService = RetrofitClient.createService(AddEmpWebService.class, MainUtils.BASE_URL);
@@ -46,10 +45,10 @@ public class AddEmpRepository {
             @Override
             public void onResponse(Call<List<AddEmpResult>> call, Response<List<AddEmpResult>> response) {
                 if (response.code() == 200) {
-                    iAddEmpResponse.onResponse((List<AddEmpResult>) response.body());
+                    iAddEmpResponse.onResponse(response.body());
                     Log.e(TAG, "onResponse: " + response.body());
                 } else if (response.code() == 500) {
-                    iAddEmpResponse.onResponse((List<AddEmpResult>) response.body());
+                    iAddEmpResponse.onResponse(response.body());
                     Log.e(TAG, "onResponse: " + response.body());
                 }
             }

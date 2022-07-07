@@ -19,10 +19,10 @@ import retrofit2.Response;
 public class QREmpListRepo {
     private static final String TAG = "QREmpListRepo";
     private static final QREmpListRepo instance = new QREmpListRepo();
-    private MutableLiveData<ArrayList<QREmployeeDTO>> QrEmpListMutableLiveData = new MutableLiveData<>();
     String empType = Prefs.getString(MainUtils.EMP_TYPE);
     String userId = Prefs.getString(MainUtils.USER_ID);
     String appId = Prefs.getString(MainUtils.APP_ID);
+    private final MutableLiveData<ArrayList<QREmployeeDTO>> QrEmpListMutableLiveData = new MutableLiveData<>();
 
     public static QREmpListRepo getInstance() {
         return instance;

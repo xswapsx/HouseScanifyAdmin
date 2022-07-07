@@ -2,6 +2,7 @@ package com.appynitty.adminapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewbinding.BuildConfig;
 
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.ZoomViewActivity;
@@ -129,20 +129,35 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
             }
         });*/
 
-        holder.imgShare.setOnClickListener(new View.OnClickListener() {
+        holder.cardDirections.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "HouseScanify Admin App");
-                    String shareMessage = "\nLet me recommend you this application\n\n";
-                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.LIBRARY_PACKAGE_NAME + "\n\n";
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    context.startActivity(Intent.createChooser(shareIntent, "choose one"));
-                } catch (Exception e) {
-                    //e.toString();
+                Log.e(TAG, "onClick: lat: " + imageDataList.get(holder.getAdapterPosition()).getLat() + ", long: "
+                        + imageDataList.get(holder.getAdapterPosition()).getLong());
+
+                String lat = imageDataList.get(holder.getAdapterPosition()).getLat();
+                String lon = imageDataList.get(holder.getAdapterPosition()).getLong();
+                String usersLocation = "geo:0,0?q=" + lat + "," + lon + "?z=21";
+
+                // Create a Uri from an intent string. Use the result to create an Intent.
+                Uri gmmIntentUri = Uri.parse(usersLocation);
+
+// Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+// Make the Intent explicit by setting the Google Maps package
+                mapIntent.setPackage("com.google.android.apps.maps");
+
+// Attempt to start an activity that can handle the Intent
+                if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
+
+                } else {
+                    context.startActivity(mapIntent);
                 }
+
+                /*geo:latitude,longitude?q=query
+geo:0,0?q=my+street+address
+geo:0,0?q=latitude,longitude(label)*/
+
             }
         });
 
@@ -150,8 +165,6 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
         holder.txtEmpName.setText(imageDataList.get(position).getName());
         holder.txtRefId.setText(imageDataList.get(position).getReferanceId());
 
-        Log.e(TAG, "onBindViewHolder: normal posi: " + position);
-        Log.e(TAG, "onBindViewHolder: adapter posi: " + position);
     }
 
 
@@ -190,9 +203,9 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView txtDateTime, txtRefId, txtEmpName, txtLatitude, txtLongitude;
-        private final ImageView imgPhoto, imgShare;
+        private final ImageView imgPhoto;
         private final TextView txtImgAccept, txtImgReject;
-        private final CardView cardImgAccept, cardImgReject;
+        private final CardView cardImgAccept, cardImgReject, cardDirections;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -203,7 +216,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
             txtLatitude = itemView.findViewById(R.id.txt_latitude);
             txtLongitude = itemView.findViewById(R.id.txt_longitude);
             imgPhoto = itemView.findViewById(R.id.img_photos);
-            imgShare = itemView.findViewById(R.id.img_share);
+            cardDirections = itemView.findViewById(R.id.card_getDirections);
             txtImgAccept = itemView.findViewById(R.id.txt_img_accept);
             txtImgReject = itemView.findViewById(R.id.txt_img_reject);
             cardImgAccept = itemView.findViewById(R.id.card_img_accept);

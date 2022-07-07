@@ -20,13 +20,13 @@ public class UserRoleRepository {
     private static final String TAG = "UserRoleRepository";
 
     private static final UserRoleRepository instance = new UserRoleRepository();
-    private MutableLiveData<List<UserRoleModelDTO>> userRoleLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<UserRoleModelDTO>> userRoleLiveData = new MutableLiveData<>();
 
-    public static UserRoleRepository getInstance(){
+    public static UserRoleRepository getInstance() {
         return instance;
     }
 
-    public void getUserRoleActiveList (Boolean status, IUserRoleResponse iUserRoleResponse){
+    public void getUserRoleActiveList(Boolean status, IUserRoleResponse iUserRoleResponse) {
         Log.e(TAG, "getEmpDList: ");
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
         String userId = Prefs.getString(MainUtils.USER_ID);
@@ -35,19 +35,19 @@ public class UserRoleRepository {
 
         UserRoleListWebService userRoleListWebService = RetrofitClient.createService(UserRoleListWebService.class, MainUtils.BASE_URL);
         Call<List<UserRoleModelDTO>> userRoleDTOCall = userRoleListWebService.getUserRoleList(MainUtils.CONTENT_TYPE,
-                empType,userId,empId,status);
+                empType, userId, empId, status);
         userRoleDTOCall.enqueue(new Callback<List<UserRoleModelDTO>>() {
             @Override
             public void onResponse(Call<List<UserRoleModelDTO>> call, Response<List<UserRoleModelDTO>> response) {
-                if (response.code() == 200){
-                    if (response.body() != null){
+                if (response.code() == 200) {
+                    if (response.body() != null) {
 
                         userRoleLiveData.setValue(response.body());
                         iUserRoleResponse.onResponse(userRoleLiveData);
                         Log.e(TAG, "onResponse: " + response.body());
                         Log.e(TAG, "iAttendanceResponse: " + iUserRoleResponse);
                     }
-                } else if (response.code() == 500){
+                } else if (response.code() == 500) {
                     Log.e(TAG, "onResponse: " + response.body());
                 }
             }
@@ -61,7 +61,7 @@ public class UserRoleRepository {
 
     }
 
-    public void getUserRoleInactiveList (Boolean status, IUserRoleResponse iUserRoleResponse){
+    public void getUserRoleInactiveList(Boolean status, IUserRoleResponse iUserRoleResponse) {
         Log.e(TAG, "getEmpDList: ");
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
         String userId = Prefs.getString(MainUtils.USER_ID);
@@ -70,19 +70,19 @@ public class UserRoleRepository {
 
         UserRoleListWebService userRoleListWebService = RetrofitClient.createService(UserRoleListWebService.class, MainUtils.BASE_URL);
         Call<List<UserRoleModelDTO>> userRoleDTOCall = userRoleListWebService.getUserRoleList(MainUtils.CONTENT_TYPE,
-                empType,userId,empId,status);
+                empType, userId, empId, status);
         userRoleDTOCall.enqueue(new Callback<List<UserRoleModelDTO>>() {
             @Override
             public void onResponse(Call<List<UserRoleModelDTO>> call, Response<List<UserRoleModelDTO>> response) {
-                if (response.code() == 200){
-                    if (response.body() != null){
+                if (response.code() == 200) {
+                    if (response.body() != null) {
 
                         userRoleLiveData.setValue(response.body());
                         iUserRoleResponse.onResponse(userRoleLiveData);
                         Log.e(TAG, "onResponse: " + response.body());
                         Log.e(TAG, "iAttendanceResponse: " + iUserRoleResponse);
                     }
-                } else if (response.code() == 500){
+                } else if (response.code() == 500) {
                     Log.e(TAG, "onResponse: " + response.body());
                 }
             }
@@ -97,8 +97,7 @@ public class UserRoleRepository {
     }
 
 
-
-    public interface IUserRoleResponse{
+    public interface IUserRoleResponse {
         void onResponse(MutableLiveData<List<UserRoleModelDTO>> userRoleResponse);
 
         void onFailure(Throwable t);

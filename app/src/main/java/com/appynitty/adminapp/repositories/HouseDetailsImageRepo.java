@@ -20,12 +20,12 @@ public class HouseDetailsImageRepo {
 
     private static final String TAG = "HouoseDetailsImageRepo";
     private static final HouseDetailsImageRepo instance = new HouseDetailsImageRepo();
-    private MutableLiveData<List<HouseDetailsImageDTO>> HouseQrImagesLiveData = new MutableLiveData<>();
-    private MutableLiveData<List<HouseDetailsImageDTO>> DumpYardQrImagesLiveData = new MutableLiveData<>();
-    private MutableLiveData<List<HouseDetailsImageDTO>> LiquidQrImagesLiveData = new MutableLiveData<>();
-    private MutableLiveData<List<HouseDetailsImageDTO>> StreetQrImagesLiveData = new MutableLiveData<>();
     String date = MainUtils.getDateAndTime();
     String appId;
+    private final MutableLiveData<List<HouseDetailsImageDTO>> HouseQrImagesLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<HouseDetailsImageDTO>> DumpYardQrImagesLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<HouseDetailsImageDTO>> LiquidQrImagesLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<HouseDetailsImageDTO>> StreetQrImagesLiveData = new MutableLiveData<>();
 
     public static HouseDetailsImageRepo getInstance() {
         return instance;

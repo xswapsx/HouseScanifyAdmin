@@ -21,9 +21,9 @@ public class QrImageStatusRepo {
     private static final String TAG = "QrImageStatusRepo";
     private static final QrImageStatusRepo instance = new QrImageStatusRepo();
     private final MutableLiveData<QrImageStatusDTO> QrImageStatusResponse = new MutableLiveData<>();
-    private List<QrImageStatusDTO> reqBody = new ArrayList<>();
     private final QrImageStatusDTO imageStatusObj = new QrImageStatusDTO();
     MutableLiveData<List<QrImageStatusDTO>> QrImgStatusLiveData = new MutableLiveData<>();
+    private final List<QrImageStatusDTO> reqBody = new ArrayList<>();
 
     public static QrImageStatusRepo getInstance() {
         return instance;

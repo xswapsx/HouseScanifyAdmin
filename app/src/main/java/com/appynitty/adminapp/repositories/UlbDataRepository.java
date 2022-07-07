@@ -17,7 +17,7 @@ import retrofit2.Response;
 public class UlbDataRepository {
     private static final String TAG = "UlbDataRepository";
     private static final UlbDataRepository instance = new UlbDataRepository();
-    private MutableLiveData<SpecificUlbDTO> specificUlbDTOMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<SpecificUlbDTO> specificUlbDTOMutableLiveData = new MutableLiveData<>();
 
     public static UlbDataRepository getInstance() {
         return instance;
