@@ -23,6 +23,7 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
     private Context context;
     List<UlbDTO> ulbList;
     public boolean isAllChecked = false;
+    public String arg = "";
 
     public UlbListAdapter(Context context, List<UlbDTO> ulbList) {
         this.context = context;
@@ -43,6 +44,14 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
         final UlbDTO ulb = ulbList.get(position);
         holder.ulbCheckboxBinding.setUlbList(ulb);
 
+        if(!isAllChecked){
+            holder.ulbCheckboxBinding.chkBoxUlbName.setChecked(false);
+        }
+        else {
+            holder.ulbCheckboxBinding.chkBoxUlbName.setChecked(true);
+        }
+
+
     }
     public void filterList(List<UlbDTO> searchList) {
         ulbList = searchList;
@@ -53,6 +62,13 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
         this.isAllChecked = isAllChecked;
         notifyDataSetChanged();
     }
+
+    public void selectAll(){
+        Log.e("onClickSelectAll","yes");
+        isAllChecked =true;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getItemCount() {
