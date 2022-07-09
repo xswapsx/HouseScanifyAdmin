@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class AddEmpDTO {
 
-    @SerializedName("qrEmpId")
+    @SerializedName("EmpId")
     @Expose
     private String qrEmpId;
 
@@ -134,7 +134,7 @@ public class AddEmpDTO {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(AddEmpDTO.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("qrEmpId");
+        sb.append("EmpId");
         sb.append('=');
         sb.append(((this.qrEmpId == null)?"<null>":this.qrEmpId));
         sb.append(',');

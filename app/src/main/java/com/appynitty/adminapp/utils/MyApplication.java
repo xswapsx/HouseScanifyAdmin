@@ -17,6 +17,6 @@ public class MyApplication extends Application {
                 .setUseDefaultSharedPreference(true)
                 .build();
 
-        //Builder.setContext().build()
+        MainUtils.mainApplicationConstant = this;
     }
 }

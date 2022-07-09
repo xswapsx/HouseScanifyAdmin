@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 //        houseDetailsItem = imageDataList.get(position);
 //        imageBytes = imageDataList.get(position).getqRCodeImage();
+        AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
         Glide.with(context)
                 .load(imageDataList.get(holder.getAdapterPosition()).getQRCodeImage())
@@ -132,6 +134,7 @@ public class HouseDetailsAdapter extends RecyclerView.Adapter<HouseDetailsAdapte
         holder.cardDirections.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(buttonClick);
                 Log.e(TAG, "onClick: lat: " + imageDataList.get(holder.getAdapterPosition()).getLat() + ", long: "
                         + imageDataList.get(holder.getAdapterPosition()).getLong());
 

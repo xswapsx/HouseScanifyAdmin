@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 public class EmpDModelDTO extends BaseObservable implements Serializable {
 
-    @SerializedName("qrEmpId")
+    @SerializedName("EmpId")
     @Expose
     private int qrEmpId;
 
@@ -259,7 +259,7 @@ public class EmpDModelDTO extends BaseObservable implements Serializable {
     @Override
     public String toString() {
         return "EmpDModel{" +
-                "qrEmpId=" + qrEmpId +
+                "EmpId=" + qrEmpId +
                 ", appId='" + appId + '\'' +
                 ", qrEmpName='" + qrEmpName + '\'' +
                 ", qrEmpNameMar='" + qrEmpNameMar + '\'' +

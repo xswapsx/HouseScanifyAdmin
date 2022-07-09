@@ -1,6 +1,8 @@
 package com.appynitty.adminapp.utils;
 
+import android.app.Application;
 import android.content.Context;
+import android.os.BatteryManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +27,7 @@ public class MainUtils {
     public static final String APP_ID = "appId";
     public static final String EMP_ID = "qrEmpId";
     public static final String IS_LOGIN = "IsLoggedIn";
+    public static final String IS_ATTENDANCE_ON = "isAttendanceOn";
     public static final String SERVER_DATE_FORMATE = "MM-dd-yyyy";
     public static final String SERVER_DATE_FORMATE_LOCAL = "yyyy-MM-dd";
     public static final String SERVER_DATE_TIME_FORMATE = "MM-dd-yyyy HH:mm:ss";
@@ -40,21 +43,22 @@ public class MainUtils {
     private static final String SERVER_TIME_FORMATE = "hh:mm a";
     private static final String SERVER_TIME_24HR_FORMATE = "HH:mm";
     public static Context context;
+    public static Application mainApplicationConstant;
 
-    public static String getDateAndTime() {
+    public static String getDate() {
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
 //        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat df = new SimpleDateFormat(MainUtils.SERVER_DATE_FORMATE_LOCAL, Locale.getDefault());
         String formattedDate = df.format(c);
 
         return formattedDate;
     }
 
-    public static String getDate() {
+    public static String getTime() {
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
-        SimpleDateFormat df = new SimpleDateFormat(MainUtils.EMP_DATE_FORMAT, Locale.getDefault());
+        SimpleDateFormat df = new SimpleDateFormat(MainUtils.SERVER_TIME_FORMATE, Locale.getDefault());
         String formattedDate = df.format(c);
 
         return formattedDate;
@@ -218,5 +222,8 @@ public class MainUtils {
         String APP_ID = "appId";
     }
 
-
+    public static int getBatteryStatus() {
+        BatteryManager batteryManager = (BatteryManager) mainApplicationConstant.getApplicationContext().getSystemService(Context.BATTERY_SERVICE);
+        return batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+    }
 }

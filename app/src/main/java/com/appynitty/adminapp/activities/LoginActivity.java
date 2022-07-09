@@ -34,7 +34,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_login);
         if (Prefs.getBoolean(MainUtils.IS_LOGIN)) {
-            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+            if (MainUtils.EMP_TYPE.matches("A"))
+                startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+            else
+                startActivity(new Intent(LoginActivity.this, AttendanceActivity.class));
+
             finish();
         }
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
@@ -76,12 +80,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(LoginResult loginResult) {
                 if (loginResult != null && loginResult.getStatus() != null) {
-                    Log.e(TAG, "onChanged: status: " + loginResult.getStatus());
+                    Log.e(TAG, "onChanged: status: " + loginResult.getUserId());
                     reqStatus = loginResult.getStatus();
                     if (reqStatus.equals("success")) {
                         DynamicToast.makeSuccess(ctx, loginResult.getMessage()).show();
-                        startActivity(new Intent(ctx, DashboardActivity.class));
+                        if (loginResult.getEmpType().matches("A"))
+                            startActivity(new Intent(ctx, DashboardActivity.class));
+                        else
+                            startActivity(new Intent(ctx, AttendanceActivity.class));
+
                         Prefs.putString(MainUtils.EMP_TYPE, loginResult.getEmpType());
+                        Prefs.putString(MainUtils.EMP_ID, String.valueOf(loginResult.getUserId()));
                         Prefs.putString(MainUtils.USER_ID, loginResult.getUserId().toString());
                         Prefs.putBoolean(MainUtils.IS_LOGIN, true);
                         finish();

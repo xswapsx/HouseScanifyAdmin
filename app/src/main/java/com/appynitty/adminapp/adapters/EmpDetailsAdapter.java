@@ -47,7 +47,7 @@ public class EmpDetailsAdapter extends RecyclerView.Adapter<EmpDetailsAdapter.My
         holder.itemEmpDListBinding.imgEditEmpDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* context.startActivity(new Intent(context, AddEmpActivity.class).putExtra("qrEmpId", empDModelDTOList.get(holder.getAdapterPosition()).getQrEmpId())
+               /* context.startActivity(new Intent(context, AddEmpActivity.class).putExtra("qrEmpId", empDModelDTOList.get(holder.getAdapterPosition()).getEmpId())
                         .putExtra("qrEmpName", empDModelDTOList.get(holder.getAdapterPosition()).getQrEmpName()));*/
                 Intent intent = new Intent(context, AddEmpActivity.class);
                 intent.putExtra("qrEmpDetails", empDModelDTOList.get(holder.getAdapterPosition()));
@@ -90,8 +90,8 @@ public class EmpDetailsAdapter extends RecyclerView.Adapter<EmpDetailsAdapter.My
         public MyViewHolder(@NonNull ItemEmpDetailsListBinding itemEmpDListBinding) {
             super(itemEmpDListBinding.getRoot());
             this.itemEmpDListBinding = itemEmpDListBinding;
-            /*Prefs.putString(MainUtils.EMP_ID, String.valueOf(empDModelDTOList.get(getAdapterPosition()).getQrEmpId()));
-            Log.e(TAG, "QrEmpID: " + empDModelDTOList.get(getAdapterPosition()).getQrEmpId());*/
+            /*Prefs.putString(MainUtils.EMP_ID, String.valueOf(empDModelDTOList.get(getAdapterPosition()).getEmpId()));
+            Log.e(TAG, "QrEmpID: " + empDModelDTOList.get(getAdapterPosition()).getEmpId());*/
 
             /*imgAddEmp = itemView.findViewById(R.id.img_edit_emp_details);
             txtEmpName = itemView.findViewById(R.id.txt_emp_name);

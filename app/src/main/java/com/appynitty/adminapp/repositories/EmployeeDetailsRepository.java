@@ -29,7 +29,7 @@ public class EmployeeDetailsRepository {
     public void getEmpDetailsList(String appId, IEmpDetailsListener iEmpDetailsListener) {
         Log.e(TAG, "getEmpDetailsList: ");
         String userId = Prefs.getString(MainUtils.USER_ID);  // ByDefault it should be "0" for list of all the employees for the current ULB
-        String date = MainUtils.getDateAndTime();
+        String date = MainUtils.getDate();
 
         EmployeeDetailsWebService empDetailsWebService = RetrofitClient.createService(EmployeeDetailsWebService.class, MainUtils.BASE_URL);
         Call<List<EmployeeDetailsDTO>> empDetailsCall = empDetailsWebService.getEmployeesDetails(MainUtils.CONTENT_TYPE, date, date, appId, 0);

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -24,9 +25,11 @@ import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.adapters.DashboardAdapter;
 import com.appynitty.adminapp.databinding.ActivityDashboard1Binding;
 import com.appynitty.adminapp.models.DashboardDTO;
+import com.appynitty.adminapp.models.DutyDTO;
 import com.appynitty.adminapp.models.UlbDTO;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.DashboardViewModel;
+import com.appynitty.adminapp.viewmodels.DutyOnOffViewModel;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
@@ -42,6 +45,7 @@ public class DashboardActivity extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private DashboardAdapter adapter;
     private DashboardViewModel dashboardViewModel;
+    private DutyOnOffViewModel dutyViewModel;
     private ActivityDashboard1Binding binding;
     private ImageView btnLogout;
     private List<UlbDTO> ulbList;
@@ -60,22 +64,44 @@ public class DashboardActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(DashboardActivity.this, R.layout.activity_dashboard1);
         binding.setLifecycleOwner(this);
         dashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel.class);
+        dutyViewModel = ViewModelProviders.of(this).get(DutyOnOffViewModel.class);
         binding.setDashboardViewModel(dashboardViewModel);
+        binding.setDutyViewModel(dutyViewModel);
 
         builder = new AlertDialog.Builder(this);
         empType = Prefs.getString(MainUtils.EMP_TYPE);
         if (!empType.isEmpty() && empType.matches("SA")) {
-            binding.empType.setText("SUB-ADMIN");
-            binding.crdUserRightsBtn.setVisibility(View.GONE);
+            binding.empType.setText(R.string.subAdmin);
+            binding.dutyLayout.setVisibility(View.VISIBLE);
+            hideViews(true);
         } else {
-            binding.empType.setText("ADMIN");
+            binding.empType.setText(R.string.adminTitle);
             binding.crdUserRightsBtn.setVisibility(View.VISIBLE);
+            binding.dutyLayout.setVisibility(View.GONE);
+            binding.crdUserRightsBtn.setVisibility(View.VISIBLE);
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            hideViews(false);
         }
 
         refreshLayout = findViewById(R.id.refresh_layout);
         layoutManager = new LinearLayoutManager(context);
         btnLogout = findViewById(R.id.ivLogout);
         ulbList = new ArrayList<>();
+
+
+        dutyViewModel.getDutyDTOMutableLiveData().observe(this, new Observer<DutyDTO>() {
+            @Override
+            public void onChanged(DutyDTO dutyDTO) {
+                Log.e(TAG, "onChanged: isAttendanceOff? ans: " + dutyDTO.getIsAttendenceOff());
+                if (!dutyDTO.getIsAttendenceOff()) {
+                    DynamicToast.makeSuccess(DashboardActivity.this, dutyDTO.getStatus()).show();
+                    hideViews(false);
+                } else if (dutyDTO.getIsAttendenceOff()) {
+                    hideViews(true);
+                }
+
+            }
+        });
         binding.searchUlb.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -128,6 +154,21 @@ public class DashboardActivity extends AppCompatActivity {
         setOnClick();
     }
 
+    private void hideViews(Boolean s) {
+        if (s) {
+            binding.recyclerView.setVisibility(View.GONE);
+            binding.liLUlbList.setVisibility(View.GONE);
+            binding.liLUlbCount.setVisibility(View.GONE);
+            binding.cardDashItem.setVisibility(View.GONE);
+        } else {
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            binding.liLUlbList.setVisibility(View.VISIBLE);
+            binding.liLUlbCount.setVisibility(View.VISIBLE);
+            binding.cardDashItem.setVisibility(View.VISIBLE);
+        }
+
+    }
+
     private void setOnClick() {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -175,11 +216,11 @@ public class DashboardActivity extends AppCompatActivity {
                         context.startActivity(intent);
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.cancel();
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.cancel();
+                    }
+                });
 
         alert = builder.create();
         //Setting the title manually

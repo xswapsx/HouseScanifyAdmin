@@ -32,7 +32,6 @@ import com.appynitty.adminapp.dialog.FilterDialog;
 import com.appynitty.adminapp.dialog.FilterDialogFragment;
 import com.appynitty.adminapp.models.EmployeeDetailsDTO;
 import com.appynitty.adminapp.models.SpecificUlbDTO;
-import com.appynitty.adminapp.repositories.UlbDataRepository;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.UlbDataViewModel;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -101,7 +100,7 @@ public class LiveDataFragment extends Fragment {
         tvDate = view.findViewById(R.id.txt_date);
         etSearchEmp = view.findViewById(R.id.edt_search_text);
         btnFilter = view.findViewById(R.id.card_filter);
-        tvDate.setText(MainUtils.getDateAndTime());
+        tvDate.setText(MainUtils.getDate());
 //        ulbDataViewModel = ViewModelProviders.of(this,
 //                new MyViewModelFactory(appId)).get(UlbDataViewModel.class);
 

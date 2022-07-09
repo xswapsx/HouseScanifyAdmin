@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.activities.HomeActivity;
 import com.appynitty.adminapp.adapters.HouseDetailsAdapter;
+
 import com.appynitty.adminapp.databinding.FragmentHouseDetailsBinding;
 import com.appynitty.adminapp.dialog.FilterDialog;
 import com.appynitty.adminapp.dialog.FilterDialogFragment;
@@ -277,9 +278,7 @@ public class HouseDetailsFragment extends Fragment {
                     imageDataList.add(dumpYard);
                     Log.e(TAG, "onChanged: DumpYardId: " + dumpYard.getReferanceId());
                 }
-                if (!imageDataList.isEmpty() || imageDataList != null) {
-                    houseDetailsAdapter.dumpYardList(imageDataList);
-                }
+                setOnRecycler(imageDataList);
                 Log.e(TAG, "onChanged: DumpYardId: Size---" + dumpYardWasteList.size());
             }
         });

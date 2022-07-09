@@ -20,8 +20,8 @@ public class HouseDetailsImageRepo {
 
     private static final String TAG = "HouoseDetailsImageRepo";
     private static final HouseDetailsImageRepo instance = new HouseDetailsImageRepo();
-    String date = MainUtils.getDateAndTime();
-    String appId;
+    String date = MainUtils.getDate();
+    String appId, userId;
     private final MutableLiveData<List<HouseDetailsImageDTO>> HouseQrImagesLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<HouseDetailsImageDTO>> DumpYardQrImagesLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<HouseDetailsImageDTO>> LiquidQrImagesLiveData = new MutableLiveData<>();
@@ -33,6 +33,7 @@ public class HouseDetailsImageRepo {
 
     public void getHouseQrImageData(String userId, IQrImageResponse listener) {
         appId = Prefs.getString(MainUtils.APP_ID);
+        this.userId = userId;
         QRImageDataWebservice qrImageDataWebservice = RetrofitClient.createService(QRImageDataWebservice.class, MainUtils.BASE_URL);
         Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getHouseQrImages(MainUtils.CONTENT_TYPE, date, date, appId, userId, "Y");
         qrImageDataCall.enqueue(new Callback<List<HouseDetailsImageDTO>>() {
@@ -57,7 +58,7 @@ public class HouseDetailsImageRepo {
 
     public void getDumpyQrImageData(IQrImageResponse listener) {
         QRImageDataWebservice qrImageDataWebservice = RetrofitClient.createService(QRImageDataWebservice.class, MainUtils.BASE_URL);
-        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getDumpYardQrImages(MainUtils.CONTENT_TYPE, date, date, appId, "0", "Y");
+        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getDumpYardQrImages(MainUtils.CONTENT_TYPE, date, date, appId, userId, "Y");
         qrImageDataCall.enqueue(new Callback<List<HouseDetailsImageDTO>>() {
             @Override
             public void onResponse(Call<List<HouseDetailsImageDTO>> call, Response<List<HouseDetailsImageDTO>> response) {
@@ -80,7 +81,7 @@ public class HouseDetailsImageRepo {
 
     public void getStreetQrImageData(IQrImageResponse listener) {
         QRImageDataWebservice qrImageDataWebservice = RetrofitClient.createService(QRImageDataWebservice.class, MainUtils.BASE_URL);
-        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getStreetDetailsQrImages(MainUtils.CONTENT_TYPE, date, date, appId, "0", "Y");
+        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getStreetDetailsQrImages(MainUtils.CONTENT_TYPE, date, date, appId, userId, "Y");
         qrImageDataCall.enqueue(new Callback<List<HouseDetailsImageDTO>>() {
             @Override
             public void onResponse(Call<List<HouseDetailsImageDTO>> call, Response<List<HouseDetailsImageDTO>> response) {
@@ -103,7 +104,7 @@ public class HouseDetailsImageRepo {
 
     public void getLiquidQrImageData(IQrImageResponse listener) {
         QRImageDataWebservice qrImageDataWebservice = RetrofitClient.createService(QRImageDataWebservice.class, MainUtils.BASE_URL);
-        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getLiquidDetailsQrImages(MainUtils.CONTENT_TYPE, date, date, appId, "0", "Y");
+        Call<List<HouseDetailsImageDTO>> qrImageDataCall = qrImageDataWebservice.getLiquidDetailsQrImages(MainUtils.CONTENT_TYPE, date, date, appId, userId, "Y");
         qrImageDataCall.enqueue(new Callback<List<HouseDetailsImageDTO>>() {
             @Override
             public void onResponse(Call<List<HouseDetailsImageDTO>> call, Response<List<HouseDetailsImageDTO>> response) {

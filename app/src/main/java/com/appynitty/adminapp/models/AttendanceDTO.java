@@ -8,7 +8,7 @@ public class AttendanceDTO {
     @Expose
     private int qrEmpDaId;
 
-    @SerializedName("qrEmpId")
+    @SerializedName("EmpId")
     @Expose
     private int qrEmpId;
 
@@ -261,7 +261,7 @@ public class AttendanceDTO {
     public String toString() {
         return "AttendanceDTO{" +
                 "qrEmpDaId=" + qrEmpDaId +
-                ", qrEmpId=" + qrEmpId +
+                ", EmpId=" + qrEmpId +
                 ", startLat='" + startLat + '\'' +
                 ", startLong='" + startLong + '\'' +
                 ", endLat='" + endLat + '\'' +
