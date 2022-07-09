@@ -153,7 +153,7 @@ public class DashboardActivity extends AppCompatActivity {
         dashboardViewModel.getLogoutLiveData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+                if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF) || empType.matches("A")) {
                     logoutUser(s);
                 } else {
                     DynamicToast.makeWarning(DashboardActivity.this, "Please turn off the Dashboard first!").show();
