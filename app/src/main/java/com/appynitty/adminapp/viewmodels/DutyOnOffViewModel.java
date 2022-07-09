@@ -31,8 +31,8 @@ public class DutyOnOffViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
                 DutyDTO failurePack = new DutyDTO();
-//                failurePack.setOnFailureMsg(t.getMessage());
-//                dutyDTOMutableLiveData.setValue(failurePack);
+                failurePack.setOnFailureMsg(t.getMessage());
+                dutyDTOMutableLiveData.setValue(failurePack);
             }
         });
     }

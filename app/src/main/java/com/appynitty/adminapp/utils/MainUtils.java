@@ -27,6 +27,7 @@ public class MainUtils {
     public static final String APP_ID = "appId";
     public static final String EMP_ID = "qrEmpId";
     public static final String IS_LOGIN = "IsLoggedIn";
+    public static final String IS_ATTENDANCE_OFF = "isAttendenceOff";
     public static final String IS_ATTENDANCE_ON = "isAttendanceOn";
     public static final String SERVER_DATE_FORMATE = "MM-dd-yyyy";
     public static final String SERVER_DATE_FORMATE_LOCAL = "yyyy-MM-dd";

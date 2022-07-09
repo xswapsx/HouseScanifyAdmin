@@ -83,6 +83,15 @@ public class DashboardActivity extends AppCompatActivity {
             hideViews(false);
         }
 
+        if (Prefs.contains(MainUtils.IS_ATTENDANCE_OFF)) {
+            if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+                binding.btnSwitch.setChecked(false);
+            } else {
+                binding.btnSwitch.setChecked(true);
+                hideViews(false);
+            }
+        }
+
         refreshLayout = findViewById(R.id.refresh_layout);
         layoutManager = new LinearLayoutManager(context);
         btnLogout = findViewById(R.id.ivLogout);
@@ -93,12 +102,27 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onChanged(DutyDTO dutyDTO) {
                 Log.e(TAG, "onChanged: isAttendanceOff? ans: " + dutyDTO.getIsAttendenceOff());
-                if (!dutyDTO.getIsAttendenceOff()) {
-                    DynamicToast.makeSuccess(DashboardActivity.this, dutyDTO.getStatus()).show();
-                    hideViews(false);
-                } else if (dutyDTO.getIsAttendenceOff()) {
-                    hideViews(true);
+                if (dutyDTO.getOnFailureMsg() != null) {
+                    Log.e(TAG, "onChanged: " + dutyDTO.getOnFailureMsg().contains("Failed to connect"));
+                    if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+                        binding.btnSwitch.setChecked(true);
+                    } else {
+                        binding.btnSwitch.setChecked(false);
+                    }
+                    if (dutyDTO.getOnFailureMsg().contains("Failed to connect")) {
+                        DynamicToast.makeWarning(DashboardActivity.this, "Please your internet connection\nand try again later.").show();
+                    }
+                } else {
+                    if (!dutyDTO.getIsAttendenceOff()) {
+                        DynamicToast.makeSuccess(DashboardActivity.this, dutyDTO.getStatus()).show();
+                        Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, dutyDTO.getIsAttendenceOff());
+                        hideViews(false);
+                    } else if (dutyDTO.getIsAttendenceOff()) {
+                        Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, dutyDTO.getIsAttendenceOff());
+                        hideViews(true);
+                    }
                 }
+
 
             }
         });
@@ -128,7 +152,11 @@ public class DashboardActivity extends AppCompatActivity {
         dashboardViewModel.getLogoutLiveData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                logoutUser(s);
+                if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+                    logoutUser(s);
+                } else {
+                    DynamicToast.makeWarning(DashboardActivity.this, "Please turn off the Dashboard first!").show();
+                }
 
             }
         });
