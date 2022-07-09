@@ -66,6 +66,7 @@ public class AddUserDetailsActivity extends AppCompatActivity {
     private Spinner spinner;
     private List<UlbDTO> ulbList;
     private CheckBox cbSelectAll;
+
     // Initializing a String Array
     String[] userRole = new String[]{
             "Select User Role",
@@ -187,32 +188,6 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             }
         });
 
-        class adapter {
-            ArrayList<DashboardDTO> selected = new ArrayList<DashboardDTO>();
-            ArrayList<DashboardDTO> items = new ArrayList<DashboardDTO>();
-
-            public void selecteAll() {
-                selected.clear();
-                selected.addAll(items);
-                adapter.notifyDataSetChanged();
-            }
-
-            public void clearAll() {
-                selected.clear();
-                adapter.notifyDataSetChanged();
-            }
-
-        }
-        cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()){
-                    b = true;
-                }else {
-                    b = false;
-                }
-            }
-        });
 
         addUserRoleViewModel.addUserRoleMutableLiveData().observe(this, new Observer<AddUserRoleRightDTO>() {
             @Override
@@ -260,6 +235,19 @@ public class AddUserDetailsActivity extends AppCompatActivity {
 
             }
         });
+
+        binding.checkSelectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.setAllChecked(binding.checkSelectAll.isChecked());
+                adapter.notifyDataSetChanged();
+                if (binding.checkSelectAll.isChecked()){
+                    Log.e(TAG,"all ulb selected :" + binding.checkSelectAll.isChecked());
+                }else {
+                    Log.e(TAG,"all ulb not selected :" + binding.checkSelectAll.isChecked());
+                }
+            }
+        });
     }
 
     private void setOnRecycler(List<UlbDTO> ulbList) {
@@ -283,7 +271,4 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         adapter.filterList(filteredList);
     }
 
-    public void setCbSelectAll(CheckBox cbSelectAll) {
-        this.cbSelectAll = cbSelectAll;
-    }
 }
