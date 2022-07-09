@@ -110,7 +110,8 @@ public class DashboardActivity extends AppCompatActivity {
                         binding.btnSwitch.setChecked(false);
                     }
                     if (dutyDTO.getOnFailureMsg().contains("Failed to connect")) {
-                        DynamicToast.makeWarning(DashboardActivity.this, "Please your internet connection\nand try again later.").show();
+                        DynamicToast.makeWarning(DashboardActivity.this, "Please check your internet connection\nand try again later.").show();
+                        binding.btnSwitch.setChecked(!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF));
                     }
                 } else {
                     if (!dutyDTO.getIsAttendenceOff()) {
