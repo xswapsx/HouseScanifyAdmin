@@ -173,7 +173,7 @@
                                 android:layout_marginStart="@dimen/dim_12dp"
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_mobile_number"
-                                android:inputType="phone"
+                                android:inputType="number"
                                 android:maxLength="10"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
@@ -326,7 +326,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <EditText
+                            <AutoCompleteTextView
                                 android:id="@+id/edt_emp_type"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -344,9 +344,13 @@
                                 android:text="@={addUserDetailsData.type}"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
+                                android:textAlignment="textStart"
+                                android:dropDownHeight="120dp"
+                                android:cursorVisible="false"
+                                android:maxLines="1"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp"
-                                android:visibility="gone" />
+                                android:visibility="visible" />
 
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/spinner"
@@ -364,6 +368,7 @@
                                 android:textColor="@color/colorGray"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp"
+                                android:visibility="gone"
                                 android:tooltipText="User Role" />
 
                         </RelativeLayout>

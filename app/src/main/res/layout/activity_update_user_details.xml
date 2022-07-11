@@ -57,6 +57,20 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="Employee Id"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:visibility="gone"/>
+
                     <androidx.cardview.widget.CardView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_id"
@@ -101,6 +115,19 @@
 
                     </androidx.cardview.widget.CardView>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_employee_name"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"/>
+
                     <androidx.cardview.widget.CardView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_name"
@@ -132,17 +159,30 @@
                                 android:background="@android:color/transparent"
                                 android:hint="@string/str_hint_employee_name"
                                 android:inputType="text"
-                                android:text="@{updateUserRoleDetails.empName}"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
+                                android:text="@{updateUserRoleDetails.empName}"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp" />
 
                         </RelativeLayout>
 
                     </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_mobile_number"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"/>
 
-                    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <androidx.cardview.widget.CardView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_mobile_num"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -182,6 +222,18 @@
                         </RelativeLayout>
 
                     </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_address"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"/>
 
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_address"
@@ -223,6 +275,18 @@
 
                     </androidx.cardview.widget.CardView>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_username"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"/>
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_username"
                         android:layout_width="match_parent"
@@ -263,6 +327,19 @@
 
                     </androidx.cardview.widget.CardView>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_password"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"/>
+
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_password"
                         android:layout_width="match_parent"
@@ -302,6 +379,20 @@
                         </RelativeLayout>
 
                     </androidx.cardview.widget.CardView>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_select_user_role"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"/>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_emp_login_num"

@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -71,15 +73,12 @@ public class AddUserDetailsActivity extends AppCompatActivity {
     private Spinner spinner;
     private List<UlbDTO> ulbList;
     private CheckBox cbSelectAll;
+    String selection;
+    boolean isSelect = true;
+    public boolean isAllChecked = false;
+    int position;
+    String appIdData;
 
-    // Initializing a String Array
-    String[] userRole = new String[]{
-            "Select User Role",
-            "Admin",
-            "Sub Admin"
-    };
-
-    final List<String> userRoleList = new ArrayList<>(Arrays.asList(userRole));
 
 
 
@@ -168,7 +167,14 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         txtNoData.setVisibility(View.VISIBLE);
         imgClear.setVisibility(View.GONE);
         loader.setVisibility(View.VISIBLE);
-       // binding.spinner.setAdapter((SpinnerAdapter) userRoleList);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1, getResources()
+                .getStringArray(R.array.array_user_role));
+        binding.edtEmpType.setAdapter(arrayAdapter);
+        binding.edtEmpType.setCursorVisible(false);
+
+
+
 
         binding.edtSearchText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -212,9 +218,12 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             @Override
             public void onChanged(AddUserRoleRightDTO addUserRoleRightDTO) {
                 addUserRoleRightDTO.setEmpId("");
-               // addUserRoleRightDTO.setIsActiveULB(adapter.toString());
-                UlbDTO ulb = ulbList.get(ad)
-                addUserRoleRightDTO.setIsActiveULB(ulbList.toString());
+                for (UlbDTO item: ulbList){
+                    appIdData = String.valueOf(item.getAppId());
+                }
+                addUserRoleRightDTO.setIsActiveULB(appIdData);
+
+                addUserRoleRightDTO.setType(binding.edtEmpType.getText().toString());
 
                 if (binding.edtEmpName.getText().toString().trim().isEmpty()) {
                     Toast.makeText(context, "Please enter employee name", Toast.LENGTH_SHORT).show();
@@ -233,7 +242,9 @@ public class AddUserDetailsActivity extends AppCompatActivity {
                     Toast.makeText(context, "Please enter employee password", Toast.LENGTH_SHORT).show();
                 } else if (binding.edtEmpPassword.getText().toString().length() < 4) {
                     Toast.makeText(context, "Password must contain at least 4 digits", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+
+                else {
                     Log.e(TAG, "onChanged value provide: EmpId: " + addUserRoleRightDTO.getEmpId() + " EmpName: " + addUserRoleRightDTO.getEmpName()
                             + " EmpMobile: " + addUserRoleRightDTO.getEmpMobileNumber() + " EmpAddress: " + addUserRoleRightDTO.getEmpAddress()
                             + " EmpUsername: " + addUserRoleRightDTO.getLoginId() + " password: " + addUserRoleRightDTO.getPassword()
@@ -281,11 +292,32 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 adapter.setAllChecked(binding.checkSelectAll.isChecked());
                 adapter.notifyDataSetChanged();
+
                 if (binding.checkSelectAll.isChecked()){
-                    Log.e(TAG,"all ulb selected :" + binding.checkSelectAll.isChecked());
+                    Log.e(TAG,"all ulb selected :" + binding.checkSelectAll.isChecked()+ ","  +appIdData);
+
                 }else {
+                    adapter.notifyDataSetChanged();
                     Log.e(TAG,"all ulb not selected :" + binding.checkSelectAll.isChecked());
                 }
+            }
+        });
+
+       binding.edtEmpType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                binding.edtEmpType.showDropDown();
+                selection = (String) parent.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), selection,
+                        Toast.LENGTH_SHORT);
+            }
+        });
+
+        binding.edtEmpType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View arg0) {
+                binding.edtEmpType.showDropDown();
             }
         });
     }

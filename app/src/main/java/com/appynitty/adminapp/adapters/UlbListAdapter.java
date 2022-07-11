@@ -42,6 +42,7 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
     List<UlbDTO> ulbList;
     public boolean isAllChecked = false;
     public String arg = "";
+    int position;
     String [] strings = new String [] {"1", "2" };
     List<String> stringList = new ArrayList<String>(Arrays.asList(strings));
 
@@ -89,7 +90,7 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
 
             JSONObject object = new JSONObject();
             try {
-                object.put("activeUlb",ulb.getAppId());
+                object.put("activeUlb",ulbList.get(holder.getAdapterPosition()).getAppId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -97,7 +98,7 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
 
 
             JsonArray jsonArray = new JsonArray();
-            jsonArray.add(String.valueOf(object)+",");
+            jsonArray.add(String.valueOf(object)+","+object);
             Log.e(TAG, "active: " +jsonArray);
 
         }
@@ -113,14 +114,14 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
 
                     JSONObject object = new JSONObject();
                     try {
-                        object.put("activeUlb", ulbId);
+                        object.put("activeUlb", ulbList.get(holder.getAdapterPosition()).getAppId());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     Log.e(TAG, "active ulb: " + object);
 
                     JsonArray jsonArray = new JsonArray();
-                    jsonArray.add(String.valueOf(object));
+                    jsonArray.add(String.valueOf(object+","+object));
                     String jsonString = jsonArray.toString();
                     Log.e(TAG, "active: " +jsonString.toString());
 
@@ -160,6 +161,7 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
     public int getItemCount() {
         return ulbList.size();
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ItemUlbCheckboxBinding ulbCheckboxBinding;
