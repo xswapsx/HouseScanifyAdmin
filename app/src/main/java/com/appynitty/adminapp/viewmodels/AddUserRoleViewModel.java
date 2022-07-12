@@ -35,7 +35,7 @@ public class AddUserRoleViewModel extends ViewModel {
     public MutableLiveData<String> type = new MutableLiveData<>(); //liveData with dataBinding
     /*public MutableLiveData<String> isActive = new MutableLiveData<>(); //liveData with dataBinding*/
     public MutableLiveData<String> isActiveULB = new MutableLiveData<>(); //liveData with dataBinding
-    public MutableLiveData<List<DashboardDTO>> dashboardResponseLiveData;
+    public MutableLiveData<List<DashboardDTO>> dashboardResponseLiveData = new MutableLiveData<>();
     public DashboardRepository dashboardRepository = DashboardRepository.getInstance();
     public MutableLiveData<String> addAndUpdateEmp = new MutableLiveData<>(); //liveData with dataBinding
     private Boolean status = false;

@@ -29,16 +29,7 @@
             android:padding="@dimen/dim_10dp"
             android:text="@{ulbList.ulbName}"
             android:textSize="@dimen/txt_size_14sp" />
-       <!-- <TextView
-            android:id="@+id/txt_app_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="@{ulbList.appId}"
-            android:layout_marginHorizontal="@dimen/dim_5dp"
-            android:textColor="@color/colorGray"
-            android:textSize="@dimen/txt_size_12sp"
-            android:textStyle="bold"/>-->
+
 
     </RelativeLayout>
 </layout>

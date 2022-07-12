@@ -218,28 +218,28 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         addUserRoleViewModel.addUserRoleMutableLiveData().observe(this, new Observer<AddUserRoleRightDTO>() {
             @Override
             public void onChanged(AddUserRoleRightDTO addUserRoleRightDTO) {
-                addUserRoleRightDTO.setEmpId("");
-                /*for (UlbDTO item: ulbList){
-                    appIdData = String.valueOf(item.getAppId());
+
+                if (!binding.checkSelectAll.isChecked()){
+                    addUserRoleRightDTO.setEmpId("");
+                    for (UlbDTO item: ulbList){
+                        appIdData = String.valueOf(item.getAppId());
+                    }
+                    //last position fetched
+                    addUserRoleRightDTO.setIsActiveULB(appIdData);
                 }
-                //last position fetched
-                */
 
                 StringBuilder result=new StringBuilder();
                 result.append(result);
                 if (binding.checkSelectAll.isChecked()){
-                    result.append(ulbList.get(position).getAppId());
+                    result.append(ulbList.get(position+1).getAppId());
 
                     for (int i=0; i<= ulbList.size(); i++){
                         result.append(","+ulbList.get(position+1).getAppId());
                     }
                     if (result.length() >0){
-                       result.append(result);
+                        result.append(result);
                     }
                 }
-                //first position fetched
-
-                //Log.e(TAG, "value: " +result);
                 addUserRoleRightDTO.setIsActiveULB(String.valueOf(result));
 
                 addUserRoleRightDTO.setType(binding.edtEmpType.getText().toString());
