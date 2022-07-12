@@ -43,6 +43,7 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
     public boolean isAllChecked = false;
     public String arg = "";
     int position;
+    UlbDTO totalCheck ;
     String [] strings = new String [] {"1", "2" };
     List<String> stringList = new ArrayList<String>(Arrays.asList(strings));
 
@@ -74,10 +75,10 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
         else {
             holder.ulbCheckboxBinding.chkBoxUlbName.setChecked(true);
 
-            /*ArrayList<String> appId = new ArrayList<String>();
+            ArrayList<String> appId = new ArrayList<String>();
             appId.add(String.valueOf(ulb.getAppId() + "  " + ulb.getUlbName()));
-            *//*appId.add(String.valueOf(ulb.getAppId()));*//*
-            Log.e(TAG, "array of app id: "+ appId);*/
+            appId.add(String.valueOf(ulb.getAppId()));
+            Log.e(TAG, "array of app id: "+ appId);
 
             /*String[] ans = Arrays.copyOf(appId.toArray(), ulbList.size(), String[].class);
             Log.e(TAG, "get data: "+ ans);*/
@@ -85,6 +86,14 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
             /*JSONArray jsonArray = new JSONArray();
             jsonArray.put(ulb.getAppId());
             Log.e(TAG,"array of appId: " +jsonArray);*/
+           /* StringBuilder result=new StringBuilder();
+            result.append("Selected Items:");
+            if (holder.ulbCheckboxBinding.chkBoxUlbName.isChecked()){
+                result.append(ulb.getAppId());
+                totalCheck = ulbList.get(holder.getAdapterPosition());
+            }
+            Log.e(TAG, "value: " +totalCheck);*/
+
 
             int count = ulbList.size();
 
@@ -102,6 +111,7 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
             Log.e(TAG, "active: " +jsonArray);
 
         }
+
 
         holder.ulbCheckboxBinding.chkBoxUlbName.setOnClickListener(new View.OnClickListener() {
             @Override

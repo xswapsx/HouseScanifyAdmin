@@ -78,6 +78,7 @@ public class AddUserDetailsActivity extends AppCompatActivity {
     public boolean isAllChecked = false;
     int position;
     String appIdData;
+    int totalCheck = 0;
 
 
 
@@ -218,10 +219,28 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             @Override
             public void onChanged(AddUserRoleRightDTO addUserRoleRightDTO) {
                 addUserRoleRightDTO.setEmpId("");
-                for (UlbDTO item: ulbList){
+                /*for (UlbDTO item: ulbList){
                     appIdData = String.valueOf(item.getAppId());
                 }
-                addUserRoleRightDTO.setIsActiveULB(appIdData);
+                //last position fetched
+                */
+
+                StringBuilder result=new StringBuilder();
+                result.append(result);
+                if (binding.checkSelectAll.isChecked()){
+                    result.append(ulbList.get(position).getAppId());
+
+                    for (int i=0; i<= ulbList.size(); i++){
+                        result.append(","+ulbList.get(position+1).getAppId());
+                    }
+                    if (result.length() >0){
+                       result.append(result);
+                    }
+                }
+                //first position fetched
+
+                //Log.e(TAG, "value: " +result);
+                addUserRoleRightDTO.setIsActiveULB(String.valueOf(result));
 
                 addUserRoleRightDTO.setType(binding.edtEmpType.getText().toString());
 
