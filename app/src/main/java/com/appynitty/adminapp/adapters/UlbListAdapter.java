@@ -2,12 +2,14 @@ package com.appynitty.adminapp.adapters;
 
 import android.content.Context;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.databinding.ItemUlbCheckboxBinding;
 import com.appynitty.adminapp.models.UlbDTO;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -25,8 +28,11 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.function.Function;
 
 
 public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHolder> {
@@ -36,8 +42,11 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
     List<UlbDTO> ulbList;
     public boolean isAllChecked = false;
     public String arg = "";
+    int position;
+    UlbDTO totalCheck ;
     String [] strings = new String [] {"1", "2" };
     List<String> stringList = new ArrayList<String>(Arrays.asList(strings));
+
 
 
     public UlbListAdapter(Context context, List<UlbDTO> ulbList) {
@@ -65,43 +74,79 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
         }
         else {
             holder.ulbCheckboxBinding.chkBoxUlbName.setChecked(true);
+
             ArrayList<String> appId = new ArrayList<String>();
             appId.add(String.valueOf(ulb.getAppId() + "  " + ulb.getUlbName()));
-            /*appId.add(String.valueOf(ulb.getAppId()));*/
+            appId.add(String.valueOf(ulb.getAppId()));
             Log.e(TAG, "array of app id: "+ appId);
 
             /*String[] ans = Arrays.copyOf(appId.toArray(), ulbList.size(), String[].class);
             Log.e(TAG, "get data: "+ ans);*/
 
-
             /*JSONArray jsonArray = new JSONArray();
             jsonArray.put(ulb.getAppId());
             Log.e(TAG,"array of appId: " +jsonArray);*/
+           /* StringBuilder result=new StringBuilder();
+            result.append("Selected Items:");
+            if (holder.ulbCheckboxBinding.chkBoxUlbName.isChecked()){
+                result.append(ulb.getAppId());
+                totalCheck = ulbList.get(holder.getAdapterPosition());
+            }
+            Log.e(TAG, "value: " +totalCheck);*/
 
 
+            int count = ulbList.size();
+
+            JSONObject object = new JSONObject();
+            try {
+                object.put("activeUlb",ulbList.get(holder.getAdapterPosition()).getAppId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.e(TAG, "active ulb: " +object);
+
+
+            JsonArray jsonArray = new JsonArray();
+            jsonArray.add(String.valueOf(object)+","+object);
+            Log.e(TAG, "active: " +jsonArray);
 
         }
+
 
         holder.ulbCheckboxBinding.chkBoxUlbName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.ulbCheckboxBinding.chkBoxUlbName.isChecked()){
+                if (holder.ulbCheckboxBinding.chkBoxUlbName.isChecked()) {
                     getItemId(holder.getAdapterPosition());
-                   String ulbId = String.valueOf(ulb.getAppId());
+                    String ulbId = String.valueOf(ulb.getAppId());
                     String ulbName = String.valueOf(ulb.getUlbName());
-                   Log.e(TAG, "ulb is : " +ulbName + ", " +"ulb id : " +ulbId);
+                    Log.e(TAG, "ulb is : " + ulbName + ", " + "ulb id : " + ulbId);
 
-                }else {
+                    JSONObject object = new JSONObject();
+                    try {
+                        object.put("activeUlb", ulbList.get(holder.getAdapterPosition()).getAppId());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e(TAG, "active ulb: " + object);
+
+                    JsonArray jsonArray = new JsonArray();
+                    jsonArray.add(String.valueOf(object+","+object));
+                    String jsonString = jsonArray.toString();
+                    Log.e(TAG, "active: " +jsonString.toString());
+
+
+                } else {
                     getItemId(holder.getAdapterPosition());
                     String ulbName = String.valueOf(ulb.getUlbName());
                     Log.e(TAG, "ulb unselected : " +ulbName);
 
+
                 }
             }
         });
-
-
     }
+
 
     public void filterList(List<UlbDTO> searchList) {
         ulbList = searchList;
@@ -112,6 +157,8 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
         this.isAllChecked = isAllChecked;
         notifyDataSetChanged();
     }
+
+
 
     public void selectAll(){
         Log.e("onClickSelectAll","yes");
@@ -124,6 +171,7 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
     public int getItemCount() {
         return ulbList.size();
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ItemUlbCheckboxBinding ulbCheckboxBinding;

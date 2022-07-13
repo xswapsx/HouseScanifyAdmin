@@ -60,6 +60,20 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="Employee Id"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:visibility="gone"/>
+
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_Id"
                         android:layout_width="match_parent"
@@ -102,6 +116,20 @@
 
                     </androidx.cardview.widget.CardView>
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_employee_name"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:visibility="visible"/>
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_name"
                         android:layout_width="match_parent"
@@ -142,6 +170,19 @@
 
                     </androidx.cardview.widget.CardView>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_mobile_number"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:visibility="visible"/>
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_mobile_num"
                         android:layout_width="match_parent"
@@ -183,6 +224,20 @@
 
                     </androidx.cardview.widget.CardView>
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_address"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:visibility="visible"/>
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_address"
                         android:layout_width="match_parent"
@@ -223,6 +278,20 @@
 
                     </androidx.cardview.widget.CardView>
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_username"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:visibility="visible"/>
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_username"
                         android:layout_width="match_parent"
@@ -263,6 +332,19 @@
 
                     </androidx.cardview.widget.CardView>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_password"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:visibility="visible"/>
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_password"
                         android:layout_width="match_parent"
@@ -303,6 +385,20 @@
 
                     </androidx.cardview.widget.CardView>
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginVertical="@dimen/dim_2dp"
+                        android:paddingHorizontal="@dimen/dim_8dp"
+                        android:paddingVertical="@dimen/dim_2dp"
+                        android:text="@string/str_hint_login_number"
+                        android:textColor="@color/colorFentText"
+                        android:textSize="@dimen/txt_size_12sp"
+                        android:visibility="visible"/>
                     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_emp_login_num"
                         android:layout_width="match_parent"

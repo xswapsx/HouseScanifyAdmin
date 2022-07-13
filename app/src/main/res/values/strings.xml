@@ -22,9 +22,8 @@
     <string name="str_emp_status">Status</string>
     <string name="str_emp_address">Address</string>
     <string-array name="array_user_role">
-        <item>Select User Role</item>
-        <item>Admin</item>
-        <item>Sub Admin</item>
+        <item>A</item>
+        <item>SA</item>
     </string-array>
     <string name="imageCount">Photo\'s Count: %1$d</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>

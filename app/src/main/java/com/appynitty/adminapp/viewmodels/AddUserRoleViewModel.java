@@ -33,36 +33,116 @@ public class AddUserRoleViewModel extends ViewModel {
     public MutableLiveData<String> EmpMobileNumber = new MutableLiveData<>(); //liveData with dataBinding
     public MutableLiveData<String> EmpAddress = new MutableLiveData<>(); //liveData with dataBinding
     public MutableLiveData<String> type = new MutableLiveData<>(); //liveData with dataBinding
-    public MutableLiveData<String> isActive = new MutableLiveData<>(); //liveData with dataBinding
+    /*public MutableLiveData<String> isActive = new MutableLiveData<>(); //liveData with dataBinding*/
     public MutableLiveData<String> isActiveULB = new MutableLiveData<>(); //liveData with dataBinding
-    public MutableLiveData<List<DashboardDTO>> dashboardResponseLiveData;
+    public MutableLiveData<List<DashboardDTO>> dashboardResponseLiveData = new MutableLiveData<>();
     public DashboardRepository dashboardRepository = DashboardRepository.getInstance();
     public MutableLiveData<String> addAndUpdateEmp = new MutableLiveData<>(); //liveData with dataBinding
     private Boolean status = false;
 
+
     public MutableLiveData<Integer> mProgressMutableData = new MutableLiveData<>();
 
-    public MutableLiveData<AddUserRoleRightDTO> addUserRoleRightsMutableLiveData;
-    public MutableLiveData<AddUserRoleRightResult> addUserRoleRightsResultMutableData = new MutableLiveData<>();
+    public MutableLiveData<AddUserRoleRightDTO> addUserRoleLiveData;
+    public MutableLiveData<List<AddUserRoleRightResult>> addUserRoleResultData = new MutableLiveData<>();
     public AddUserRoleRepository addUserRoleRepository = new AddUserRoleRepository();
-    private Boolean cbSelectAll = false;
     private Boolean cbIsActive = false;
-    private boolean isValid;
 
     public MutableLiveData<AddUserRoleRightDTO> addUserRoleMutableLiveData() {
-        if (addUserRoleRightsMutableLiveData == null) {
-            addUserRoleRightsMutableLiveData = new MutableLiveData<>();
+        if (addUserRoleLiveData == null) {
+            addUserRoleLiveData = new MutableLiveData<>();
         }
-        return addUserRoleRightsMutableLiveData;
+        return addUserRoleLiveData;
+    }
+
+    public AddUserRoleViewModel(){
+        getUlbData();
+    }
+
+
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.txt_btn_save:
+                Log.e(TAG, "save button : ");
+
+
+                AddUserRoleRightDTO addUserRoleData = new AddUserRoleRightDTO(EmpId.getValue(),EmpName.getValue(),
+                        EmpMobileNumber.getValue(),EmpAddress.getValue(),LoginId.getValue(),Password.getValue(),
+                        type.getValue(),cbIsActive.toString(),isActiveULB.getValue());
+                addUserRoleLiveData.setValue(addUserRoleData);
+
+                if (EmpId.getValue() != null || EmpName.getValue() != null
+                        || EmpMobileNumber.getValue() != null || EmpAddress.getValue() != null
+                        || LoginId.getValue() != null || Password.getValue() != null
+                        || type.getValue() != null || isActiveULB.getValue() != null) {
+                    addUserRoleRepository.addUserSave(addUserRoleLiveData, new AddUserRoleRepository.IAddUserResponse() {
+                        @Override
+                        public void onResponse(List<AddUserRoleRightResult> addUserResponse) {
+                            mProgressMutableData.postValue(View.INVISIBLE);
+                            if (addUserResponse != null) {
+                                addUserRoleResultData.setValue(addUserResponse);
+                                Log.e(TAG, "onResponse: " + addUserResponse.get(0).getMessage());
+                               clearData();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            mProgressMutableData.postValue(View.INVISIBLE);
+                            Log.e(TAG, "onFailure: " + t.getMessage());
+                            clearData();
+                        }
+                    });
+                }
+                addAndUpdateEmp.setValue("Data saved successfully!");
+                break;
+            case R.id.cb_isActive:
+                cbIsActive = ((CheckBox) view).isChecked();
+                Log.e(TAG, "checked: " + cbIsActive);
+                break;
+            default:
+                // code block
+        }
+    }
+
+    public void clearData() {
+        EmpId.setValue("");
+        EmpName.setValue("");
+        EmpMobileNumber.setValue("");
+        EmpAddress.setValue("");
+        LoginId.setValue("");
+        Password.setValue("");
+        cbIsActive = false;
+        isActiveULB.setValue("");
     }
 
     public LiveData<Integer> getProgress() {
         return mProgressMutableData;
     }
 
+    public LiveData<List<AddUserRoleRightResult>> postAddEmpResponse() {
+        return addUserRoleResultData;
+    }
 
-    public AddUserRoleViewModel(){
-        getUlbData();
+    public void updateUserRoleDetails(UserRoleModelDTO userRoleDetails) {
+        Log.d(TAG, "updateUserRoleDetails: " + userRoleDetails.toString());
+        addUserRoleRepository.addUserUpdate(userRoleDetails, new AddUserRoleRepository.IAddUserResponse() {
+            @Override
+            public void onResponse(List<AddUserRoleRightResult> addUserResponse) {
+                Log.e(TAG, "onResponse: " + addUserResponse.get(0).getMessage());
+                addUserRoleResultData.setValue(addUserResponse);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public MutableLiveData<List<AddUserRoleRightResult>> getAddUserResultMutableData() {
+        return addUserRoleResultData;
     }
 
     private void getUlbData() {
@@ -91,61 +171,5 @@ public class AddUserRoleViewModel extends ViewModel {
         return dashboardResponseLiveData;
     }
 
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
-            case R.id.txt_btn_save:
-                Log.e(TAG, "save button : ");
 
-                AddUserRoleRightDTO addUserRoleData = new AddUserRoleRightDTO(EmpId.getValue(), EmpName.getValue(), EmpMobileNumber.getValue(),
-                        EmpAddress.getValue(), LoginId.getValue(), Password.getValue(),
-                        isActive.getValue(), isActiveULB.getValue(), cbIsActive.toString());
-                addUserRoleRightsMutableLiveData.setValue(addUserRoleData);
-
-                if (EmpId.getValue() != null && EmpName.getValue() != null && EmpMobileNumber.getValue() != null && EmpAddress.getValue() != null
-                        && LoginId.getValue() != null && Password.getValue() != null
-                        && isActive.getValue() != null && isActiveULB.getValue() != null) {
-                    addUserRoleRepository.addUserRoleSave(addUserRoleRightsMutableLiveData, new AddUserRoleRepository.IAddUserRoleRightsResponse() {
-                        @Override
-                        public void onResponse(AddUserRoleRightResult addUserRoleRightResponse) {
-                            mProgressMutableData.postValue(View.INVISIBLE);
-                            if (addUserRoleRightResponse != null) {
-                                addUserRoleRightsResultMutableData.setValue(addUserRoleRightResponse);
-                                Log.e(TAG, "onResponse save: " + addUserRoleRightResponse.getMessage());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-                            mProgressMutableData.postValue(View.INVISIBLE);
-                            Log.e(TAG, "onFailure: " + t.getMessage());
-                        }
-                    });
-                }
-                addAndUpdateEmp.setValue("Data saved successfully!");
-                break;
-            case R.id.cb_isActive:
-                cbIsActive = ((CheckBox) view).isChecked();
-                Log.e(TAG, "checked: " + cbIsActive);
-                break;
-            default:
-                // code block
-        }
-    }
-
-
-    public void updateUserRoleDetails(UserRoleModelDTO userRoleDetails){
-        Log.d(TAG, "updateUserRoleDetails: " + userRoleDetails.toString());
-        addUserRoleRepository.userRoleRightUpdate(userRoleDetails, new AddUserRoleRepository.IAddUserRoleRightsResponse() {
-            @Override
-            public void onResponse(AddUserRoleRightResult addUserRoleRightResponse) {
-                Log.e(TAG, "onResponse: " + addUserRoleRightResponse.getMessage());
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
-            }
-        });
-    }
 }

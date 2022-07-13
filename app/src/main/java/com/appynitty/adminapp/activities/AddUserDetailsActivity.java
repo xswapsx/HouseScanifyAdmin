@@ -11,12 +11,15 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +37,15 @@ import com.appynitty.adminapp.adapters.UlbListAdapter;
 import com.appynitty.adminapp.databinding.ActivityAddUserDetailsBinding;
 import com.appynitty.adminapp.databinding.ActivityUpdateUserDetailsBinding;
 import com.appynitty.adminapp.models.AddUserRoleRightDTO;
+import com.appynitty.adminapp.models.AddUserRoleRightResult;
 import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.models.EmpDModelDTO;
 import com.appynitty.adminapp.models.UlbDTO;
 import com.appynitty.adminapp.models.UserRoleModelDTO;
+import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.AddEmpViewModel;
 import com.appynitty.adminapp.viewmodels.AddUserRoleViewModel;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +53,7 @@ import java.util.List;
 
 public class AddUserDetailsActivity extends AppCompatActivity {
     String TAG = "AddUserDetailsActivity";
+    String reqStatus = "", message = "";
     private Context context;
     private LinearLayoutManager layoutManager;
     private ProgressBar loader;
@@ -66,15 +73,14 @@ public class AddUserDetailsActivity extends AppCompatActivity {
     private Spinner spinner;
     private List<UlbDTO> ulbList;
     private CheckBox cbSelectAll;
+    String selection;
+    boolean isSelect = true;
+    public boolean isAllChecked = false;
+    int position;
+    String appIdData;
+    int totalCheck = 0;
 
-    // Initializing a String Array
-    String[] userRole = new String[]{
-            "Select User Role",
-            "Admin",
-            "Sub Admin"
-    };
 
-    final List<String> userRoleList = new ArrayList<>(Arrays.asList(userRole));
 
 
     @Override
@@ -104,18 +110,11 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             updateUserDetailsBinding.txtBtnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     userRoleRightDetails.setActive(updateUserDetailsBinding.cbIsActive.isChecked());
                     addUserRoleViewModel.updateUserRoleDetails(userRoleRightDetails);
                 }
             });
 
-            updateUserDetailsBinding.cbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-                }
-            });
         } else {
             view = binding.getRoot();
             setContentView(view);
@@ -131,12 +130,31 @@ public class AddUserDetailsActivity extends AppCompatActivity {
                     finish();
                 }
             });
+
             init();
         }
+
+        addUserRoleViewModel.getAddUserResultMutableData().observe(this, new Observer<List<AddUserRoleRightResult>>() {
+            @Override
+            public void onChanged(List<AddUserRoleRightResult> addUserRoleRightResults) {
+                Log.e(TAG, "onChanged: " + addUserRoleRightResults.get(0).getMessage());
+                message = addUserRoleRightResults.get(0).getMessage();
+                reqStatus = addUserRoleRightResults.get(0).getStatus();
+
+                if (reqStatus.matches(MainUtils.STATUS_SUCCESS)) {
+                    DynamicToast.makeSuccess(context, message).show();
+                    finish();
+                } else {
+                    DynamicToast.makeWarning(context, message).show();
+                }
+            }
+        });
+
     }
 
     private void init() {
         context = this;
+        addUserRoleRightDTO = new AddUserRoleRightDTO();
         ulbList = new ArrayList<>();
         recyclerUlbList = findViewById(R.id.recycler_ulb_chkbox);
         loader = findViewById(R.id.progress_circular);
@@ -150,6 +168,14 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         txtNoData.setVisibility(View.VISIBLE);
         imgClear.setVisibility(View.GONE);
         loader.setVisibility(View.VISIBLE);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1, getResources()
+                .getStringArray(R.array.array_user_role));
+        binding.edtEmpType.setAdapter(arrayAdapter);
+        binding.edtEmpType.setCursorVisible(false);
+
+
+
 
         binding.edtSearchText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -192,8 +218,31 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         addUserRoleViewModel.addUserRoleMutableLiveData().observe(this, new Observer<AddUserRoleRightDTO>() {
             @Override
             public void onChanged(AddUserRoleRightDTO addUserRoleRightDTO) {
-                addUserRoleRightDTO.setEmpId("");
-                addUserRoleRightDTO.setIsActiveULB("");
+
+                if (!binding.checkSelectAll.isChecked()){
+                    addUserRoleRightDTO.setEmpId("");
+                    for (UlbDTO item: ulbList){
+                        appIdData = String.valueOf(item.getAppId());
+                    }
+                    //last position fetched
+                    addUserRoleRightDTO.setIsActiveULB(appIdData);
+                }
+
+                StringBuilder result=new StringBuilder();
+                result.append(result);
+                if (binding.checkSelectAll.isChecked()){
+                    result.append(ulbList.get(position+1).getAppId());
+
+                    for (int i=0; i<= ulbList.size(); i++){
+                        result.append(","+ulbList.get(position+1).getAppId());
+                    }
+                    if (result.length() >0){
+                        result.append(result);
+                    }
+                }
+                addUserRoleRightDTO.setIsActiveULB(String.valueOf(result));
+
+                addUserRoleRightDTO.setType(binding.edtEmpType.getText().toString());
 
                 if (binding.edtEmpName.getText().toString().trim().isEmpty()) {
                     Toast.makeText(context, "Please enter employee name", Toast.LENGTH_SHORT).show();
@@ -212,16 +261,37 @@ public class AddUserDetailsActivity extends AppCompatActivity {
                     Toast.makeText(context, "Please enter employee password", Toast.LENGTH_SHORT).show();
                 } else if (binding.edtEmpPassword.getText().toString().length() < 4) {
                     Toast.makeText(context, "Password must contain at least 4 digits", Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e(TAG, "onChanged: EmpId: " + addUserRoleRightDTO.getEmpId() + " EmpName: " + addUserRoleRightDTO.getEmpName()
+                }
+
+                else {
+                    Log.e(TAG, "onChanged value provide: EmpId: " + addUserRoleRightDTO.getEmpId() + " EmpName: " + addUserRoleRightDTO.getEmpName()
                             + " EmpMobile: " + addUserRoleRightDTO.getEmpMobileNumber() + " EmpAddress: " + addUserRoleRightDTO.getEmpAddress()
                             + " EmpUsername: " + addUserRoleRightDTO.getLoginId() + " password: " + addUserRoleRightDTO.getPassword()
                             + " EmpIsActiveStatus: " + addUserRoleRightDTO.getIsActive()
+                            + "ActiveUlb: " +addUserRoleRightDTO.getIsActiveULB()
                     );
                 }
+                /*finish();
+                Toast.makeText(context, "User role right data saved", Toast.LENGTH_SHORT).show();*/
+            }
+        });
 
-                finish();
-                Toast.makeText(context, "User role right data saved", Toast.LENGTH_SHORT).show();
+        addUserRoleViewModel.postAddEmpResponse().observe(this, new Observer<List<AddUserRoleRightResult>>() {
+            @Override
+            public void onChanged(List<AddUserRoleRightResult> addUserResults) {
+                if (addUserResults != null && addUserResults.get(0).getStatus() != null) {
+                    Log.e(TAG, "onChanged: status: " + addUserResults.get(0).getStatus());
+                    reqStatus = addUserResults.get(0).getStatus();
+                    if (reqStatus.equals("success")) {
+                        DynamicToast.makeSuccess(context, addUserResults.get(0).getMessage()).show();
+
+                        finish();
+                    } else if (reqStatus.equals("error")) {
+                        DynamicToast.makeError(context, addUserResults.get(0).getMessage()).show();
+                    }
+                } else {
+                    DynamicToast.makeError(context, "an error has occurred").show();
+                }
             }
         });
 
@@ -241,11 +311,32 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 adapter.setAllChecked(binding.checkSelectAll.isChecked());
                 adapter.notifyDataSetChanged();
+
                 if (binding.checkSelectAll.isChecked()){
-                    Log.e(TAG,"all ulb selected :" + binding.checkSelectAll.isChecked());
+                    Log.e(TAG,"all ulb selected :" + binding.checkSelectAll.isChecked()+ ","  +appIdData);
+
                 }else {
+                    adapter.notifyDataSetChanged();
                     Log.e(TAG,"all ulb not selected :" + binding.checkSelectAll.isChecked());
                 }
+            }
+        });
+
+       binding.edtEmpType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                binding.edtEmpType.showDropDown();
+                selection = (String) parent.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), selection,
+                        Toast.LENGTH_SHORT);
+            }
+        });
+
+        binding.edtEmpType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View arg0) {
+                binding.edtEmpType.showDropDown();
             }
         });
     }
@@ -270,5 +361,4 @@ public class AddUserDetailsActivity extends AppCompatActivity {
         }
         adapter.filterList(filteredList);
     }
-
 }

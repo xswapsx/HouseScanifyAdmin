@@ -42,14 +42,6 @@ public class AddUserRoleRightDTO {
     private String isActiveULB;
 
     /**
-     * No args constructor for use in serialization
-     *
-     */
-    public AddUserRoleRightDTO() {
-
-    }
-
-    /**
      *
      * @param empId
      * @param password
@@ -72,6 +64,14 @@ public class AddUserRoleRightDTO {
         this.type = type;
         this.isActive = isActive;
         this.isActiveULB = isActiveULB;
+    }
+
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public AddUserRoleRightDTO() {
+
     }
 
 
