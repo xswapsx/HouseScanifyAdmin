@@ -219,7 +219,7 @@ public class AddUserDetailsActivity extends AppCompatActivity {
             @Override
             public void onChanged(AddUserRoleRightDTO addUserRoleRightDTO) {
 
-                if (!binding.checkSelectAll.isChecked()){
+                if (binding.checkSelectAll.isChecked()){
                     addUserRoleRightDTO.setEmpId("");
                     for (UlbDTO item: ulbList){
                         appIdData = String.valueOf(item.getAppId());
@@ -228,19 +228,13 @@ public class AddUserDetailsActivity extends AppCompatActivity {
                     addUserRoleRightDTO.setIsActiveULB(appIdData);
                 }
 
-                StringBuilder result=new StringBuilder();
-                result.append(result);
-                if (binding.checkSelectAll.isChecked()){
-                    result.append(ulbList.get(position+1).getAppId());
-
-                    for (int i=0; i<= ulbList.size(); i++){
-                        result.append(","+ulbList.get(position+1).getAppId());
-                    }
-                    if (result.length() >0){
-                        result.append(result);
-                    }
+                StringBuffer output = new StringBuffer(ulbList.size());
+                int count = ulbList.size();
+                for (int i = 0; i < count; i++) {
+                    output.append(","+ ulbList.get(i).getAppId());
                 }
-                addUserRoleRightDTO.setIsActiveULB(String.valueOf(result));
+                //String data = output.substring(1);
+                addUserRoleRightDTO.setIsActiveULB(String.valueOf(output));
 
                 addUserRoleRightDTO.setType(binding.edtEmpType.getText().toString());
 

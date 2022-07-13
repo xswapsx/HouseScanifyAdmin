@@ -43,7 +43,6 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
     public boolean isAllChecked = false;
     public String arg = "";
     int position;
-    UlbDTO totalCheck ;
     String [] strings = new String [] {"1", "2" };
     List<String> stringList = new ArrayList<String>(Arrays.asList(strings));
 
@@ -80,35 +79,19 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
             appId.add(String.valueOf(ulb.getAppId()));
             Log.e(TAG, "array of app id: "+ appId);
 
-            /*String[] ans = Arrays.copyOf(appId.toArray(), ulbList.size(), String[].class);
-            Log.e(TAG, "get data: "+ ans);*/
-
-            /*JSONArray jsonArray = new JSONArray();
-            jsonArray.put(ulb.getAppId());
-            Log.e(TAG,"array of appId: " +jsonArray);*/
-           /* StringBuilder result=new StringBuilder();
-            result.append("Selected Items:");
-            if (holder.ulbCheckboxBinding.chkBoxUlbName.isChecked()){
-                result.append(ulb.getAppId());
-                totalCheck = ulbList.get(holder.getAdapterPosition());
+            StringBuilder sb = new StringBuilder();
+            for (UlbDTO s : ulbList) {
+                sb.append(s.getAppId()+",");
             }
-            Log.e(TAG, "value: " +totalCheck);*/
-
-
-            int count = ulbList.size();
+            String result = sb.toString();
 
             JSONObject object = new JSONObject();
             try {
-                object.put("activeUlb",ulbList.get(holder.getAdapterPosition()).getAppId());
+                object.put("activeUlb",result);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             Log.e(TAG, "active ulb: " +object);
-
-
-            JsonArray jsonArray = new JsonArray();
-            jsonArray.add(String.valueOf(object)+","+object);
-            Log.e(TAG, "active: " +jsonArray);
 
         }
 
@@ -122,18 +105,18 @@ public class UlbListAdapter extends RecyclerView.Adapter<UlbListAdapter.MyViewHo
                     String ulbName = String.valueOf(ulb.getUlbName());
                     Log.e(TAG, "ulb is : " + ulbName + ", " + "ulb id : " + ulbId);
 
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ulbId);
+                    String result = sb.toString();
+
                     JSONObject object = new JSONObject();
                     try {
-                        object.put("activeUlb", ulbList.get(holder.getAdapterPosition()).getAppId());
+                        object.put("activeUlb",result);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.e(TAG, "active ulb: " + object);
-
-                    JsonArray jsonArray = new JsonArray();
-                    jsonArray.add(String.valueOf(object+","+object));
-                    String jsonString = jsonArray.toString();
-                    Log.e(TAG, "active: " +jsonString.toString());
+                    Log.e(TAG, String.valueOf(object));
 
 
                 } else {
