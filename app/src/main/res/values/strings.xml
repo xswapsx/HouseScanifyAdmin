@@ -44,5 +44,6 @@
     <string name="attendance_instructions">* Please turn on the button to go to the dashboard.</string>
     <string name="subAdmin">SUB-ADMIN</string>
     <string name="adminTitle">ADMIN</string>
+    <string name="greetings">Hello,</string>
 
 </resources>

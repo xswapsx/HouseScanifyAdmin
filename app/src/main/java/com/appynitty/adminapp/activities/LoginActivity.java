@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_login);
         if (Prefs.getBoolean(MainUtils.IS_LOGIN)) {
 //            if (MainUtils.EMP_TYPE.matches("A"))
-                startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
             /*else
                 startActivity(new Intent(LoginActivity.this, AttendanceActivity.class));
 */
@@ -82,19 +82,20 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult != null && loginResult.getStatus() != null) {
                     Log.e(TAG, "onChanged: status: " + loginResult.getUserId());
                     reqStatus = loginResult.getStatus();
-                    if (reqStatus.equals("success")) {
+                    if (reqStatus.equals(MainUtils.STATUS_SUCCESS)) {
                         DynamicToast.makeSuccess(ctx, loginResult.getMessage()).show();
 //                        if (loginResult.getEmpType().matches("A"))
-                            startActivity(new Intent(ctx, DashboardActivity.class));
+                        startActivity(new Intent(ctx, DashboardActivity.class));
                        /* else
                             startActivity(new Intent(ctx, AttendanceActivity.class));
 */
                         Prefs.putString(MainUtils.EMP_TYPE, loginResult.getEmpType());
                         Prefs.putString(MainUtils.EMP_ID, String.valueOf(loginResult.getUserId()));
                         Prefs.putString(MainUtils.USER_ID, loginResult.getUserId().toString());
+                        Prefs.putString(MainUtils.USER_NAME, loginResult.getUserName().toString());
                         Prefs.putBoolean(MainUtils.IS_LOGIN, true);
                         finish();
-                    } else if (reqStatus.equals("error"))
+                    } else if (reqStatus.equals(MainUtils.STATUS_ERROR))
                         DynamicToast.makeError(ctx, loginResult.getMessage()).show();
                 } else {
                     DynamicToast.makeError(ctx, "an error has occurred").show();

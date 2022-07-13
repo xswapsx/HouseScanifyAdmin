@@ -24,6 +24,7 @@ public class MainUtils {
     public static final String EMP_TYPE_ADMIN = "A";
     public static final String EMP_TYPE = "EmpType";
     public static final String USER_ID = "userId";
+    public static final String USER_NAME = "userName";
     public static final String APP_ID = "appId";
     public static final String EMP_ID = "qrEmpId";
     public static final String IS_LOGIN = "IsLoggedIn";

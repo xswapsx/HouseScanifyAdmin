@@ -23,9 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdminAppDemo"
         tools:targetApi="n">
-        <activity
-            android:name=".activities.AttendanceActivity"
-            android:exported="false" />
+
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true"

@@ -4,6 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResult {
+
+    @SerializedName("name")
+    @Expose
+    private String userName;
+
     @SerializedName("userId")
     @Expose
     private Integer userId;
@@ -124,5 +129,13 @@ public class LoginResult {
 
     public void setGtFeatures(Boolean gtFeatures) {
         this.gtFeatures = gtFeatures;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

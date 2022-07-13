@@ -70,6 +70,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         builder = new AlertDialog.Builder(this);
         empType = Prefs.getString(MainUtils.EMP_TYPE);
+        binding.tvUserName.setText(getString(R.string.greetings) + " " + Prefs.getString(MainUtils.USER_NAME) + " !");
         if (!empType.isEmpty() && empType.matches("SA")) {
             binding.empType.setText(R.string.subAdmin);
             binding.dutyLayout.setVisibility(View.VISIBLE);
@@ -235,7 +236,8 @@ public class DashboardActivity extends AppCompatActivity {
                         Prefs.remove(MainUtils.USER_ID);
                         Prefs.remove(MainUtils.EMP_TYPE);
                         Prefs.putBoolean(MainUtils.IS_LOGIN, false);
-                        startActivity(new Intent(context, LoginActivity.class));
+                        Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, true);
+//                        startActivity(new Intent(context, LoginActivity.class));
 
                         Intent intent = new Intent(context, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
