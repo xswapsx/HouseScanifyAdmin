@@ -114,6 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginEnd="@dimen/dim_10dp"
                         android:gravity="start"
                         android:text="@string/off"
                         android:textColor="@color/colorWhite"
@@ -123,13 +124,13 @@
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/btnSwitch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{DutyViewModel::onClick}" />
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dim_10dp"
+                        android:layout_marginStart="@dimen/dim_10dp"
                         android:gravity="start"
                         android:text="@string/on"
                         android:textColor="@color/colorWhite"

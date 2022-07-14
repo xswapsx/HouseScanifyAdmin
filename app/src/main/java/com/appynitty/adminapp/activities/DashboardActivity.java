@@ -27,6 +27,7 @@ import com.appynitty.adminapp.databinding.ActivityDashboard1Binding;
 import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.models.DutyDTO;
 import com.appynitty.adminapp.models.UlbDTO;
+import com.appynitty.adminapp.utils.CommonAlertDialog;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.DashboardViewModel;
 import com.appynitty.adminapp.viewmodels.DutyOnOffViewModel;
@@ -51,7 +52,9 @@ public class DashboardActivity extends AppCompatActivity {
     private List<UlbDTO> ulbList;
     AlertDialog.Builder builder;
     AlertDialog alert;
+    CommonAlertDialog commonAlertDialog;
     boolean doubleBackToExitPressedOnce = false;
+    Boolean switchState = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,8 @@ public class DashboardActivity extends AppCompatActivity {
         binding.setDutyViewModel(dutyViewModel);
 
         builder = new AlertDialog.Builder(this);
+        commonAlertDialog = CommonAlertDialog.getInstance();
+        commonAlertDialog.init(getApplicationContext());
         empType = Prefs.getString(MainUtils.EMP_TYPE);
         binding.tvUserName.setText(getString(R.string.greetings) + " " + Prefs.getString(MainUtils.USER_NAME) + " !");
         if (!empType.isEmpty() && empType.matches("SA")) {
@@ -128,6 +133,13 @@ public class DashboardActivity extends AppCompatActivity {
 
             }
         });
+
+        /*dutyViewModel.getStatusChk().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Toast.makeText(context, "state: " + aBoolean, Toast.LENGTH_SHORT).show();
+            }
+        });*/
         binding.searchUlb.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -181,6 +193,16 @@ public class DashboardActivity extends AppCompatActivity {
                 setOnRecycler(ulbList);
             }
         });
+        binding.btnSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+                    showDutyOffConfirmation();
+                } else if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+                    dutyViewModel.changeDuty(true);
+                }
+            }
+        });
         setOnClick();
     }
 
@@ -229,7 +251,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void logoutUser(String s) {
 
-        builder.setMessage("Do you want to logout ?").setCancelable(false)
+        builder.setMessage("Are you sure you want to logout the app?").setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -254,8 +276,25 @@ public class DashboardActivity extends AppCompatActivity {
                 });
 
         alert = builder.create();
-        //Setting the title manually
-        alert.setTitle("Logout!");
+        alert.show();
+    }
+
+    public void showDutyOffConfirmation() {
+        builder.setMessage("Are you sure you want to turn of the dashboard?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dutyViewModel.changeDuty(false);
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        binding.btnSwitch.setChecked(true);
+                        dialog.cancel();
+                    }
+                });
+
+        alert = builder.create();
         alert.show();
     }
 

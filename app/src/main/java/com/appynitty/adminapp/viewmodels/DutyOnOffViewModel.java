@@ -17,6 +17,7 @@ public class DutyOnOffViewModel extends ViewModel {
     DutyOnOffRepo dutyOnOffRepo = DutyOnOffRepo.getInstance();
     MutableLiveData<DutyDTO> dutyDTOMutableLiveData = new MutableLiveData<>();
     private Boolean status = false;
+    MutableLiveData<Boolean> statusChk = new MutableLiveData<>();
 
 
     public void setAttendanceOn(DutyDTO reqPacket) {
@@ -41,7 +42,8 @@ public class DutyOnOffViewModel extends ViewModel {
         int id = view.getId();
         if (id == R.id.btnSwitch) {
             status = ((SwitchCompat) view).isChecked();
-            if (status) {
+            statusChk.setValue(status);
+            /*if (status) {
                 Log.e(TAG, "onClick: isItOn?: " + true);
                 DutyDTO dataPacketOn = new DutyDTO("20.3849076", "78.1282012", "", "",
                         MainUtils.getTime(), MainUtils.getDate(), "", ""
@@ -54,7 +56,24 @@ public class DutyOnOffViewModel extends ViewModel {
                 );
 //                dutyDTOMutableLiveData.setValue(dataPacketOff);
                 setAttendanceOn(dataPacketOff);
-            }
+            }*/
+        }
+    }
+
+    public void changeDuty(Boolean b) {
+        if (b) {
+            Log.e(TAG, "onClick: isItOn?: " + true);
+            DutyDTO dataPacketOn = new DutyDTO("20.3849076", "78.1282012", "", "",
+                    MainUtils.getTime(), MainUtils.getDate(), "", ""
+            );
+            setAttendanceOn(dataPacketOn);
+        } else {
+            Log.e(TAG, "onClick: isItOn?: " + false);
+            DutyDTO dataPacketOff = new DutyDTO("", "", "20.3849076", "78.1282012",
+                    "", "", MainUtils.getTime(), MainUtils.getDate()
+            );
+//                dutyDTOMutableLiveData.setValue(dataPacketOff);
+            setAttendanceOn(dataPacketOff);
         }
     }
 
@@ -62,5 +81,7 @@ public class DutyOnOffViewModel extends ViewModel {
         return dutyDTOMutableLiveData;
     }
 
-
+    public MutableLiveData<Boolean> getStatusChk() {
+        return statusChk;
+    }
 }
