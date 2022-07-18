@@ -414,24 +414,28 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <EditText
-                                android:id="@+id/edt_emp_login_num"
+                            <AutoCompleteTextView
+                                android:id="@+id/edt_emp_type"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/dim_12dp"
                                 android:background="@android:color/transparent"
+                                android:cursorVisible="false"
                                 android:drawSelectorOnTop="true"
                                 android:drawableEnd="@drawable/ic_down_arrow"
                                 android:drawablePadding="@dimen/dim_2dp"
+                                android:dropDownHeight="120dp"
                                 android:entries="@array/array_user_role"
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
                                 android:hint="@string/str_select_user_role"
                                 android:inputType="text"
+                                android:maxLines="1"
                                 android:padding="@dimen/dim_10dp"
                                 android:singleLine="true"
-                                android:text="@{updateUserRoleDetails.type}"
+                                android:text="@={updateUserRoleDetails.type}"
+                                android:textAlignment="textStart"
                                 android:textColorHint="@color/colorFentText"
                                 android:textSize="@dimen/txt_size_14sp"
                                 android:visibility="visible" />
