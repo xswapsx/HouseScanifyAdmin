@@ -13,5 +13,6 @@ public interface DutyOnOffWebservice {
     @POST("/api/Supervisor/SupervisorAttendenceOut")
     Call<DutyDTO> dutyPunchOut(@Body DutyDTO dutyReqBody);
 
-
+    @POST("api/Supervisor/SupervisorAttendenceCheck")
+    Call<DutyDTO> AttendenceCheck(@Body DutyDTO dutyReqBody);
 }

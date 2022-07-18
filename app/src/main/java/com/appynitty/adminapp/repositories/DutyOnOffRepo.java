@@ -23,7 +23,7 @@ public class DutyOnOffRepo {
         return instance;
     }
 
-    public void turnDutyOn(DutyDTO dutyParams, IDutyResponse iDutyResponse) {
+    public void setDuty(DutyDTO dutyParams, IDutyResponse iDutyResponse) {
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
         String empId = Prefs.getString(MainUtils.EMP_ID);
         String batteryStatus = String.valueOf(MainUtils.getBatteryStatus());
@@ -33,9 +33,9 @@ public class DutyOnOffRepo {
         dutyParams.setBatteryStatus(batteryStatus);
         DutyOnOffWebservice dutyOnOffWebservice = RetrofitClient.createService(DutyOnOffWebservice.class, MainUtils.BASE_URL);
         Call<DutyDTO> dutyCall = null;
-        if (!dutyParams.getStartLat().isEmpty()){
-             dutyCall = dutyOnOffWebservice.dutyPunchIn(dutyParams);
-        }else if (!dutyParams.getEndLatitude().isEmpty()){
+        if (!dutyParams.getStartLat().isEmpty()) {
+            dutyCall = dutyOnOffWebservice.dutyPunchIn(dutyParams);
+        } else if (!dutyParams.getEndLatitude().isEmpty()) {
             dutyCall = dutyOnOffWebservice.dutyPunchOut(dutyParams);
         }
 
@@ -57,17 +57,16 @@ public class DutyOnOffRepo {
 
     }
 
-    /*public void turnDutyOff(DutyDTO dutyParams, IDutyResponse iDutyResponse) {
+    public void checkAttendancefromServer(IDutyResponse iDutyResponse) {
+        DutyDTO dutyParams = new DutyDTO();
         String empType = Prefs.getString(MainUtils.EMP_TYPE);
         String empId = Prefs.getString(MainUtils.EMP_ID);
-        String batteryStatus = String.valueOf(MainUtils.getBatteryStatus());
 
-        dutyParams.setEmployeeType(empType);
         dutyParams.setEmpId(empId);
-        dutyParams.setBatteryStatus(batteryStatus);
-        DutyOnOffWebservice dutyOnOffWebservice = RetrofitClient.createService(DutyOnOffWebservice.class, MainUtils.BASE_URL);
-        Call<DutyDTO> dutyCall = dutyOnOffWebservice.dutyPunchIn(dutyParams);
-        dutyCall.enqueue(new Callback<DutyDTO>() {
+        dutyParams.setStartDate(MainUtils.getDate());
+        DutyOnOffWebservice checkAttendanceService = RetrofitClient.createService(DutyOnOffWebservice.class, MainUtils.BASE_URL);
+        Call<DutyDTO> checkAttendanceCall = checkAttendanceService.AttendenceCheck(dutyParams);
+        checkAttendanceCall.enqueue(new Callback<DutyDTO>() {
             @Override
             public void onResponse(Call<DutyDTO> call, Response<DutyDTO> response) {
                 dutyMutableLiveData.setValue(response.body());
@@ -82,8 +81,7 @@ public class DutyOnOffRepo {
             }
         });
 
-    }*/
-
+    }
 
 
     public interface IDutyResponse {

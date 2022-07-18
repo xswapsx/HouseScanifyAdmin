@@ -2,7 +2,11 @@ package com.appynitty.adminapp.utils;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.BatteryManager;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +15,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainUtils {
-
+    public static final String LAT = "lat";
+    public static final String LONG = "lan";
+    public static final long LOCATION_INTERVAL_MINUTES = 10 * 60 * 1000;
+    private static final String TAG = "MainUtils";
     //Staging Server
 //    public static final String BASE_URL = "http://183.177.126.33:6560";
 //    public static final String BASE_URL = "http://202.65.157.254:5049/";
@@ -35,7 +42,7 @@ public class MainUtils {
     public static final String SERVER_DATE_TIME_FORMATE = "MM-dd-yyyy HH:mm:ss";
     public static final String SERVER_DATE_TIME_FORMATE_LOCAL = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String STATUS_SUCCESS = "success";
-    public static final String STATUS_ERROR = "Error";
+    public static final String STATUS_ERROR = "error";
     private static final String EMP_SERVER_DATE_FORMATE = "dd-MM-yyyy";
     private static final String EMP_DATE_FORMAT = "dd/MM/yyyy";
     private static final String EMP_DATE_FORMAT_DASH = "dd-MM-yyyy";
@@ -227,5 +234,14 @@ public class MainUtils {
     public static int getBatteryStatus() {
         BatteryManager batteryManager = (BatteryManager) mainApplicationConstant.getApplicationContext().getSystemService(Context.BATTERY_SERVICE);
         return batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+    }
+
+    public static void showDialog(Context context, String message, DialogInterface.OnClickListener positiveListener, @Nullable DialogInterface.OnClickListener negativeListener) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setMessage(message);
+        alertDialog.setCancelable(false);
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", positiveListener);
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", negativeListener);
+        alertDialog.show();
     }
 }

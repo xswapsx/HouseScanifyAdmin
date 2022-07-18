@@ -124,13 +124,16 @@
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/btnSwitch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
+                        android:layout_height="wrap_content"
+                        android:thumb="@drawable/custom_thumb"
+                        app:track="@drawable/custom_track" />
+                    <!--app:track="@drawable/custom_track"
+                                            android:thumb="@drawable/custom_thumb"-->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/dim_10dp"
                         android:layout_marginStart="@dimen/dim_10dp"
+                        android:layout_marginEnd="@dimen/dim_10dp"
                         android:gravity="start"
                         android:text="@string/on"
                         android:textColor="@color/colorWhite"

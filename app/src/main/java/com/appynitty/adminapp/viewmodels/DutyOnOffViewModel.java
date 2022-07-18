@@ -20,8 +20,8 @@ public class DutyOnOffViewModel extends ViewModel {
     MutableLiveData<Boolean> statusChk = new MutableLiveData<>();
 
 
-    public void setAttendanceOn(DutyDTO reqPacket) {
-        dutyOnOffRepo.turnDutyOn(reqPacket, new DutyOnOffRepo.IDutyResponse() {
+    public void setAttendance(DutyDTO reqPacket) {
+        dutyOnOffRepo.setDuty(reqPacket, new DutyOnOffRepo.IDutyResponse() {
             @Override
             public void onResponse(MutableLiveData<DutyDTO> dutyOnOffMutableLiveData) {
                 Log.e(TAG, "onResponse: " + dutyOnOffMutableLiveData.getValue().getMessage());
@@ -38,11 +38,27 @@ public class DutyOnOffViewModel extends ViewModel {
         });
     }
 
+    public void checkAttendance() {
+        dutyOnOffRepo.checkAttendancefromServer(new DutyOnOffRepo.IDutyResponse() {
+            @Override
+            public void onResponse(MutableLiveData<DutyDTO> dutyOnOffMutableLiveData) {
+                Log.e(TAG, "onResponse: isAttendanceOff: " + dutyOnOffMutableLiveData.getValue().getIsAttendenceOff());
+                statusChk.setValue(dutyOnOffMutableLiveData.getValue().getIsAttendenceOff());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.btnSwitch) {
             status = ((SwitchCompat) view).isChecked();
-            statusChk.setValue(status);
+//            statusChk.setValue(status);
             /*if (status) {
                 Log.e(TAG, "onClick: isItOn?: " + true);
                 DutyDTO dataPacketOn = new DutyDTO("20.3849076", "78.1282012", "", "",
@@ -66,14 +82,14 @@ public class DutyOnOffViewModel extends ViewModel {
             DutyDTO dataPacketOn = new DutyDTO("20.3849076", "78.1282012", "", "",
                     MainUtils.getTime(), MainUtils.getDate(), "", ""
             );
-            setAttendanceOn(dataPacketOn);
+            setAttendance(dataPacketOn);
         } else {
             Log.e(TAG, "onClick: isItOn?: " + false);
             DutyDTO dataPacketOff = new DutyDTO("", "", "20.3849076", "78.1282012",
                     "", "", MainUtils.getTime(), MainUtils.getDate()
             );
 //                dutyDTOMutableLiveData.setValue(dataPacketOff);
-            setAttendanceOn(dataPacketOff);
+            setAttendance(dataPacketOff);
         }
     }
 
@@ -81,7 +97,7 @@ public class DutyOnOffViewModel extends ViewModel {
         return dutyDTOMutableLiveData;
     }
 
-    public MutableLiveData<Boolean> getStatusChk() {
+    public MutableLiveData<Boolean> getAttendanceChk() {
         return statusChk;
     }
 }

@@ -38,4 +38,5 @@
     <dimen name="dim_35dp">35dp</dimen>
     <dimen name="dim_35sp">35sp</dimen>
     <dimen name="dim_50dp">50sp</dimen>
+    <dimen name="dim_100sp">100sp</dimen>
 </resources>

@@ -27,7 +27,6 @@ import com.appynitty.adminapp.databinding.ActivityDashboard1Binding;
 import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.models.DutyDTO;
 import com.appynitty.adminapp.models.UlbDTO;
-import com.appynitty.adminapp.utils.CommonAlertDialog;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.viewmodels.DashboardViewModel;
 import com.appynitty.adminapp.viewmodels.DutyOnOffViewModel;
@@ -52,7 +51,7 @@ public class DashboardActivity extends AppCompatActivity {
     private List<UlbDTO> ulbList;
     AlertDialog.Builder builder;
     AlertDialog alert;
-    CommonAlertDialog commonAlertDialog;
+
     boolean doubleBackToExitPressedOnce = false;
     Boolean switchState = false;
 
@@ -72,8 +71,7 @@ public class DashboardActivity extends AppCompatActivity {
         binding.setDutyViewModel(dutyViewModel);
 
         builder = new AlertDialog.Builder(this);
-        commonAlertDialog = CommonAlertDialog.getInstance();
-        commonAlertDialog.init(getApplicationContext());
+
         empType = Prefs.getString(MainUtils.EMP_TYPE);
         binding.tvUserName.setText(getString(R.string.greetings) + " " + Prefs.getString(MainUtils.USER_NAME) + " !");
         if (!empType.isEmpty() && empType.matches("SA")) {
@@ -89,6 +87,8 @@ public class DashboardActivity extends AppCompatActivity {
             hideViews(false);
         }
 
+        dutyViewModel.checkAttendance();  //checking attendance from server
+
         if (Prefs.contains(MainUtils.IS_ATTENDANCE_OFF)) {
             if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
                 binding.btnSwitch.setChecked(false);
@@ -103,6 +103,21 @@ public class DashboardActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.ivLogout);
         ulbList = new ArrayList<>();
 
+        dutyViewModel.getAttendanceChk().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, aBoolean);
+                Log.e(TAG, "onChanged: Duty_off:" + aBoolean);
+                if (aBoolean) {
+                    binding.btnSwitch.setChecked(false);   // if attendance is off
+                    hideViews(true);
+                } else {
+                    binding.btnSwitch.setChecked(true);     // if attendance if on
+                    hideViews(false);
+                }
+
+            }
+        });
 
         dutyViewModel.getDutyDTOMutableLiveData().observe(this, new Observer<DutyDTO>() {
             @Override
@@ -197,7 +212,20 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
-                    showDutyOffConfirmation();
+//                    showDutyOffConfirmation();
+                    MainUtils.showDialog(context, "Are you sure you want to turn of the dashboard?", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dutyViewModel.changeDuty(false);
+                        }
+                    }, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            binding.btnSwitch.setChecked(true);
+                            dialogInterface.dismiss();
+                        }
+                    });
+
                 } else if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
                     dutyViewModel.changeDuty(true);
                 }
@@ -251,51 +279,28 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void logoutUser(String s) {
 
-        builder.setMessage("Are you sure you want to logout the app?").setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Prefs.remove(MainUtils.USER_ID);
-                        Prefs.remove(MainUtils.EMP_TYPE);
-                        Prefs.putBoolean(MainUtils.IS_LOGIN, false);
-                        Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, true);
+        MainUtils.showDialog(context, "Are you sure you want to logout the app?", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Prefs.remove(MainUtils.USER_ID);
+                Prefs.remove(MainUtils.EMP_TYPE);
+                Prefs.putBoolean(MainUtils.IS_LOGIN, false);
+                Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, true);
 //                        startActivity(new Intent(context, LoginActivity.class));
 
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(context, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        DynamicToast.makeSuccess(context, s).show();
-                        context.startActivity(intent);
-                    }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.cancel();
-                    }
-                });
-
-        alert = builder.create();
-        alert.show();
-    }
-
-    public void showDutyOffConfirmation() {
-        builder.setMessage("Are you sure you want to turn of the dashboard?").setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dutyViewModel.changeDuty(false);
-                    }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        binding.btnSwitch.setChecked(true);
-                        dialog.cancel();
-                    }
-                });
-
-        alert = builder.create();
-        alert.show();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                DynamicToast.makeSuccess(context, s).show();
+                context.startActivity(intent);
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
     }
 
     @Override
