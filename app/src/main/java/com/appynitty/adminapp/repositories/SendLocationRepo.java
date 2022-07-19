@@ -39,7 +39,10 @@ public class SendLocationRepo {
             @Override
             public void onResponse(Call<List<UserLocationDTO>> call, Response<List<UserLocationDTO>> response) {
                 iLocationResponse.onResponse(response.body());
-                Log.e(TAG, "onResponse: " + response.body());
+                if (response.code() == 200)
+                    Log.e(TAG, "onResponse: " + response.body());
+                else if (response.code() == 500)
+                    Log.e(TAG, "onResponse: " + response.message());
             }
 
             @Override

@@ -46,7 +46,7 @@ public class LocationService extends Service {
     private static final String CHANNEL_ID = "my_service";
     private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 3000;
     private static final int LOCATION_SERVICE_NOTIF_ID = 1001;
-    long notify_interval = 1000 * 60;     // 10 min. => 1000 * 60 * 10
+    long notify_interval = 1000 * 60 * 2;     // 10 min. => 1000 * 60 * 10
     LocationCallback locationCallback1;
     private long updatedTime = 0;
     private Timer mTimer = null;
@@ -172,7 +172,10 @@ public class LocationService extends Service {
         locationRepo.send10MinLocation(new SendLocationRepo.ILocationResponse() {
             @Override
             public void onResponse(List<UserLocationDTO> locationResponse) {
-                Log.e(TAG, "onResponse: " + locationResponse);
+                if (locationResponse == null)
+                    Log.e(TAG, "onResponse: " + null);
+                else
+                    Log.e(TAG, "onResponse: " + locationResponse);
             }
 
             @Override
