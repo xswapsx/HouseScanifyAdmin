@@ -2,6 +2,7 @@ package com.appynitty.adminapp.repositories;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.appynitty.adminapp.models.UserLocationDTO;
@@ -28,7 +29,7 @@ public class SendLocationRepo {
     }
 
     public void send10MinLocation(ILocationResponse iLocationResponse) {
-        UserLocationDTO locationDTO = new UserLocationDTO(Prefs.getString(MainUtils.LONG), "0", MainUtils.getLocalDate(), "",
+        UserLocationDTO locationDTO = new UserLocationDTO(Prefs.getString(MainUtils.LONG), "0", MainUtils.getServerDateTime(), "",
                 true, Prefs.getString(MainUtils.LAT), Prefs.getString(MainUtils.EMP_ID));
         List<UserLocationDTO> locationDTOList = new ArrayList<>();
         locationDTOList.add(locationDTO);
@@ -37,16 +38,18 @@ public class SendLocationRepo {
                 "0", String.valueOf(MainUtils.getBatteryStatus()), MainUtils.CONTENT_TYPE, Prefs.getString(MainUtils.EMP_TYPE), locationDTOList);
         serviceCall.enqueue(new Callback<List<UserLocationDTO>>() {
             @Override
-            public void onResponse(Call<List<UserLocationDTO>> call, Response<List<UserLocationDTO>> response) {
-                iLocationResponse.onResponse(response.body());
-                if (response.code() == 200)
-                    Log.e(TAG, "onResponse: " + response.body());
+            public void onResponse(@NonNull Call<List<UserLocationDTO>> call, @NonNull Response<List<UserLocationDTO>> response) {
+                iLocationResponse.onResponse(response);
+                if (response.code() == 200) {
+                    assert response.body() != null;
+                    Log.e(TAG, "onResponse: " + response.body().get(0).getMessage());
+                }
                 else if (response.code() == 500)
                     Log.e(TAG, "onResponse: " + response.message());
             }
 
             @Override
-            public void onFailure(Call<List<UserLocationDTO>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<UserLocationDTO>> call, @NonNull Throwable t) {
                 iLocationResponse.onFailure(t);
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
@@ -54,7 +57,7 @@ public class SendLocationRepo {
     }
 
     public interface ILocationResponse {
-        void onResponse(List<UserLocationDTO> locationResponse);
+        void onResponse(Response<List<UserLocationDTO>> locationResponse);
 
         void onFailure(Throwable t);
     }

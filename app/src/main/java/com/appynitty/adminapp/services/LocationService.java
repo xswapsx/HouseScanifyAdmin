@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import retrofit2.Response;
+
 public class LocationService extends Service {
     private static final String TAG = "LocationService";
     private LocationRequest locationRequest;
@@ -132,9 +134,6 @@ public class LocationService extends Service {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-                if (locationResult == null) {
-                    return;
-                }
                 for (Location location : locationResult.getLocations()) {
 
                     Prefs.putString(MainUtils.LAT, String.valueOf(location.getLatitude()));
@@ -171,11 +170,13 @@ public class LocationService extends Service {
         Log.e(TAG, "sendLocation: at: " + MainUtils.getDate() + "-" + MainUtils.getTime() + " " + Prefs.getString(MainUtils.LAT) + ", Long: " + Prefs.getString(MainUtils.LONG));
         locationRepo.send10MinLocation(new SendLocationRepo.ILocationResponse() {
             @Override
-            public void onResponse(List<UserLocationDTO> locationResponse) {
-                if (locationResponse == null)
-                    Log.e(TAG, "onResponse: " + null);
-                else
-                    Log.e(TAG, "onResponse: " + locationResponse);
+            public void onResponse(Response<List<UserLocationDTO>> locationResponse) {
+                if (locationResponse.code() == 200) {
+                    assert locationResponse.body() != null;
+                    Log.e(TAG, "onResponse: " + locationResponse.body().get(0).getMessage());
+                }
+                else if (locationResponse.code() == 500)
+                    Log.e(TAG, "onResponse: errorMsg" + locationResponse.message());
             }
 
             @Override
