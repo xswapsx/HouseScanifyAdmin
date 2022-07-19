@@ -27,7 +27,9 @@ import com.appynitty.adminapp.databinding.ActivityDashboard1Binding;
 import com.appynitty.adminapp.models.DashboardDTO;
 import com.appynitty.adminapp.models.DutyDTO;
 import com.appynitty.adminapp.models.UlbDTO;
+import com.appynitty.adminapp.services.LocationService;
 import com.appynitty.adminapp.utils.MainUtils;
+import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.viewmodels.DashboardViewModel;
 import com.appynitty.adminapp.viewmodels.DutyOnOffViewModel;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -132,7 +134,8 @@ public class DashboardActivity extends AppCompatActivity {
                     }
                     if (dutyDTO.getOnFailureMsg().contains("Failed to connect")) {
                         DynamicToast.makeWarning(DashboardActivity.this, "Please check your internet connection\nand try again later.").show();
-                        binding.btnSwitch.setChecked(!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF));
+                        binding.btnSwitch.setChecked(!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF));  //here we setChecked as
+                        // !Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF) because attendanceOff will be true so need the opposite of true so add this
                     }
                 } else {
                     if (!dutyDTO.getIsAttendenceOff()) {
@@ -149,6 +152,13 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+        dutyViewModel.getDutyErrorLiveData().observe(DashboardActivity.this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                DynamicToast.makeError(context, s).show();
+                binding.btnSwitch.setChecked(!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF));
+            }
+        });
         /*dutyViewModel.getStatusChk().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -171,6 +181,7 @@ public class DashboardActivity extends AppCompatActivity {
                 filter(editable.toString());
             }
         });
+
         dashboardViewModel.getProgress().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer visibility) {
@@ -196,6 +207,7 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(context, UserRightsActivity.class));
             }
         });
+
         dashboardViewModel.getDashboardResponse().observe(this, new Observer<List<DashboardDTO>>() {
 
             @Override
@@ -208,9 +220,11 @@ public class DashboardActivity extends AppCompatActivity {
                 setOnRecycler(ulbList);
             }
         });
+
         binding.btnSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
                 if (!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
 //                    showDutyOffConfirmation();
                     MainUtils.showDialog(context, "Are you sure you want to turn of the dashboard?", new DialogInterface.OnClickListener() {
@@ -301,6 +315,14 @@ public class DashboardActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         });
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (!MainUtils.isMyServiceRunning(MainUtils.mainApplicationConstant, LocationService.class)) {
+            ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+        }
     }
 
     @Override

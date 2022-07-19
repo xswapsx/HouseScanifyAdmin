@@ -11,6 +11,7 @@ import com.appynitty.adminapp.R;
 import com.appynitty.adminapp.models.DutyDTO;
 import com.appynitty.adminapp.repositories.DutyOnOffRepo;
 import com.appynitty.adminapp.utils.MainUtils;
+import com.pixplicity.easyprefs.library.Prefs;
 
 public class DutyOnOffViewModel extends ViewModel {
     private static final String TAG = "DutyOnOffViewModel";
@@ -18,6 +19,7 @@ public class DutyOnOffViewModel extends ViewModel {
     MutableLiveData<DutyDTO> dutyDTOMutableLiveData = new MutableLiveData<>();
     private Boolean status = false;
     MutableLiveData<Boolean> statusChk = new MutableLiveData<>();
+    MutableLiveData<String> dutyErrorLiveData = new MutableLiveData<>();
 
 
     public void setAttendance(DutyDTO reqPacket) {
@@ -31,9 +33,10 @@ public class DutyOnOffViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
-                DutyDTO failurePack = new DutyDTO();
+                dutyErrorLiveData.setValue(t.getMessage());
+               /* DutyDTO failurePack = new DutyDTO();
                 failurePack.setOnFailureMsg(t.getMessage());
-                dutyDTOMutableLiveData.setValue(failurePack);
+                dutyDTOMutableLiveData.setValue(failurePack);*/
             }
         });
     }
@@ -79,17 +82,21 @@ public class DutyOnOffViewModel extends ViewModel {
     public void changeDuty(Boolean b) {
         if (b) {
             Log.e(TAG, "onClick: isItOn?: " + true);
-            DutyDTO dataPacketOn = new DutyDTO("20.3849076", "78.1282012", "", "",
-                    MainUtils.getTime(), MainUtils.getDate(), "", ""
-            );
-            setAttendance(dataPacketOn);
+            if (Prefs.contains(MainUtils.LAT)) {
+                DutyDTO dataPacketOn = new DutyDTO(Prefs.getString(MainUtils.LAT), Prefs.getString(MainUtils.LONG), "", "",
+                        MainUtils.getTime(), MainUtils.getDate(), "", ""
+                );
+                setAttendance(dataPacketOn);
+            }
         } else {
             Log.e(TAG, "onClick: isItOn?: " + false);
-            DutyDTO dataPacketOff = new DutyDTO("", "", "20.3849076", "78.1282012",
-                    "", "", MainUtils.getTime(), MainUtils.getDate()
-            );
+            if (Prefs.contains(MainUtils.LAT)) {
+                DutyDTO dataPacketOff = new DutyDTO("", "", Prefs.getString(MainUtils.LAT), Prefs.getString(MainUtils.LONG),
+                        "", "", MainUtils.getTime(), MainUtils.getDate()
+                );
 //                dutyDTOMutableLiveData.setValue(dataPacketOff);
-            setAttendance(dataPacketOff);
+                setAttendance(dataPacketOff);
+            }
         }
     }
 
@@ -99,5 +106,9 @@ public class DutyOnOffViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getAttendanceChk() {
         return statusChk;
+    }
+
+    public MutableLiveData<String> getDutyErrorLiveData() {
+        return dutyErrorLiveData;
     }
 }

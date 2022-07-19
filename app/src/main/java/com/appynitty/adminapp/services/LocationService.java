@@ -21,6 +21,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.models.UserLocationDTO;
+import com.appynitty.adminapp.repositories.SendLocationRepo;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -33,6 +35,7 @@ import com.google.android.gms.location.Priority;
 import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -43,10 +46,11 @@ public class LocationService extends Service {
     private static final String CHANNEL_ID = "my_service";
     private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 3000;
     private static final int LOCATION_SERVICE_NOTIF_ID = 1001;
-    long notify_interval = 1000 * 60 * 10;
+    long notify_interval = 1000 * 60;     // 10 min. => 1000 * 60 * 10
     LocationCallback locationCallback1;
     private long updatedTime = 0;
     private Timer mTimer = null;
+    SendLocationRepo locationRepo = SendLocationRepo.getInstance();
 
     @Override
     public void onCreate() {
@@ -165,5 +169,16 @@ public class LocationService extends Service {
 
     private void sendLocation() {
         Log.e(TAG, "sendLocation: at: " + MainUtils.getDate() + "-" + MainUtils.getTime() + " " + Prefs.getString(MainUtils.LAT) + ", Long: " + Prefs.getString(MainUtils.LONG));
+        locationRepo.send10MinLocation(new SendLocationRepo.ILocationResponse() {
+            @Override
+            public void onResponse(List<UserLocationDTO> locationResponse) {
+                Log.e(TAG, "onResponse: " + locationResponse);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
     }
 }

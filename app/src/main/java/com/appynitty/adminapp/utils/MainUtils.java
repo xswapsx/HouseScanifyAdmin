@@ -1,9 +1,11 @@
 package com.appynitty.adminapp.utils;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.BatteryManager;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -234,6 +236,17 @@ public class MainUtils {
     public static int getBatteryStatus() {
         BatteryManager batteryManager = (BatteryManager) mainApplicationConstant.getApplicationContext().getSystemService(Context.BATTERY_SERVICE);
         return batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+    }
+
+    public static boolean isMyServiceRunning(Application application, Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) application.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            Log.d(TAG, service.toString());
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void showDialog(Context context, String message, DialogInterface.OnClickListener positiveListener, @Nullable DialogInterface.OnClickListener negativeListener) {
