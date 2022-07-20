@@ -66,11 +66,18 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void checkServiceStatus() {
         if (MainUtils.isOnDuty()) {
-            Log.e(TAG, "checkServiceStatus: onDuty? " + true);
-            ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+            if (MainUtils.isMyServiceRunning(LocationService.class, this)) {
+                Log.e(TAG, "checkServiceStatus: running = " + true);
+            } else {
+                ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+            }
+
+
         } else {
             Log.e(TAG, "checkServiceStatus: offDuty");
-            ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
+
+            if (MainUtils.isMyServiceRunning(LocationService.class, this))
+                ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
         }
     }
 
@@ -103,7 +110,7 @@ public class DashboardActivity extends AppCompatActivity {
         dutyViewModel.checkAttendance();  //checking attendance from server
 
         if (Prefs.contains(MainUtils.IS_ATTENDANCE_OFF)) {
-            if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+            if (!MainUtils.isOnDuty()) {
                 binding.btnSwitch.setChecked(false);
             } else {
                 binding.btnSwitch.setChecked(true);
@@ -140,14 +147,15 @@ public class DashboardActivity extends AppCompatActivity {
                 Log.e(TAG, "onChanged: isAttendanceOff? ans: " + dutyDTO.getIsAttendenceOff());
                 if (dutyDTO.getOnFailureMsg() != null) {
                     Log.e(TAG, "onChanged: " + dutyDTO.getOnFailureMsg().contains("Failed to connect"));
-                    if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+                    /*if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
                         binding.btnSwitch.setChecked(true);
                     } else {
                         binding.btnSwitch.setChecked(false);
-                    }
+                    }*/
+//                    binding.btnSwitch.setChecked(MainUtils.isOnDuty());
                     if (dutyDTO.getOnFailureMsg().contains("Failed to connect")) {
                         DynamicToast.makeWarning(DashboardActivity.this, "Please check your internet connection\nand try again later.").show();
-                        binding.btnSwitch.setChecked(!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF));  //here we setChecked as
+                        binding.btnSwitch.setChecked(MainUtils.isOnDuty());  //here we setChecked as
                         // !Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF) because attendanceOff will be true so need the opposite of true so add this
                     }
                 } else {
@@ -173,7 +181,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onChanged(String s) {
                 DynamicToast.makeError(context, s).show();
-                binding.btnSwitch.setChecked(!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF));
+                binding.btnSwitch.setChecked(MainUtils.isOnDuty());
             }
         });
         /*dutyViewModel.getStatusChk().observe(this, new Observer<Boolean>() {
@@ -242,7 +250,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
-                if (!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+                if (MainUtils.isOnDuty()) {
 //                    showDutyOffConfirmation();
                     MainUtils.showDialog(context, "Are you sure you want to turn of the dashboard?", new DialogInterface.OnClickListener() {
                         @Override
@@ -257,7 +265,7 @@ public class DashboardActivity extends AppCompatActivity {
                         }
                     });
 
-                } else if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF)) {
+                } else /*if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF))*/ {
                     dutyViewModel.changeDuty(true);
                 }
             }
@@ -335,15 +343,20 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    /*@Override
+    @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF))
-            ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
-        else
-            ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
+        if (MainUtils.isOnDuty()) {
+            if (MainUtils.isMyServiceRunning(LocationService.class, this)) {
+//                ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+                Log.e(TAG, "onPostResume: service is running already!");
+            } else {
+                Log.e(TAG, "onPostResume: service is not running!");
+                ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+            }
+        }
 
-    }*/
+    }
 
     @Override
     public void onBackPressed() {
