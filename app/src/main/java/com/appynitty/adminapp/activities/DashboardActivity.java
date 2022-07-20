@@ -163,12 +163,12 @@ public class DashboardActivity extends AppCompatActivity {
                         DynamicToast.makeSuccess(DashboardActivity.this, dutyDTO.getStatus()).show();
                         Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, dutyDTO.getIsAttendenceOff());
                         hideViews(false);
-                        if (!MainUtils.isMyServiceRunning(MainUtils.mainApplicationConstant, LocationService.class))
+                        if (!MainUtils.isMyServiceRunning(LocationService.class, DashboardActivity.this))
                             ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
                     } else if (dutyDTO.getIsAttendenceOff()) {
                         Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, dutyDTO.getIsAttendenceOff());
                         hideViews(true);
-                        if (MainUtils.isMyServiceRunning(MainUtils.mainApplicationConstant, LocationService.class))
+                        if (MainUtils.isMyServiceRunning(LocationService.class, DashboardActivity.this))
                             ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
                     }
                 }
