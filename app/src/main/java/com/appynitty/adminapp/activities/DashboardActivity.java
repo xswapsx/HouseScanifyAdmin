@@ -61,6 +61,17 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+        checkServiceStatus();
+    }
+
+    private void checkServiceStatus() {
+        if (MainUtils.isOnDuty()) {
+            Log.e(TAG, "checkServiceStatus: onDuty? " + true);
+            ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+        } else {
+            Log.e(TAG, "checkServiceStatus: offDuty");
+            ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
+        }
     }
 
     private void init() {

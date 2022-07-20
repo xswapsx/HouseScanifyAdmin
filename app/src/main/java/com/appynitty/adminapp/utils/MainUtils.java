@@ -11,6 +11,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -267,5 +269,13 @@ public class MainUtils {
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", positiveListener);
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", negativeListener);
         alertDialog.show();
+    }
+
+    public static Boolean isOnDuty() {
+
+        if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF))
+            return false;
+        else
+            return true;
     }
 }
