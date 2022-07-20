@@ -48,7 +48,7 @@ public class LocationService extends Service {
     private static final String CHANNEL_ID = "my_service";
     private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 3000;
     private static final int LOCATION_SERVICE_NOTIF_ID = 1001;
-    long notify_interval = 1000 * 60 * 2;     // 10 min. => 1000 * 60 * 10
+    long notify_interval = 1000 * 60 * 10;     // 10 min. => 1000 * 60 * 10
     LocationCallback locationCallback1;
     private long updatedTime = 0;
     private Timer mTimer = null;
@@ -174,8 +174,7 @@ public class LocationService extends Service {
                 if (locationResponse.code() == 200) {
                     assert locationResponse.body() != null;
                     Log.e(TAG, "onResponse: " + locationResponse.body().get(0).getMessage());
-                }
-                else if (locationResponse.code() == 500)
+                } else if (locationResponse.code() == 500)
                     Log.e(TAG, "onResponse: errorMsg" + locationResponse.message());
             }
 

@@ -113,6 +113,8 @@ public class DashboardActivity extends AppCompatActivity {
                 if (aBoolean) {
                     binding.btnSwitch.setChecked(false);   // if attendance is off
                     hideViews(true);
+                    ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
+
                 } else {
                     binding.btnSwitch.setChecked(true);     // if attendance if on
                     hideViews(false);
@@ -250,6 +252,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
         setOnClick();
+
     }
 
     private void hideViews(Boolean s) {
@@ -321,13 +324,15 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+    /*@Override
     protected void onPostResume() {
         super.onPostResume();
-        if (!MainUtils.isMyServiceRunning(MainUtils.mainApplicationConstant, LocationService.class)) {
-            ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
-        }
-    }
+        if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF))
+            ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
+        else
+            ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
+
+    }*/
 
     @Override
     public void onBackPressed() {
