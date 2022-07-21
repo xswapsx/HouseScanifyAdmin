@@ -5,12 +5,22 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.IntentSender;
+import android.location.LocationManager;
 import android.os.BatteryManager;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.text.ParseException;
@@ -266,5 +276,59 @@ public class MainUtils {
             return false;
         else
             return true;
+    }
+
+    public static boolean isGPSEnable(Context context) {
+        LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    public static void gpsStatusCheck(Context ctx) {
+
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10);
+        mLocationRequest.setSmallestDisplacement(10);
+        mLocationRequest.setFastestInterval(10);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationSettingsRequest.Builder builder = new
+                LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+
+        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(ctx).checkLocationSettings(builder.build());
+
+
+        task.addOnCompleteListener(task1 -> {
+            try {
+                LocationSettingsResponse response = task1.getResult(ApiException.class);
+                // All location settings are satisfied. The client can initialize location
+                // requests here.
+
+            } catch (ApiException exception) {
+                switch (exception.getStatusCode()) {
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        // Location settings are not satisfied. But could be fixed by showing the
+                        // user a dialog.
+                        try {
+                            // Cast to a resolvable exception.
+                            ResolvableApiException resolvable = (ResolvableApiException) exception;
+                            // Show the dialog by calling startResolutionForResult(),
+                            // and check the result in onActivityResult().
+                            resolvable.startResolutionForResult(
+                                    (Activity) ctx,
+                                    101);
+                        } catch (IntentSender.SendIntentException e) {
+                            // Ignore the error.
+                        } catch (ClassCastException e) {
+                            // Ignore, should be an impossible error.
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        // Location settings are not satisfied. However, we have no way to fix the
+                        // settings so we won't show the dialog.
+                        break;
+                }
+            }
+        });
+
     }
 }

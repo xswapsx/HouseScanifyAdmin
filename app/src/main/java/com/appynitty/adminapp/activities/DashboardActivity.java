@@ -1,8 +1,12 @@
 package com.appynitty.adminapp.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,8 +17,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -39,8 +47,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@RequiresApi(api = Build.VERSION_CODES.Q)
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
+    private static final int RC_BACKGROUND_LOCATION = 102;
     private String empType = "";
     private Context context;
     private SwipeRefreshLayout refreshLayout;
@@ -56,12 +66,147 @@ public class DashboardActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
     Boolean switchState = false;
+    String[] permsFineLocation = {Manifest.permission.ACCESS_FINE_LOCATION};
+    String[] permsBackgroundLocation = {Manifest.permission.ACCESS_BACKGROUND_LOCATION};
+    public static final int RC_FINE_LOCATION = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkPermissions();
         init();
         checkServiceStatus();
+    }
+
+    private void checkPermissions() {
+
+        if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+                if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+
+                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(DashboardActivity.this).create();
+                    alertDialog.setTitle("Background permission");
+                    alertDialog.setMessage(getString(R.string.background_location_permission_message));
+
+                    alertDialog.setButton(android.app.AlertDialog.BUTTON_POSITIVE, "Start service anyway",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+//                                    starServiceFunc();
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    alertDialog.setButton(android.app.AlertDialog.BUTTON_NEGATIVE, "Grant background Permission",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    requestBackgroundLocationPermission();
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    alertDialog.show();
+
+
+                } else if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+//                    starServiceFunc();
+                }
+            } else {
+//                starServiceFunc();
+            }
+
+        } else if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(DashboardActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+
+                android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(DashboardActivity.this).create();
+                alertDialog.setTitle("ACCESS_FINE_LOCATION");
+                alertDialog.setMessage("Location permission required");
+
+                alertDialog.setButton(android.app.AlertDialog.BUTTON_POSITIVE, "Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestFineLocationPermission();
+                                dialog.dismiss();
+                            }
+                        });
+
+
+                alertDialog.show();
+
+            } else {
+                requestFineLocationPermission();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        Toast.makeText(this, Integer.toString(requestCode), Toast.LENGTH_LONG).show();
+        Log.e(TAG, "onRequestPermissionsResult: " + requestCode);
+        if (requestCode == RC_FINE_LOCATION) {
+
+            if (grantResults.length != 0 /*grantResults.isNotEmpty()*/ && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Now, Please select Allow all the time!", Toast.LENGTH_LONG).show();
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    requestBackgroundLocationPermission();
+                }
+
+            } else {
+                Toast.makeText(this, "ACCESS_FINE_LOCATION permission denied", Toast.LENGTH_LONG).show();
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                 /*   startActivity(
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.fromParts("package", this.getPackageName(), null),),);*/
+                    Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+                    startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            uri)
+                    );
+
+                }
+            }
+
+        } else if (requestCode == RC_BACKGROUND_LOCATION) {
+
+            if (grantResults.length != 0 /*grantResults.isNotEmpty()*/ && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Background location Permission Granted", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, "Background location permission denied", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private boolean hasLocationPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean hasBackgroundLocationPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    private void requestBackgroundLocationPermission() {
+        ActivityCompat.requestPermissions(this,
+                permsBackgroundLocation,
+                RC_BACKGROUND_LOCATION);
+    }
+
+    private void requestFineLocationPermission() {
+        ActivityCompat.requestPermissions(this, permsFineLocation, RC_FINE_LOCATION);
     }
 
     private void checkServiceStatus() {
@@ -82,6 +227,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void init() {
+        Log.e(TAG, "init: has LocationPermission: " + hasLocationPermission());
         context = this;
         binding = DataBindingUtil.setContentView(DashboardActivity.this, R.layout.activity_dashboard1);
         binding.setLifecycleOwner(this);
