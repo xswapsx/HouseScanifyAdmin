@@ -63,7 +63,8 @@ public class DashboardActivity extends AppCompatActivity {
     private List<UlbDTO> ulbList;
     AlertDialog.Builder builder;
     AlertDialog alert;
-
+    public static final int MobileData = 2;
+    public static final int WifiData = 1;
     boolean doubleBackToExitPressedOnce = false;
     Boolean switchState = false;
     String[] permsFineLocation = {Manifest.permission.ACCESS_FINE_LOCATION};
