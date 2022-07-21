@@ -92,7 +92,7 @@ public class LocationService extends Service {
         }
         Bitmap largeBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(getString(R.string.app_name))
+                .setContentTitle(getString(R.string.backgroundwork))
                 .setContentText(getString(R.string.app_notification_description))
 
                 .setSmallIcon(R.drawable.ic_noti_icon)

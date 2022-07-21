@@ -44,7 +44,7 @@
     <string name="subAdmin">SUB-ADMIN</string>
     <string name="adminTitle">ADMIN</string>
     <string name="greetings">Hello,</string>
-    <string name="app_notification_description">Please don\'t kill the app from background,\nThank you! </string>
+    <string name="app_notification_description">Please don\'t kill the app,\nThank you! </string>
     <string name="background_location_permission_message">-Allow only while using the app- permission has been granted. If you want         to get location updates in the background even when not using the app then grant         -Allow all the time- permission</string>
     <string name="rationale_location">This app needs access to your location to know where you are.</string>
     <string name="yes">yes</string>
@@ -53,4 +53,5 @@
         Returned from app settings with permissions:
         \nLocation: %s
     </string>
+    <string name="backgroundwork">Working in background</string>
 </resources>
