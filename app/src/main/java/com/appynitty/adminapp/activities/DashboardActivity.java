@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -47,7 +46,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@RequiresApi(api = Build.VERSION_CODES.Q)
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
     private static final int RC_BACKGROUND_LOCATION = 102;
@@ -195,8 +193,11 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private boolean hasBackgroundLocationPermission() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED;
+        }
+        return false;
     }
 
 
@@ -329,6 +330,9 @@ public class DashboardActivity extends AppCompatActivity {
             public void onChanged(String s) {
                 DynamicToast.makeError(context, s).show();
                 binding.btnSwitch.setChecked(MainUtils.isOnDuty());
+                if (!MainUtils.isOnDuty() && MainUtils.isMyServiceRunning(LocationService.class, DashboardActivity.this)) {
+                    ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
+                }
             }
         });
         /*dutyViewModel.getStatusChk().observe(this, new Observer<Boolean>() {
