@@ -1,6 +1,7 @@
 package com.appynitty.adminapp.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -39,6 +41,7 @@ import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.viewmodels.DashboardViewModel;
 import com.appynitty.adminapp.viewmodels.DutyOnOffViewModel;
+import com.google.android.gms.location.LocationSettingsStates;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
@@ -72,23 +75,24 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkPermissions();
+
         init();
+        checkPermissions();
         checkServiceStatus();
     }
 
     private void checkPermissions() {
 
-        if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 
-                if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
 
 
-                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(DashboardActivity.this).create();
+                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(context).create();
                     alertDialog.setTitle("Background permission");
                     alertDialog.setMessage(getString(R.string.background_location_permission_message));
 
@@ -111,7 +115,7 @@ public class DashboardActivity extends AppCompatActivity {
                     alertDialog.show();
 
 
-                } else if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                } else if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
 //                    starServiceFunc();
                 }
@@ -119,12 +123,12 @@ public class DashboardActivity extends AppCompatActivity {
 //                starServiceFunc();
             }
 
-        } else if (ActivityCompat.checkSelfPermission(DashboardActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+        } else if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(DashboardActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)) {
 
 
-                android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(DashboardActivity.this).create();
+                android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(context).create();
                 alertDialog.setTitle("ACCESS_FINE_LOCATION");
                 alertDialog.setMessage("Location permission required");
 
@@ -230,7 +234,13 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void init() {
         Log.e(TAG, "init: has LocationPermission: " + hasLocationPermission());
-        context = this;
+
+        context = DashboardActivity.this;
+
+        if (!MainUtils.isGPSEnable(context)) {
+            MainUtils.gpsStatusCheck(context);
+        }
+
         binding = DataBindingUtil.setContentView(DashboardActivity.this, R.layout.activity_dashboard1);
         binding.setLifecycleOwner(this);
         dashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel.class);
@@ -302,22 +312,24 @@ public class DashboardActivity extends AppCompatActivity {
                     }*/
 //                    binding.btnSwitch.setChecked(MainUtils.isOnDuty());
                     if (dutyDTO.getOnFailureMsg().contains("Failed to connect")) {
-                        DynamicToast.makeWarning(DashboardActivity.this, "Please check your internet connection\nand try again later.").show();
+                        DynamicToast.makeWarning(context, "Please check your internet connection\nand try again later.").show();
                         binding.btnSwitch.setChecked(MainUtils.isOnDuty());  //here we setChecked as
                         // !Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF) because attendanceOff will be true so need the opposite of true so add this
                     }
                 } else {
-                    if (!dutyDTO.getIsAttendenceOff()) {
-                        DynamicToast.makeSuccess(DashboardActivity.this, dutyDTO.getStatus()).show();
+                    if (dutyDTO.getIsAttendenceOff()) {
+                        DynamicToast.makeSuccess(context, dutyDTO.getStatus()).show();
                         Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, dutyDTO.getIsAttendenceOff());
-                        hideViews(false);
-                        if (!MainUtils.isMyServiceRunning(LocationService.class, DashboardActivity.this))
-                            ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
-                    } else if (dutyDTO.getIsAttendenceOff()) {
-                        Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, dutyDTO.getIsAttendenceOff());
+                        binding.btnSwitch.setChecked(false);
                         hideViews(true);
                         if (MainUtils.isMyServiceRunning(LocationService.class, DashboardActivity.this))
                             ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
+                    } else {
+                        Prefs.putBoolean(MainUtils.IS_ATTENDANCE_OFF, dutyDTO.getIsAttendenceOff());
+                        binding.btnSwitch.setChecked(true);
+                        hideViews(false);
+                        if (!MainUtils.isMyServiceRunning(LocationService.class, DashboardActivity.this))
+                            ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
                     }
                 }
 
@@ -371,7 +383,7 @@ public class DashboardActivity extends AppCompatActivity {
                 if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF) || empType.matches("A")) {
                     logoutUser(s);
                 } else {
-                    DynamicToast.makeWarning(DashboardActivity.this, "Please turn off the Dashboard first!").show();
+                    DynamicToast.makeWarning(context, "Please turn off the Dashboard first!").show();
                 }
 
             }
@@ -400,7 +412,14 @@ public class DashboardActivity extends AppCompatActivity {
         binding.btnSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+                binding.btnSwitch.setChecked(!Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF));
+                if (MainUtils.isGPSEnable(context)) {
+                    if (!MainUtils.isMyServiceRunning(LocationService.class, DashboardActivity.this))
+                        ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+                } else {
+                    MainUtils.gpsStatusCheck(context);
+                }
+
                 if (MainUtils.isOnDuty()) {
 //                    showDutyOffConfirmation();
                     MainUtils.showDialog(context, "Are you sure you want to turn of the dashboard?", new DialogInterface.OnClickListener() {
@@ -417,7 +436,10 @@ public class DashboardActivity extends AppCompatActivity {
                     });
 
                 } else /*if (Prefs.getBoolean(MainUtils.IS_ATTENDANCE_OFF))*/ {
-                    dutyViewModel.changeDuty(true);
+                    if (MainUtils.isGPSEnable(context))
+                        dutyViewModel.changeDuty(true);
+                    else
+                        MainUtils.gpsStatusCheck(context);
                 }
             }
         });
@@ -495,16 +517,65 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
+        if (requestCode == 101) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    // All required changes were successfully made
+//                    Toast.makeText(DashboardActivity.this, "Turning on the GPS\nPlease wait..." + "", Toast.LENGTH_SHORT).show();
+
+                    binding.progressBar.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.progressBar.setVisibility(View.GONE);
+                        }
+                    }, 5000);
+
+                    break;
+                case Activity.RESULT_CANCELED:
+                    // The user was asked to change settings, but chose not to
+                    Toast.makeText(DashboardActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
+                    if (MainUtils.isMyServiceRunning(LocationService.class, DashboardActivity.this)) {
+                        ((MyApplication) MainUtils.mainApplicationConstant).stopLocationTracking();
+                    }
+                    this.finish();
+                       /* stopService();
+                        MainActivity.this.finishAndRemoveTask();*/
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Override
     protected void onPostResume() {
         super.onPostResume();
+
+        if (!MainUtils.isGPSEnable(context)) {
+            MainUtils.gpsStatusCheck(context);
+        }
+
         if (MainUtils.isOnDuty()) {
             if (MainUtils.isMyServiceRunning(LocationService.class, this)) {
 //                ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
                 Log.e(TAG, "onPostResume: service is running already!");
+                /*if (MainUtils.isGPSEnable(context))
+                    ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+                else
+                    MainUtils.gpsStatusCheck(context);*/
             } else {
                 Log.e(TAG, "onPostResume: service is not running!");
-                ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+                if (MainUtils.isGPSEnable(context))
+                    ((MyApplication) MainUtils.mainApplicationConstant).startLocationTracking();
+                else
+                    MainUtils.gpsStatusCheck(context);
             }
+
         }
 
     }
