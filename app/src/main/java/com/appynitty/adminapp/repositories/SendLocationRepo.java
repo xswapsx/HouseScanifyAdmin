@@ -28,9 +28,11 @@ public class SendLocationRepo {
         return instance;
     }
 
-    public void send10MinLocation(ILocationResponse iLocationResponse) {
-        UserLocationDTO locationDTO = new UserLocationDTO(Prefs.getString(MainUtils.LONG), "0", MainUtils.getServerDateTime(), "",
-                true, Prefs.getString(MainUtils.LAT), Prefs.getString(MainUtils.EMP_ID));
+    public void send10MinLocation(UserLocationDTO locationDTO, ILocationResponse iLocationResponse) {
+        /*UserLocationDTO locationDTO = new UserLocationDTO(Prefs.getString(MainUtils.LONG), "0", MainUtils.getServerDateTime(), "",
+                true, Prefs.getString(MainUtils.LAT), Prefs.getString(MainUtils.EMP_ID));*/
+
+        Log.e(TAG, "send10MinLocation: locationDTO: " + locationDTO.ToString());
         List<UserLocationDTO> locationDTOList = new ArrayList<>();
         locationDTOList.add(locationDTO);
         UserLocationWebservice service = RetrofitClient.createService(UserLocationWebservice.class, MainUtils.BASE_URL);
@@ -43,8 +45,30 @@ public class SendLocationRepo {
                 if (response.code() == 200) {
                     assert response.body() != null;
                     Log.e(TAG, "onResponse: " + response.body().get(0).getMessage());
-                }
-                else if (response.code() == 500)
+                } else if (response.code() == 500)
+                    Log.e(TAG, "onResponse: " + response.message());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<UserLocationDTO>> call, @NonNull Throwable t) {
+                iLocationResponse.onFailure(t);
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void sendOfflineLocations(List<UserLocationDTO> locationDTOList, ILocationResponse iLocationResponse){
+        UserLocationWebservice service = RetrofitClient.createService(UserLocationWebservice.class, MainUtils.BASE_URL);
+        Call<List<UserLocationDTO>> serviceCall = service.sendLocation(Prefs.getString(MainUtils.APP_ID),
+                "0", String.valueOf(MainUtils.getBatteryStatus()), MainUtils.CONTENT_TYPE, Prefs.getString(MainUtils.EMP_TYPE), locationDTOList);
+        serviceCall.enqueue(new Callback<List<UserLocationDTO>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<UserLocationDTO>> call, @NonNull Response<List<UserLocationDTO>> response) {
+                iLocationResponse.onResponse(response);
+                if (response.code() == 200) {
+                    assert response.body() != null;
+                    Log.e(TAG, "onResponse: " + response.body().get(0).getMessage());
+                } else if (response.code() == 500)
                     Log.e(TAG, "onResponse: " + response.message());
             }
 

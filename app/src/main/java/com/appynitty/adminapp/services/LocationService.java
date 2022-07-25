@@ -48,7 +48,7 @@ public class LocationService extends Service {
     private static final String CHANNEL_ID = "my_service";
     private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 3000;
     private static final int LOCATION_SERVICE_NOTIF_ID = 1001;
-    long notify_interval = 1000 * 60 * 10;     // 10 min. => 1000 * 60 * 10
+    long notify_interval = 1000 * 30;     // 10 min. => 1000 * 60 * 10
     LocationCallback locationCallback1;
     private long updatedTime = 0;
     private Timer mTimer = null;
@@ -160,15 +160,21 @@ public class LocationService extends Service {
     private class TimerTaskToSendLocation extends TimerTask {
         @Override
         public void run() {
-
-            sendLocation();
+            if (MainUtils.isNetworkAvailable(MainUtils.mainApplicationConstant))
+                sendLocation();
+            else
+                Log.e(TAG, "run: saving locationObject to the roomDb!");
 
         }
     }
 
     private void sendLocation() {
         Log.e(TAG, "sendLocation: at: " + MainUtils.getDate() + "-" + MainUtils.getTime() + " " + Prefs.getString(MainUtils.LAT) + ", Long: " + Prefs.getString(MainUtils.LONG));
-        locationRepo.send10MinLocation(new SendLocationRepo.ILocationResponse() {
+
+        UserLocationDTO locationDTO = new UserLocationDTO(Prefs.getString(MainUtils.LONG), "0", MainUtils.getServerDateTime(), "",
+                true, Prefs.getString(MainUtils.LAT), Prefs.getString(MainUtils.EMP_ID));
+
+        locationRepo.send10MinLocation(locationDTO, new SendLocationRepo.ILocationResponse() {
             @Override
             public void onResponse(Response<List<UserLocationDTO>> locationResponse) {
                 if (locationResponse.code() == 200) {

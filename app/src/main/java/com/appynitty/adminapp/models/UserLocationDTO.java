@@ -125,4 +125,20 @@ public class UserLocationDTO {
     public void setAttendanceOff(Boolean attendanceOff) {
         isAttendanceOff = attendanceOff;
     }
+
+
+    public String ToString() {
+        return "{" +
+                "_long='" + _long + '\'' +
+                ", offlineId='" + offlineId + '\'' +
+                ", datetime='" + datetime + '\'' +
+                ", distance='" + distance + '\'' +
+                ", isOffline=" + isOffline +
+                ", lat='" + lat + '\'' +
+                ", userId='" + userId + '\'' +
+                ", status='" + status + '\'' +
+                ", message='" + message + '\'' +
+                ", isAttendanceOff=" + isAttendanceOff +
+                '}';
+    }
 }
