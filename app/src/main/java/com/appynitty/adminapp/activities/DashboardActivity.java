@@ -26,6 +26,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -41,6 +42,7 @@ import com.appynitty.adminapp.utils.MainUtils;
 import com.appynitty.adminapp.utils.MyApplication;
 import com.appynitty.adminapp.viewmodels.DashboardViewModel;
 import com.appynitty.adminapp.viewmodels.DutyOnOffViewModel;
+import com.appynitty.adminapp.viewmodels.OfflineLocationVM;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
@@ -71,6 +73,7 @@ public class DashboardActivity extends AppCompatActivity {
     String[] permsFineLocation = {Manifest.permission.ACCESS_FINE_LOCATION};
     String[] permsBackgroundLocation = {Manifest.permission.ACCESS_BACKGROUND_LOCATION};
     public static final int RC_FINE_LOCATION = 101;
+    OfflineLocationVM offlineLocationVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,6 +248,7 @@ public class DashboardActivity extends AppCompatActivity {
         binding.setLifecycleOwner(this);
         dashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel.class);
         dutyViewModel = ViewModelProviders.of(this).get(DutyOnOffViewModel.class);
+        offlineLocationVM = new ViewModelProvider(this).get(OfflineLocationVM.class);
         binding.setDashboardViewModel(dashboardViewModel);
         binding.setDutyViewModel(dutyViewModel);
 

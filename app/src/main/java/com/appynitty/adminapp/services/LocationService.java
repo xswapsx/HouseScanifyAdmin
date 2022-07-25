@@ -21,7 +21,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
 import com.appynitty.adminapp.R;
+import com.appynitty.adminapp.entities.OffLocation;
 import com.appynitty.adminapp.models.UserLocationDTO;
+import com.appynitty.adminapp.repositories.OfflineLocationRepo;
 import com.appynitty.adminapp.repositories.SendLocationRepo;
 import com.appynitty.adminapp.utils.MainUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,6 +55,7 @@ public class LocationService extends Service {
     private long updatedTime = 0;
     private Timer mTimer = null;
     SendLocationRepo locationRepo = SendLocationRepo.getInstance();
+    OfflineLocationRepo offlineLocationRepo;
 
     @Override
     public void onCreate() {
@@ -119,6 +122,7 @@ public class LocationService extends Service {
     }
 
     private void init() {
+        offlineLocationRepo = new OfflineLocationRepo();
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         locationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
@@ -160,11 +164,7 @@ public class LocationService extends Service {
     private class TimerTaskToSendLocation extends TimerTask {
         @Override
         public void run() {
-            if (MainUtils.isNetworkAvailable(MainUtils.mainApplicationConstant))
-                sendLocation();
-            else
-                Log.e(TAG, "run: saving locationObject to the roomDb!");
-
+            sendLocation();
         }
     }
 
@@ -173,21 +173,26 @@ public class LocationService extends Service {
 
         UserLocationDTO locationDTO = new UserLocationDTO(Prefs.getString(MainUtils.LONG), "0", MainUtils.getServerDateTime(), "",
                 true, Prefs.getString(MainUtils.LAT), Prefs.getString(MainUtils.EMP_ID));
+        if (MainUtils.isNetworkAvailable(MainUtils.mainApplicationConstant)) {
+            locationRepo.send10MinLocation(locationDTO, new SendLocationRepo.ILocationResponse() {
+                @Override
+                public void onResponse(Response<List<UserLocationDTO>> locationResponse) {
+                    if (locationResponse.code() == 200) {
+                        assert locationResponse.body() != null;
+                        Log.e(TAG, "onResponse: " + locationResponse.body().get(0).getMessage());
+                    } else if (locationResponse.code() == 500)
+                        Log.e(TAG, "onResponse: errorMsg" + locationResponse.message());
+                }
 
-        locationRepo.send10MinLocation(locationDTO, new SendLocationRepo.ILocationResponse() {
-            @Override
-            public void onResponse(Response<List<UserLocationDTO>> locationResponse) {
-                if (locationResponse.code() == 200) {
-                    assert locationResponse.body() != null;
-                    Log.e(TAG, "onResponse: " + locationResponse.body().get(0).getMessage());
-                } else if (locationResponse.code() == 500)
-                    Log.e(TAG, "onResponse: errorMsg" + locationResponse.message());
-            }
+                @Override
+                public void onFailure(Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getMessage());
+                }
+            });
+        } else {
+            Log.e(TAG, "Inserting into the database: ");
+            offlineLocationRepo.insertLocation(new OffLocation(locationDTO.ToString(), MainUtils.getServerDateTime()));
+        }
 
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
-            }
-        });
     }
 }
